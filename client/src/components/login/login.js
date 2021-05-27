@@ -15,7 +15,7 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Axios from "axios";
 import { Redirect, Route } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
-
+import { useAuth } from '../../auth-context';
 
 
 const theme = createMuiTheme({
@@ -88,8 +88,7 @@ export default function Login() {
     const [loginUsername, setLoginUsername] = useState("");
     const [loginPassword, setLoginPassword] = useState("");
     let history = useHistory();
-
-
+    const { authLogin } = useAuth(); 
 
     const login = (e) => {
       e.preventDefault();
@@ -106,6 +105,7 @@ export default function Login() {
           if(res.data === "Successfully Authenticated")
             {
               localStorage.setItem('token','true');
+              authLogin();
               history.push('/');
               //return <Redirect to ='/' />
             }

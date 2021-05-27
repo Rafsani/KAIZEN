@@ -184,9 +184,9 @@ export default function Login() {
               //backgroundColor= "#ffffff"
               required
               fullWidth
-              id="email"
-              label="Enter Phone No:"
-              name="username"
+              id="nid"
+              label="Enter NID No:"
+              name="nid"
               InputProps={{
                 classes: {
                     input: classes.lineColor
@@ -196,7 +196,7 @@ export default function Login() {
             InputLabelProps= {{
                 className: classes.lineColor
             }}
-              autoComplete="username"
+              autoComplete="nid"
               autoFocus
               onChange={(e) => setLoginUsername(e.target.value)}
             />
@@ -213,7 +213,7 @@ export default function Login() {
               className={classes.submit}
               onClick = {login}
             >
-              Sign In
+             Submit
             </Button>
             <Grid container>
               <Grid item xs>

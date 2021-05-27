@@ -9,6 +9,7 @@ const session = require("express-session");
 const bodyParser = require("body-parser");
 const app = express();
 const User = require("./models/userModel") ;
+const LoanRequest = require("./models/LoanRequestModel");
 
 
 const CONNECTION_URL = 'mongodb+srv://user1:Rafsani@786@ecommerecesite.zksgp.mongodb.net/<dbname>?retryWrites=true&w=majority';
@@ -63,6 +64,7 @@ app.post("/login", (req, res, next) => {
         }
     })(req, res, next);
 });
+
 app.post("/register", (req, res) => {
 
     console.log(req.body);
@@ -81,6 +83,7 @@ app.post("/register", (req, res) => {
         }
     });
 });
+
 app.get("/user", (req, res) => {
     if(req.user)
     res.send(req.user);// The req.user stores the entire user that has been authenticated inside of it.
@@ -105,6 +108,38 @@ app.get("/isloggedin",(req,res)=>{
     else
         res.send("notloggedin");
 });
+
+app.get("/getLoanRequests",(req,res)=>{
+    LoanRequest.find({}, function(err, requests) {
+        let req_Map = {};
+
+        requests.forEach(function(request) {
+            req_Map[request._id] = request;
+        });
+
+        res.json(requests);
+});
+});
+
+app.post('/createLoanRequest', async(req,res) =>{
+    console.log(req);
+    let user;
+    User.findOne({ username: req.body.username },(err,doc)=>{
+       user = doc;
+       console.log("paise");
+    });
+    const newRequest = new LoanRequest({
+        Receiver: user,
+        Amount: req.body.Amount,
+        Details: req.body.Details,
+        Status: "New"
+    });
+    await newRequest.save();
+    res.send("Successfully Created LoanRequest");
+
+});
+
+
 //----------------------------------------- END OF ROUTES---------------------------------------------------
 //Start Server
 app.listen(PORT, () => console.log(`server running at port ${PORT}`))
