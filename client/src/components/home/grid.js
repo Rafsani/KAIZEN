@@ -30,7 +30,7 @@ const [requests, setrequests] = useState([]);
   const handleChange = (event) => {
     setSpacing(Number(event.target.value));
   };
-  let daras = [];
+  
 
     const fetchdata = async () => {
     await Axios({
@@ -56,8 +56,8 @@ const [requests, setrequests] = useState([]);
     direction="row"
     justify="space-around"
     alignItems="center">
-      <Grid item xs={12}>
-        <Grid container justify="center" spacing={spacing} item xs = {12}>
+      <Grid item xs={12} lg = {10}>
+        <Grid container justify="center" spacing={spacing} item xs = {12} >
           {requests.map((value,index) => (
             <Grid key={index} item>
               

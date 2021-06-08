@@ -118,15 +118,15 @@ app.get("/getLoanRequests",(req,res)=>{
         });
 
         res.json(requests);
-});
+    });
 });
 
 app.post('/createLoanRequest', async(req,res) =>{
-    console.log(req);
+    console.log(req.user);
     let user;
-    User.findOne({ username: req.body.username },(err,doc)=>{
+    User.findOne({ username: req.user },(err,doc)=>{
        user = doc;
-       console.log("paise");
+       console.log(user);
     });
     const newRequest = new LoanRequest({
         Receiver: user,
@@ -138,6 +138,16 @@ app.post('/createLoanRequest', async(req,res) =>{
     res.send("Successfully Created LoanRequest");
 
 });
+
+
+
+app.get("/loanRequest/:id",async (req,res)=>{
+        const data = await LoanRequest.findById(req.params.id);
+        console.log(data);
+        res.status(200).json(data);
+
+});
+
 
 
 //----------------------------------------- END OF ROUTES---------------------------------------------------

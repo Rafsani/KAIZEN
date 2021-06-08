@@ -4,7 +4,7 @@ const User = require("./userModel");
 const LoanRequestSchema = new mongoose.Schema({
 
     Receiver: {type: mongoose.Schema.Types.ObjectId,
-                ref: "User"},
+                ref: "user"},
     Amount: {type: "Number"},
     Details: {type: String},
     Status: {type: String}
