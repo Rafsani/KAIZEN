@@ -14,8 +14,30 @@ import TextArea from '@material-ui/core/TextareaAutosize'
 import { Details } from '@material-ui/icons';
 import { useAuth } from '../../auth-context';
 import SpacingGrid from './grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  root: {
+   backgroundColor: "#f2e9e9",
+    
+  },
+  media: {
+    height: 140,
+  },
+  // CardLinks: {
+  //   textDecoration: ,
+  //   color: '#000000',
+  // },
+  reqButton: {
+    backgroundColor: "#f2e9e9",
+    paddingBottom: "80px",
+  },
+
+});
+
 
 function Home() {
+    const classes = useStyles();
     const [registerUsername, setRegisterUsername] = useState("");
     const [registerPassword, setRegisterPassword] = useState("");
     const [loginUsername, setLoginUsername] = useState("");
@@ -61,7 +83,7 @@ function Home() {
         Amount: Amount,
       },
       withCredentials: true,
-      url: "http://localhost:5000/createLoanRequest",
+      url: "http://localhost:5000/api/loans",
     }).then((res) => {
       console.log(res);
       });
@@ -79,9 +101,13 @@ function Home() {
 
 
       <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+
+        <div className={classes.reqButton}>
+        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Create New Loan request
       </Button>
+        </div>
+     
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title" fullWidth >
         <DialogTitle id="form-dialog-title">Create Loan request</DialogTitle>
 

@@ -100,9 +100,9 @@ export default function Login() {
             password: loginPassword,
           },
           withCredentials: true,
-          url: "http://localhost:5000/login",
+          url: "http://localhost:5000/api/auth/login",
         }).then ((res) => {
-          if(res.data === "Successfully Authenticated")
+          if(res.data.message === "Successfully Authenticated")
             {
               localStorage.setItem('token','true');
               authLogin();

@@ -5,7 +5,7 @@ const LoanRequestSchema = new mongoose.Schema({
 
     Receiver: {type: mongoose.Schema.Types.ObjectId,
                 ref: "user"},
-    Amount: {type: "Number"},
+    Amount: {type: Number},
     Details: {type: String},
     Status: {type: String}
 });

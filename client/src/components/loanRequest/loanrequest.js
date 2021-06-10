@@ -17,13 +17,13 @@ function Loanrequest(props) {
         await Axios({
           method: "GET",
           withCredentials: true,
-          url: "http://localhost:5000/loanRequest/"+props.match.params.id,
+          url: "http://localhost:5000/api/loans/"+props.match.params.id,
         }).then ((res) => {
          
           console.log(res);
           //requests = res.data;
           setamount(res.data.Amount);
-          setreceiver(res.data.Receiver);
+          setreceiver(res.data.Receiver.username);
          
         });
       };

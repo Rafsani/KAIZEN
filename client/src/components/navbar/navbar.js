@@ -16,8 +16,9 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { blueGrey, orange } from '@material-ui/core/colors';
-
-
+import { useHistory } from "react-router-dom";
+import Axios from "axios";
+import { useAuth } from '../../auth-context';
 // import fot sidebar
 import clsx from 'clsx';
 import Divider from '@material-ui/core/Divider';
@@ -47,7 +48,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-    
+    backgroundColor: "#f2e9e9",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -165,6 +166,9 @@ contentShift: {
 
 export default function AppNavBar() {
 
+  const history = useHistory();
+  const { authLogout } = useAuth();
+
 
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -172,6 +176,23 @@ export default function AppNavBar() {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+  const handleLogout = () =>{
+    Axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:5000/api/auth/logout",
+    }).then((res) => {
+      console.log(res);
+      localStorage.removeItem('token');
+      authLogout();
+      history.push('/login');
+      
+      //return <Redirect to="/login" /> ;
+    });
+  };
+
 
 //sidebar
 const [open, setOpen] = React.useState(false);
@@ -186,6 +207,10 @@ const handleDrawerClose = () => {
 //sidebar
 
 
+
+
+
+
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -197,6 +222,7 @@ const handleDrawerClose = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
+    console.log("printing ");
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -215,7 +241,7 @@ const handleDrawerClose = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -343,7 +369,7 @@ const handleDrawerClose = () => {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['My Loan requests', 'Messages'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -352,7 +378,7 @@ const handleDrawerClose = () => {
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['All Contracts', 'Transaction History', 'Profile'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />

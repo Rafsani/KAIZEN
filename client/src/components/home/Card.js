@@ -12,10 +12,10 @@ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 240,
-    maxHeight: 320,
-    minHeight: 220,
-    minWidth: 300,
+    maxWidth: 210,
+    maxHeight: 300,
+    minHeight: 200,
+    minWidth: 280,
     
   },
   media: {
@@ -62,10 +62,10 @@ export default function MediaCard({fields}) {
         </CardContent>
       </CardActionArea>
       </Link>
-      <CardActions style={ {paddingLeft: '60px'} }>
+      <CardActions style={ {paddingLeft: '50px'} }>
         
-        <Button  variant="contained" size="large" color="primary" onClick={proceedToPay(fields.Id)} >
-          proceedToPay
+        <Button  variant="contained" size="large" color="primary"  >
+          Offer Contract
         </Button>
       </CardActions>
     </Card>
