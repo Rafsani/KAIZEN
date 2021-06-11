@@ -13,7 +13,7 @@ const handleGETallLoans = async( req,res,next)=>{
         const loanQueryResult = await loanInterface.getAllLoans();
 
         if( loanQueryResult.status == 'OK' ){
-            return res.status(200).send(loanQueryResult);
+            return res.status(200).send(loanQueryResult.data);
         }
 
         return res.status(400).send(loanQueryResult);
@@ -37,7 +37,7 @@ const handleGETLoanById = async( req,res,next)=>{
         const loanQueryResult = await loanInterface.getLoanByID( req.params.id );
 
         if( loanQueryResult.status == 'OK' ){
-            return res.status(200).send(loanQueryResult);
+            return res.status(200).send(loanQueryResult.data);
         }
 
         return res.status(400).send(loanQueryResult);

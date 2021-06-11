@@ -57,6 +57,18 @@ const validateString  = (string) => {
     }
 }
 
+const validateDetails  = (string) => {
+    if (string.trim().length === 0) {
+        throw new mongoose.Error('String can not be empty');
+    }
+
+    if( string.length > 120 ){
+        throw new mongoose.Error('String can not be longer than 120 characters');
+    }
+}
+
+
+
 module.exports = {
     validateAge,
     validateEmail,
@@ -64,5 +76,6 @@ module.exports = {
     validateURL,
     validateCoords,
     validateMinMax,
-    validateString
+    validateString,
+    validateDetails
 }

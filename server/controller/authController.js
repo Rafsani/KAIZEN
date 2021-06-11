@@ -57,7 +57,7 @@ const handlePOSTloginUser = async ( req,res,next )=>{
                     return res.status(200).send({
                         status: 'OK',
                         data: user,
-                        message: 'User has logged in'
+                        message: 'Successfully Authenticated'
                     })
                 });
             }
