@@ -6,8 +6,7 @@
     "email": "anik65@gmail.com",
     "nid": 1,
     "bkash": "01961145451",
-    "dob": "1992-02-10",
-    "usertype": "Lender"
+    "dob": "1992-02-10"
   },
   {
     "_id": "6076cfa408541e2ba057e332",
@@ -25,8 +24,7 @@
     "email": "shwarup101@gmail.com",
     "nid": 3,
     "bkash": "01961145453",
-    "dob": "1999-02-10",
-    "usertype": "Lender"
+    "dob": "1999-02-10"
   },
   {
     "_id": "6076cfa408541e2ba057e334",
@@ -35,8 +33,7 @@
     "email": "syed110@gmail.com",
     "nid": 4,
     "bkash": "01961145454",
-    "dob": "1997-05-10",
-    "usertype": "Lender"
+    "dob": "1997-05-10"
   },
   {
     "_id": "6076cfa408541e2ba057e335",
@@ -54,7 +51,8 @@
     "email": "rafid109@gmail.com",
     "nid": 6,
     "bkash": "01961145456",
-    "dob": "1997-02-11"
+    "dob": "1997-02-11",
+    "usertype": "Lender"
   },
   {
     "_id": "6076cfa408541e2ba057e337",
@@ -63,6 +61,7 @@
     "email": "akid100@gmail.com",
     "nid": 7,
     "bkash": "01961145457",
-    "dob": "1997-02-01"
+    "dob": "1997-02-01",
+    "usertype": "Lender"
   }
 ]

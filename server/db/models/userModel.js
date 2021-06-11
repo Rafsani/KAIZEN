@@ -82,7 +82,7 @@ function checkNID( NID ) {
 
 userSchema.pre('save' , async function(next){
     this.password = await bcrypt.hash( this.password, 10);
-    this.NID = await bcrypt.hash( this.nid , 10);
+    this.nid = await bcrypt.hash( this.nid , 10);
     next();
 })
 

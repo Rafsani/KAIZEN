@@ -20,6 +20,7 @@ const PORT = process.env.PORT || 5000;
 /** Require Routes */
 const authRouter = require('./routes/auth')
 const loanRouter = require('./routes/loan')
+const contractRouter = require('./routes/contract')
 
 
 // Conncet to the database
@@ -52,7 +53,7 @@ require("./passportConfig")(passport);
 
 app.use('/api/auth', authRouter );
 app.use('/api/loans', loanRouter);
-
+app.use('/api/contract', contractRouter);
 
 
 

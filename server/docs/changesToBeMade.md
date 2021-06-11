@@ -3,6 +3,7 @@
 * NID has to be validated properly
     + Porichoy API doesn't work for students
 * User Schema -> email will be required instead of name
+* Loan request model needs to have an array of lenders
 
 ____________________________________________
 
