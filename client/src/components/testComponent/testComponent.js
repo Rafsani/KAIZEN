@@ -31,7 +31,7 @@ function TestComp() {
           password: registerPassword,
         },
         withCredentials: true,
-        url: "http://localhost:5000/register",
+        url: "http://localhost:5000/api/auth/register",
       }).then((res) => console.log(res));
     };
     const login = () => {
@@ -42,14 +42,14 @@ function TestComp() {
           password: loginPassword,
         },
         withCredentials: true,
-        url: "http://localhost:5000/login",
+        url: "http://localhost:5000/api/auth/login",
       }).then((res) => console.log(res));
     };
     const getUser = () => {
       Axios({
         method: "GET",
         withCredentials: true,
-        url: "http://localhost:5000/user",
+        url: "http://localhost:5000/api/auth/user",
       }).then((res) => {
         setData(res.data);
         console.log(res.data);
@@ -60,7 +60,7 @@ function TestComp() {
     Axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:5000/logout",
+      url: "http://localhost:5000/api/auth/logout",
     }).then((res) => {
       console.log(res);
       localStorage.removeItem('token');

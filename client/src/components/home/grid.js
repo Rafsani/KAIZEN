@@ -13,6 +13,7 @@ import Axios from 'axios';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    backgroundColor: "#f2e9e9",
   },
   paper: {
     height: 60,
@@ -36,7 +37,7 @@ const [requests, setrequests] = useState([]);
     await Axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:5000/getLoanRequests",
+      url: "http://localhost:5000/api/loans",
     }).then ((res) => {
      
       console.log(res);
