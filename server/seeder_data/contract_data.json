@@ -1,0 +1,29 @@
+[
+    {
+        "_id" : "60a2288f788f921b543cd811",
+        "loanId": "60a2288f788f921b543cd8ca",
+        "lenderId": "6076cfa408541e2ba057e337",
+        "receiverId": "6076cfa408541e2ba057e331",
+        "amount": 200,
+        "installments": 3
+    }
+    ,
+    
+    {
+        "_id" : "60a2288f788f921b543cd812",
+        "loanId": "60a2288f788f921b543cd8ca",
+        "lenderId": "6076cfa408541e2ba057e336",
+        "receiverId": "6076cfa408541e2ba057e331",
+        "amount": 500,
+        "installments": 2
+    }
+    ,
+    
+    {
+        "_id" : "60a2288f788f921b543cd813",
+        "loanId": "60a2288f788f921b543cd8cc",
+        "lenderId": "6076cfa408541e2ba057e336",
+        "receiverId": "6076cfa408541e2ba057e333",
+        "amount": 500
+    }
+]
