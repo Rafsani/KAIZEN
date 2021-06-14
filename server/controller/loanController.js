@@ -3,7 +3,7 @@ const userInterface = require('../db/interfaces/userInterface');
 
 /**
  * @description this method returns all loans from the database
- * @route - GET /api/auth/loans
+ * @route - GET /api/loans
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 

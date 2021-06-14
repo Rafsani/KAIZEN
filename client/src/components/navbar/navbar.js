@@ -30,14 +30,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-
+import { faKickstarterK } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const drawerWidth = 240;
 
 const theme = createMuiTheme({
     palette: {
         primary: {
-          main: "#571b09",
+          main: "#1a1a1d",
         },
         secondary: {
             main: blueGrey[500],
@@ -289,7 +290,7 @@ const handleDrawerClose = () => {
   return (
       <ThemeProvider theme = {theme}> 
     <div className={classes.grow}>
-      <AppBar position="sticky" color = "primary" >
+      <AppBar position="fixed" color = "primary" >
         <Toolbar>
           <IconButton
             edge="start"
@@ -301,7 +302,8 @@ const handleDrawerClose = () => {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            KAIZEN
+            {/* <i class="fab fa-kickstarter-k fa-2x"></i> */}
+            <FontAwesomeIcon icon={faKickstarterK} size="2x"></FontAwesomeIcon>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
