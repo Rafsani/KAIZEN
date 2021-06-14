@@ -72,8 +72,8 @@ const LoanRequest = require('../models/LoanRequestModel');
         const loan = await LoanRequest.create({
             Receiver: body.userId,
             Amount: body.Amount,
-            Details: body.Details,
-            Status: "New"
+            Details: body.Details
+            //Status: "New"
         })
         
         if( loan ){

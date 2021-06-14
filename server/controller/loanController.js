@@ -62,7 +62,6 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
         
         //won't work if there's multiple people with the same name . How do we know who's who. Must give id
         const userQueryResult = await userInterface.findUserByName( req.user.username );
-
         const body = {
             userId : userQueryResult.data._id,
             Amount : req.body.Amount,
