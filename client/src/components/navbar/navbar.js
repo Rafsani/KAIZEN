@@ -48,7 +48,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
-    backgroundColor: "#f2e9e9",
+    //backgroundColor: "#f2e9e9",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -289,7 +289,7 @@ const handleDrawerClose = () => {
   return (
       <ThemeProvider theme = {theme}> 
     <div className={classes.grow}>
-      <AppBar position="static" color = "primary" >
+      <AppBar position="sticky" color = "primary" >
         <Toolbar>
           <IconButton
             edge="start"

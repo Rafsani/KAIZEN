@@ -16,7 +16,7 @@ import Axios from "axios";
 import { Redirect, Route } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import { useAuth } from '../../auth-context';
-
+import BASE_URL from '../Base_url';
 
 const theme = createMuiTheme({
     overrides: {
@@ -100,7 +100,8 @@ export default function Login() {
             password: loginPassword,
           },
           withCredentials: true,
-          url: "http://localhost:5000/api/auth/login",
+         // url: "http://localhost:5000/api/auth/login",
+         url: "http://localhost:5000/api/auth/login",
         }).then ((res) => {
           if(res.data.message === "Successfully Authenticated")
             {

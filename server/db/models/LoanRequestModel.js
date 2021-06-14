@@ -6,8 +6,8 @@ const LoanRequestSchema = new mongoose.Schema({
     Receiver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
-        required: true,
-        unique: [true, "Can't post a new loan/donation request. Already has one active one"]
+        required: true //,
+        //unique: [true, "Can't post a new loan/donation request. Already has one active one"]
     },
 
     Amount: {
