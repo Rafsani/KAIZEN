@@ -3,7 +3,8 @@ import './home.css'
 import './navbar.css'
 import AppNavBar from '../navbar/navbar';
 import Axios from 'axios';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 
 function getdate(dt)
 {
@@ -105,7 +106,7 @@ export default function HomePage() {
 
    
     <div class="footer">
-        <p>You can find the project link here:</p>
+        <p>You can find the project link here:<FontAwesomeIcon icon={faGithub}></FontAwesomeIcon></p>
         <a href="#"><i class="fab fa-github fa-2x"></i></a>
     </div>
 

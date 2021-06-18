@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
 
 * {
   margin: 0;
@@ -45,8 +45,15 @@
 }
 
 .btn-category {
-  width: 100%;
-  padding: 10px 40px;
+    width: 100%;
+    padding: 10px ;
+}
+
+@media (max-width: 468px) {
+  .btn-category {
+    width: 100%;
+    padding: 10px 20px !important;
+  }
 }
 .btn-category-left {
   border-radius: 10px 0 0 0;
@@ -133,7 +140,7 @@ input:focus:invalid {
   padding-bottom: 12px;
 }
 .small-input-field > * > h3::after {
-  content: "*";
+  content: '*';
   color: red;
 }
 .small-input-field .small-input {
@@ -142,7 +149,7 @@ input:focus:invalid {
 }
 
 .title-card {
-  font-family: "Staatliches", cursive;
+  font-family: 'Staatliches', cursive;
   margin-bottom: 20px;
   font-size: 1.5rem;
   padding-bottom: 30px;
@@ -151,12 +158,12 @@ input:focus:invalid {
 .title-card > p {
   font-size: 1.2rem;
   width: 50%;
-  font-family: "Dosis", sans-serif;
+  font-family: 'Dosis', sans-serif;
   opacity: 0.5;
 }
 
 .text-area-input-field > * > h3::after {
-  content: "*";
+  content: '*';
   color: red;
 }
 
@@ -169,7 +176,7 @@ input:focus:invalid {
 }
 
 .buttons a {
-  font-family: "Staatliches", cursive;
+  font-family: 'Staatliches', cursive;
   text-decoration: none;
 }
 
@@ -180,12 +187,12 @@ input:focus:invalid {
   position: relative;
   text-align: left;
   color: white;
-  font-family: "Staatliches", cursive;
+  font-family: 'Staatliches', cursive;
   background: rgba(0, 0, 0, 0.95);
 }
 .banner::before {
-  content: "";
-  background: url("../images/home-3.jpg") no-repeat center/cover;
+  content: '';
+  background: url('../images/home-3.jpg') no-repeat center/cover;
   position: absolute;
   top: 0px;
   right: 0px;
@@ -200,6 +207,7 @@ input:focus:invalid {
   font-size: 2.5rem;
   margin-left: 10vw;
   margin-top: 2vh;
+  padding-bottom: 5vh;
   width: 40%;
   display: flex;
   flex-direction: column;
@@ -220,13 +228,20 @@ input:focus:invalid {
   font-size: 1.6rem;
 }
 
+@media (max-width: 468px) {
+  .banner .text-box {
+    left: 10%;
+    width: 60%;
+  }
+}
+
 .category-box {
   width: 100%;
   height: 16vh;
   border-bottom: 2px dashed #c3073f;
   border-top: 2px dashed #c3073f;
   font-size: 2rem;
-  font-family: "Staatliches", cursive;
+  font-family: 'Staatliches', cursive;
   display: flex;
 }
 .category-box .category-type {
@@ -251,12 +266,25 @@ input:focus:invalid {
 }
 
 .receiver-list {
-  font-family: "Staatliches", Arial, Helvetica, sans-serif, cursive;
-  font-size: 2rem;
+  font-family: 'Staatliches', cursive;
+  font-size: 1.6rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 150px;
 }
+
+@media (max-width: 1300px) {
+  .receiver-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 5px;
+  }
+}
+@media (max-width: 824px) {
+  .receiver-list {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
+
 .receiver-list .user-item {
   height: 600px;
   padding: 20px;
@@ -269,9 +297,10 @@ input:focus:invalid {
 }
 .receiver-list .user-item .user-card .photo-space {
   height: 50%;
-  background: url("../images//user.jpg") center center/cover;
+  background: url('../images//user.jpg') center center/cover;
   border-bottom: 3px solid black;
 }
+
 .receiver-list .user-item .user-card .user-info {
   width: 100%;
   height: 50%;
@@ -284,14 +313,15 @@ input:focus:invalid {
   text-align: center;
   align-items: center;
 }
+
 .receiver-list .user-item .user-card .user-info .name-rating .review {
   color: rgba(224, 203, 13, 0.993);
 }
 .receiver-list .user-item .user-card .user-info .name-rating .review i {
-  font-size: 1.8rem;
+  font-size: 1.4rem;
 }
 .receiver-list .user-item .user-card .user-info .loan-info {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   padding-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -299,12 +329,14 @@ input:focus:invalid {
   text-align: center;
   padding-bottom: 20px;
 }
+
 .receiver-list .user-item .user-card .user-info .progress {
   font-size: 1.2rem;
   display: flex;
   justify-content: space-between;
   padding-top: 5px;
 }
+
 .receiver-list .user-item .user-card .user-info .progress .bar {
   width: 70%;
   height: 24px;
@@ -313,12 +345,50 @@ input:focus:invalid {
   background: #c3073f;
   padding: 4px;
 }
+
 .receiver-list .user-item .user-card .user-info .progress .bar .fillup-bar {
   width: calc(50% - 4px);
   height: 94%;
   background: white;
   border-radius: 5px;
 }
+
+@media (max-width: 468px) {
+
+  .receiver-list .user-item {
+    height: 450px;
+  }
+  .receiver-list .user-item .user-card .photo-space {
+    height: 35%;
+  }
+
+  .receiver-list .user-item .user-card .user-info .name-rating {
+    text-align: left;
+    align-items: center;
+  }
+
+  .receiver-list .user-item .user-card .user-info .loan-info {
+    font-size: 1rem;
+  }
+
+  .receiver-list .user-item .user-card .user-info .progress {
+    font-size: 1rem;
+  }
+
+  .receiver-list .user-item .user-card .user-info .progress .bar {
+    width: 60%;
+  }
+
+  .category-box .category-type .category {
+    width: 100px;
+    height: 50px;
+    font-size: 1rem;
+    justify-content: flex-start;
+  }
+
+  
+}
+
 .receiver-list .user-item .user-card .user-info .buttons {
   padding-top: 36px;
   display: flex;
@@ -335,7 +405,7 @@ input:focus:invalid {
   width: 100vw;
   height: 10vh;
   background: #1a1a1d;
-  font-family: "Staatliches", cursive;
+  font-family: 'Staatliches', cursive;
   color: white;
   display: flex;
   justify-content: center;
@@ -351,3 +421,10 @@ input:focus:invalid {
   text-decoration: none;
   color: white;
 } /*# sourceMappingURL=home.css.map */
+
+
+@media (max-width: 468px) {
+  .footer p {
+    font-size: 1.4rem;
+  }
+}

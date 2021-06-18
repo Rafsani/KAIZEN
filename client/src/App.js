@@ -20,10 +20,9 @@ function App() {
       <Router>
       <Route name="login"  path='/login' component={Login} exact  />
       <PrivateRoute name="home" path = '/home' component={TestComp} exact />
-     <PrivateRoute name="landing" path = '/' component={Home} exact />
+      <PrivateRoute name="landing" path = '/' component={HomePage} exact />
       <PrivateRoute name="landing" path = '/request/:id' component={Loanrequest} exact />
       <Route name="signup"  path='/signup' component={Signup} exact  />
-      <Route name="signup"  path='/test' component={HomePage} exact  />
       </Router>
       
     </div>
