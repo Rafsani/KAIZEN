@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validate = require('../validate');
-
+const moment = require("moment");
 const LoanRequestSchema = new mongoose.Schema({
 
     Receiver: {
@@ -42,7 +42,8 @@ const LoanRequestSchema = new mongoose.Schema({
 
     issueDate: {
         type: Date,
-        default: Date.now
+        //default: Date.now
+        default: moment(new Date()).format("YYYY/MM/DD")
     },
 
     typeOfLoan: {

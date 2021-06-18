@@ -4,6 +4,12 @@ import './navbar.css'
 import AppNavBar from '../navbar/navbar';
 import Axios from 'axios';
 
+
+function getdate(dt)
+{
+    return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
+}
+
 export default function HomePage() {
 
 
@@ -32,7 +38,7 @@ export default function HomePage() {
     }, [])
 
 
-
+   
 
 
 
@@ -69,12 +75,12 @@ export default function HomePage() {
                 <div class="photo-space"></div>
                 <div class="user-info content-box">
                     <div class="name-rating">
-                        <p>Dummy Username</p>
+                        <p>{value.Receiver.username}</p>
                         <div class="review"><i class="fas fa-star"></i>4.5/5</div>
                     </div>
                     <div class="loan-info">
                         <div class="amount">Amount : <span class="highlight"> {value.Amount}</span></div>
-                        <div class="date">Issued:<span class="highlight"> {value.issueDate}</span></div>
+                        <div class="date">Issued:<span class="highlight"> {value.issueDate} </span></div>
                     </div>
                     <div class="progress">
                         Progress : <div class="bar">

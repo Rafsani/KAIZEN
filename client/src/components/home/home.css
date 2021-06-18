@@ -1,351 +1,353 @@
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-  }
-  
-  .btn-small {
-    width: 40px;
-    height: 40px;
-    background: #c3073f;
-    color: white;
-    border-radius: 0 10px 10px 0;
-  }
-  .btn-small > * {
-    width: 100%;
-    height: 100%;
-    margin-top: 10px;
-  }
-  .btn-small:hover {
-    background: #4e4e50;
-  }
-  
-  .btn {
-    width: max-content;
-    border-radius: 10px;
-    padding: 10px 40px;
-  }
-  
-  .btn-form {
-    width: 200px;
-    text-align: center;
-    box-shadow: 0 0 5px 0 rgba(195, 7, 63, 0.5), 0 0 5px 0 rgba(195, 7, 63, 0.5);
-    border-radius: 10px;
-    padding: 10px 40px;
-  }
-  
-  .btn-card {
-    width: 80%;
-    padding: 10px 25px;
-    border-radius: 10px;
-    box-shadow: -4px -1px 12px -8px #000000, 4px 1px 12px -8px #000000;
-  }
-  
-  .btn-category {
-    width: 100%;
-    padding: 10px 40px;
-  }
-  .btn-category-left {
-    border-radius: 10px 0 0 0;
-    box-shadow: -4px -1px 15px -8px #000000;
-  }
-  .btn-category-right {
-    border-radius: 0 10px 0 0;
-    box-shadow: 4px -1px 15px -8px #000000;
-  }
-  
-  .btn-dark {
-    background: #c3073f;
-    color: white;
-  }
-  .btn-dark:hover {
-    background-color: #950740;
-  }
-  
-  .btn-light {
-    background: white;
-    color: #c3073f;
-  }
-  .btn-light:hover {
-    background: #4e4e50;
-    color: white;
-  }
-  
-  .content-box {
-    padding: 0 30px;
-  }
-  
-  .menu-active {
-    border-bottom: 5px solid #c3073f;
-  }
-  
-  .menu-inactive {
-    border-bottom: 5px solid #1a1a1d;
-  }
-  
-  .highlight {
-    color: #c3073f;
-  }
-  
-  .inputs-div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  .inputs-div > aside {
-    padding-top: 10px;
-    width: 15vw;
-  }
-  
-  .input-field {
-    height: 100%;
-    flex-grow: 1;
-    display: flex;
-    justify-content: left;
-    align-items: flex-start;
-    text-align: left;
-    gap: 1rem;
-  }
-  
-  input {
-    background: white;
-    font-size: 1.2rem;
-    border-style: none;
-    outline-style: none;
-    border-radius: 10px;
-    box-shadow: inset 4px 4px 5px -4px #000000, inset -4px -4px 5px -4px #000000;
-  }
-  input:focus:valid {
-    border: 1px solid #07ce07;
-  }
-  input:focus:invalid {
-    border: 1px solid red;
-  }
-  
-  .small-input-field > * > h3 {
-    padding-bottom: 12px;
-  }
-  .small-input-field > * > h3::after {
-    content: "*";
-    color: red;
-  }
-  .small-input-field .small-input {
-    width: 50%;
-    padding: 10px 20px;
-  }
-  
-  .title-card {
-    font-family: "Staatliches", cursive;
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    padding-bottom: 30px;
-    border-bottom: 2px dashed #6d6969;
-  }
-  .title-card > p {
-    font-size: 1.2rem;
-    width: 50%;
-    font-family: "Dosis", sans-serif;
-    opacity: 0.5;
-  }
-  
-  .text-area-input-field > * > h3::after {
-    content: "*";
-    color: red;
-  }
-  
-  .text-area-input {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-top: 20px;
-    border-radius: 5px;
-    resize: none;
-  }
-  
-  .buttons a {
-    font-family: "Staatliches", cursive;
-    text-decoration: none;
-  }
-  
-  .banner {
-    width: 100vw;
-    height: 60vh;
-    margin-bottom: 20px;
-    position: relative;
-    text-align: left;
-    color: white;
-    font-family: "Staatliches", cursive;
-    background: rgba(0, 0, 0, 0.95);
-  }
-  .banner::before {
-    content: "";
-    background: url("../images/home-3.jpg") no-repeat center/cover;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: 1;
-  }
-  .banner .text-box {
-    left: 0%;
-    height: calc(100% - 2vh);
-    position: absolute;
-    font-size: 2.5rem;
-    margin-left: 10vw;
-    margin-top: 2vh;
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-  }
-  .banner .text-box p {
-    outline-style: dashed;
-    outline-offset: 24px;
-    outline-width: 4px;
-    outline-color: #c3073f;
-    color: black;
-    padding-bottom: 20px;
-  }
-  .banner .text-box a {
-    text-decoration: none;
-    font-size: 1.6rem;
-  }
-  
-  .category-box {
-    width: 100%;
-    height: 16vh;
-    border-bottom: 2px dashed #c3073f;
-    border-top: 2px dashed #c3073f;
-    font-size: 2rem;
-    font-family: "Staatliches", cursive;
-    display: flex;
-  }
-  .category-box .category-type {
-    flex-grow: 1;
-    height: 100%;
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  .category-box .category-type .category {
-    width: 200px;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
-  .category-box .category-type .category a {
-    text-decoration: none;
-  }
-  
-  .receiver-list {
-    font-family: "Staatliches", cursive;
-    font-size: 1.6rem;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    padding: 150px;
-  }
-  .receiver-list .user-item {
-    height: 600px;
-    padding: 20px;
-  }
-  .receiver-list .user-item .user-card {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px;
-    box-shadow: -4px -4px 16px -5px #000000, 4px 4px 16px -5px #000000;
-  }
-  .receiver-list .user-item .user-card .photo-space {
-    height: 50%;
-    background: url("../images//user.jpg") center center/cover;
-    border-bottom: 3px solid black;
-  }
-  .receiver-list .user-item .user-card .user-info {
-    width: 100%;
-    height: 50%;
-    padding-top: 10px;
-  }
-  .receiver-list .user-item .user-card .user-info .name-rating {
-    border-bottom: 2px dashed #c3073f;
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    align-items: center;
-  }
-  .receiver-list .user-item .user-card .user-info .name-rating .review {
-    color: rgba(224, 203, 13, 0.993);
-  }
-  .receiver-list .user-item .user-card .user-info .name-rating .review i {
-    font-size: 1.4rem;
-  }
-  .receiver-list .user-item .user-card .user-info .loan-info {
-    font-size: 1.2rem;
-    padding-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-align: center;
-    padding-bottom: 20px;
-  }
-  .receiver-list .user-item .user-card .user-info .progress {
-    font-size: 1.2rem;
-    display: flex;
-    justify-content: space-between;
-    padding-top: 5px;
-  }
-  .receiver-list .user-item .user-card .user-info .progress .bar {
-    width: 70%;
-    height: 24px;
-    border-radius: 5px;
-    border: 1px solid #c3073f;
-    background: #c3073f;
-    padding: 4px;
-  }
-  .receiver-list .user-item .user-card .user-info .progress .bar .fillup-bar {
-    width: calc( 50% - 4px );
-    height: 94%;
-    background: white;
-    border-radius: 5px;
-  }
-  .receiver-list .user-item .user-card .user-info .buttons {
-    padding-top: 36px;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    text-align: center;
-    font-size: 1.2rem;
-  }
-  .receiver-list .user-item .user-card .user-info .buttons a {
-    text-decoration: none;
-  }
-  
-  .footer {
-    width: 100vw;
-    height: 10vh;
-    background: #1a1a1d;
-    font-family: "Staatliches", cursive;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-  }
-  .footer p {
-    font-size: 1.8rem;
-    border-bottom: 2px solid #c3073f;
-  }
-  .footer a {
-    text-decoration: none;
-    color: white;
-  }/*# sourceMappingURL=home.css.map */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+.btn-small {
+  width: 40px;
+  height: 40px;
+  background: #c3073f;
+  color: white;
+  border-radius: 0 10px 10px 0;
+}
+.btn-small > * {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+}
+.btn-small:hover {
+  background: #4e4e50;
+}
+
+.btn {
+  width: max-content;
+  border-radius: 10px;
+  padding: 10px 40px;
+}
+
+.btn-form {
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 0 5px 0 rgba(195, 7, 63, 0.5), 0 0 5px 0 rgba(195, 7, 63, 0.5);
+  border-radius: 10px;
+  padding: 10px 40px;
+}
+
+.btn-card {
+  width: 80%;
+  padding: 10px 25px;
+  border-radius: 10px;
+  box-shadow: -4px -1px 12px -8px #000000, 4px 1px 12px -8px #000000;
+}
+
+.btn-category {
+  width: 100%;
+  padding: 10px 40px;
+}
+.btn-category-left {
+  border-radius: 10px 0 0 0;
+  box-shadow: -4px -1px 15px -8px #000000;
+}
+.btn-category-right {
+  border-radius: 0 10px 0 0;
+  box-shadow: 4px -1px 15px -8px #000000;
+}
+
+.btn-dark {
+  background: #c3073f;
+  color: white;
+}
+.btn-dark:hover {
+  background-color: #950740;
+}
+
+.btn-light {
+  background: white;
+  color: #c3073f;
+}
+.btn-light:hover {
+  background: #4e4e50;
+  color: white;
+}
+
+.content-box {
+  padding: 0 30px;
+}
+
+.menu-active {
+  border-bottom: 5px solid #c3073f;
+}
+
+.menu-inactive {
+  border-bottom: 5px solid #1a1a1d;
+}
+
+.highlight {
+  color: #c3073f;
+}
+
+.inputs-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.inputs-div > aside {
+  padding-top: 10px;
+  width: 15vw;
+}
+
+.input-field {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  text-align: left;
+  gap: 1rem;
+}
+
+input {
+  background: white;
+  font-size: 1.2rem;
+  border-style: none;
+  outline-style: none;
+  border-radius: 10px;
+  box-shadow: inset 4px 4px 5px -4px #000000, inset -4px -4px 5px -4px #000000;
+}
+input:focus:valid {
+  border: 1px solid #07ce07;
+}
+input:focus:invalid {
+  border: 1px solid red;
+}
+
+.small-input-field > * > h3 {
+  padding-bottom: 12px;
+}
+.small-input-field > * > h3::after {
+  content: "*";
+  color: red;
+}
+.small-input-field .small-input {
+  width: 50%;
+  padding: 10px 20px;
+}
+
+.title-card {
+  font-family: "Staatliches", cursive;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  padding-bottom: 30px;
+  border-bottom: 2px dashed #6d6969;
+}
+.title-card > p {
+  font-size: 1.2rem;
+  width: 50%;
+  font-family: "Dosis", sans-serif;
+  opacity: 0.5;
+}
+
+.text-area-input-field > * > h3::after {
+  content: "*";
+  color: red;
+}
+
+.text-area-input {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 20px;
+  border-radius: 5px;
+  resize: none;
+}
+
+.buttons a {
+  font-family: "Staatliches", cursive;
+  text-decoration: none;
+}
+
+.banner {
+  width: 100vw;
+  height: 60vh;
+  margin-bottom: 20px;
+  position: relative;
+  text-align: left;
+  color: white;
+  font-family: "Staatliches", cursive;
+  background: rgba(0, 0, 0, 0.95);
+}
+.banner::before {
+  content: "";
+  background: url("../images/home-3.jpg") no-repeat center/cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 1;
+}
+.banner .text-box {
+  left: 0%;
+  height: calc(100% - 2vh);
+  position: absolute;
+  font-size: 2.5rem;
+  margin-left: 10vw;
+  margin-top: 2vh;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+.banner .text-box p {
+  outline-style: dashed;
+  outline-offset: 24px;
+  outline-width: 4px;
+  outline-color: #c3073f;
+  color: black;
+  padding-bottom: 20px;
+}
+.banner .text-box a {
+  text-decoration: none;
+  font-size: 1.6rem;
+}
+
+.category-box {
+  width: 100%;
+  height: 16vh;
+  border-bottom: 2px dashed #c3073f;
+  border-top: 2px dashed #c3073f;
+  font-size: 2rem;
+  font-family: "Staatliches", cursive;
+  display: flex;
+}
+.category-box .category-type {
+  flex-grow: 1;
+  height: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.category-box .category-type .category {
+  width: 200px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.category-box .category-type .category a {
+  text-decoration: none;
+}
+
+.receiver-list {
+  font-family: "Staatliches", Arial, Helvetica, sans-serif, cursive;
+  font-size: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  padding: 150px;
+}
+.receiver-list .user-item {
+  height: 600px;
+  padding: 20px;
+}
+.receiver-list .user-item .user-card {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: -4px -4px 16px -5px #000000, 4px 4px 16px -5px #000000;
+}
+.receiver-list .user-item .user-card .photo-space {
+  height: 50%;
+  background: url("../images//user.jpg") center center/cover;
+  border-bottom: 3px solid black;
+}
+.receiver-list .user-item .user-card .user-info {
+  width: 100%;
+  height: 50%;
+  padding-top: 10px;
+}
+.receiver-list .user-item .user-card .user-info .name-rating {
+  border-bottom: 2px dashed #c3073f;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+}
+.receiver-list .user-item .user-card .user-info .name-rating .review {
+  color: rgba(224, 203, 13, 0.993);
+}
+.receiver-list .user-item .user-card .user-info .name-rating .review i {
+  font-size: 1.8rem;
+}
+.receiver-list .user-item .user-card .user-info .loan-info {
+  font-size: 1.8rem;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 20px;
+}
+.receiver-list .user-item .user-card .user-info .progress {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 5px;
+}
+.receiver-list .user-item .user-card .user-info .progress .bar {
+  width: 70%;
+  height: 24px;
+  border-radius: 5px;
+  border: 1px solid #c3073f;
+  background: #c3073f;
+  padding: 4px;
+}
+.receiver-list .user-item .user-card .user-info .progress .bar .fillup-bar {
+  width: calc(50% - 4px);
+  height: 94%;
+  background: white;
+  border-radius: 5px;
+}
+.receiver-list .user-item .user-card .user-info .buttons {
+  padding-top: 36px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  font-size: 1.2rem;
+}
+.receiver-list .user-item .user-card .user-info .buttons a {
+  text-decoration: none;
+}
+
+.footer {
+  width: 100vw;
+  height: 10vh;
+  background: #1a1a1d;
+  font-family: "Staatliches", cursive;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+.footer p {
+  font-size: 1.8rem;
+  border-bottom: 2px solid #c3073f;
+}
+.footer a {
+  text-decoration: none;
+  color: white;
+} /*# sourceMappingURL=home.css.map */
