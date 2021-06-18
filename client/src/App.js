@@ -8,6 +8,8 @@ import Signup from "./components/signup/signup";
 import TestComp from "./components/testComponent/testComponent";
 import Home from "./components/home/home";
 import Loanrequest from "./components/loanRequest/loanrequest";
+import HomePage from "./components/home/home1";
+
 
 
 function App() {
@@ -17,13 +19,10 @@ function App() {
     <div className="App">
       <Router>
       <Route name="login"  path='/login' component={Login} exact  />
-      <PrivateRoute name="home" path = '/home' component={TestComp} exact 
-    />
-    <PrivateRoute name="landing" path = '/' component={Home} exact 
-    />
-     <PrivateRoute name="landing" path = '/request/:id' component={Loanrequest} exact 
-    />
-    <Route name="signup"  path='/signup' component={Signup} exact  />
+      <PrivateRoute name="home" path = '/home' component={TestComp} exact />
+      <PrivateRoute name="landing" path = '/' component={HomePage} exact />
+      <PrivateRoute name="landing" path = '/request/:id' component={Loanrequest} exact />
+      <Route name="signup"  path='/signup' component={Signup} exact  />
       </Router>
       
     </div>

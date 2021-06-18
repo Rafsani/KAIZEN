@@ -6,7 +6,10 @@ const LoanRequest = require('../models/LoanRequestModel');
  */
  const getAllLoans = async()=> {
     try {
-        const loans = await LoanRequest.find()
+        const loans = await LoanRequest.find().populate({
+            path: 'Receiver',
+            populate: {path: 'Receiver'}
+        });
         
         if( loans ){
             return {
@@ -72,8 +75,8 @@ const LoanRequest = require('../models/LoanRequestModel');
         const loan = await LoanRequest.create({
             Receiver: body.userId,
             Amount: body.Amount,
-            Details: body.Details,
-            Status: "New"
+            Details: body.Details
+            //Status: "New"
         })
         
         if( loan ){
