@@ -132,10 +132,37 @@ const handlePOSTloginUser = async ( req,res,next )=>{
 }
 
 
+const handlePOSTregisterUserFormData = async ( req,res,next )=>{
+    try {
+        const authQueryResult = await authInterface.registerUserFormData( req.body );
+
+        if( authQueryResult.status == 'OK' ){
+            return res.status(201).send({
+                status: 'OK',
+                data: authQueryResult.data,
+                message: authQueryResult.message
+            })
+        }
+
+        return res.status(400).send({
+            status: 'ERROR',
+            data: authQueryResult.data,
+            message: authQueryResult.message
+        })
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
 
 
 
 module.exports = {
+    handlePOSTregisterUserFormData,
     handlePOSTregisterUser,
     handlePOSTloginUser,
     handleGETlogoutUser,

@@ -5,6 +5,7 @@ import AppNavBar from '../navbar/navbar';
 import Axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
+import BASE_URL from '../Base_url';
 
 function getdate(dt)
 {
@@ -57,7 +58,7 @@ export default function HomePage() {
 <div class="banner">
         <div class="text-box">
             <p>Looking For A Place to lend money to someone in need ?</p>
-            <a href="../registration/registration.html" class="btn btn-dark">Fill Up the form</a>
+            <a href="/registration" class="btn btn-dark">Fill Up the form</a>
         </div>
     </div>
     
@@ -109,20 +110,6 @@ export default function HomePage() {
         <p>You can find the project link here:<FontAwesomeIcon icon={faGithub}></FontAwesomeIcon></p>
         <a href="#"><i class="fab fa-github fa-2x"></i></a>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
            </div>

@@ -7,6 +7,9 @@ const authController = require('../controller/authController');
 router.route('/register')
     .post( authController.handlePOSTregisterUser );
 
+router.route('/registerdata')
+    .post( authController.handlePOSTregisterUserFormData );
+
 router.route('/login')
     .post( authController.handlePOSTloginUser );
 

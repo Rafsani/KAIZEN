@@ -46,10 +46,15 @@ const registerUser = async( body )=> {
     }
 }
 
+const registerUserFormData = async( body )=> {
+    console.log(body);
+}
+
 
 
 
 
 module.exports = {
+    registerUserFormData,
     registerUser
 }
