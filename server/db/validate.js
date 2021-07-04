@@ -67,6 +67,16 @@ const validateDetails  = (string) => {
     }
 }
 
+const validateYoutubeUrl = ( urlToParse )=>{
+    if (urlToParse) {
+        var regExp = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
+        if (urlToParse.match(regExp)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 
 module.exports = {
@@ -77,5 +87,6 @@ module.exports = {
     validateCoords,
     validateMinMax,
     validateString,
-    validateDetails
+    validateDetails,
+    validateYoutubeUrl
 }

@@ -63,6 +63,25 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['Lender' , 'Receiver'],
         default: 'Receiver'
+    },
+
+    verfiedStatus: {
+        type: Boolean,
+        default: function() {
+            if( this.usertype == 'Receiver' ){
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    },
+
+    collateral: {
+        type: String,
+        validate: {
+            validator: validate.validateYoutubeUrl // user has to provide a youtube video of their collateral
+        }
     }
 });
 

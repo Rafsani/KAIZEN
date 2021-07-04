@@ -4,11 +4,16 @@ const LoanRequest = require('../models/LoanRequestModel');
  * @description list of all loans
  * @returns all loans
  */
- const getAllLoans = async()=> {
+ const getAllLoans = async( type , sort )=> {
     try {
-        const loans = await LoanRequest.find().populate({
+        const loans = await LoanRequest.find(
+            {
+                 typeOfLoan : type.charAt(0).toUpperCase() + type.slice(1) , // capitalizing the first letter
+                 Status: 'Pending'
+            })
+            .populate({
             path: 'Receiver',
-            populate: {path: 'Receiver'}
+            // options: { sort: [[sort , 'desc']]} // will be added back when we have added reviews to the user model
         });
         
         if( loans ){

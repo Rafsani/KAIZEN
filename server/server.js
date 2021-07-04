@@ -21,6 +21,7 @@ const PORT = process.env.PORT || 5000;
 const authRouter = require('./routes/auth')
 const loanRouter = require('./routes/loan')
 const contractRouter = require('./routes/contract')
+const userRouter = require('./routes/user');
 
 
 // Conncet to the database
@@ -54,7 +55,7 @@ require("./passportConfig")(passport);
 app.use('/api/auth', authRouter );
 app.use('/api/loans', loanRouter);
 app.use('/api/contract', contractRouter);
-
+app.use('/api/user', userRouter);
 
 
 // app.get("/user", (req, res) => {
