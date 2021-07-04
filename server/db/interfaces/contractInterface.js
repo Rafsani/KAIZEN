@@ -58,45 +58,9 @@ const findContractHistory = async (userId)=>{
 
                 
         if( contractQueryResult ){
-            // console.log(contractQueryResult);
-            let currentlyActiveContacts = [];
-            let maxAmountLent = 0; // this returns the max amount of loan for the lender
-            let nextInstallmentDate = new Date( new Date().getTime() + ( 4 * 30 * 24 * 60 * 60 * 1000 ) );
-            let nextInstallmentAmount = 0;
-            let completedContractCount = contractQueryResult.filter( item => {
-                if( item.status == 'Resolved' ){
-                    return item;
-                }
-                else {
-                    currentlyActiveContacts.push( {
-                        contractId : item._id,
-
-                    } );
-
-                    if( item.amount > maxAmountLent ){
-                        maxAmountLent = item.amount;
-                    } 
-
-                    
-                    item.installmentDates.forEach(element => {
-                        if( element < nextInstallmentDate ){
-                            nextInstallmentDate = element;
-                            nextInstallmentAmount = item.amount / item.installments
-                        }
-                    });
-                }
-            }).length;
-            // let nextInstallmentDate = 
-            let outputHistory = {
-                completedContractCount,
-                maxAmountLent ,
-                nextInstallmentDate,
-                nextInstallmentAmount,
-                currentlyActiveContacts
-            }
 
             return {
-                data: outputHistory, 
+                data: contractQueryResult, 
                 status: 'OK',
                 message: 'User history of contracts has been found.'
             }
