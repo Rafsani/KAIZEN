@@ -132,9 +132,35 @@ const handlePOSTloginUser = async ( req,res,next )=>{
 }
 
 
+const getLoggedInUser = async (req,res) => {
+    let user ;
+    if( req.user ){
+        user = await req.user;
+    }
+    return user;
+}
+
+
+/**
+ * @description - Fills out information for a user
+ * @route - GET /api/auth/registerdata
+ * @param {*} req - body will include username, details, dob, nid, bkash, collateral
+ * @param {*} res - response for the api call
+ * @param {*} next 
+ */
+
 const handlePOSTregisterUserFormData = async ( req,res,next )=>{
     try {
-        const authQueryResult = await authInterface.registerUserFormData( req.body );
+        let authQueryResult;
+        let userInfo ;
+        await getLoggedInUser(req,res).then(json => {
+            userInfo = json;
+            return;
+        });;
+
+        if( userInfo ){
+            authQueryResult = await authInterface.registerUserFormData( req.body , userInfo );
+        }
 
         if( authQueryResult.status == 'OK' ){
             return res.status(201).send({

@@ -142,8 +142,8 @@ export default function Login() {
               required
               fullWidth
               id="email"
-              label="UserName"
-              name="username"
+              label="Email"
+              name="email"
               InputProps={{
                 classes: {
                     input: classes.lineColor
@@ -153,7 +153,7 @@ export default function Login() {
             InputLabelProps= {{
                 className: classes.lineColor
             }}
-              autoComplete="username"
+              autoComplete="email"
               autoFocus
               onChange={(e) => setLoginUsername(e.target.value)}
             />

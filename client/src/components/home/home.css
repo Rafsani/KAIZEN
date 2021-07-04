@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dosis&display=swap');
 
 * {
   margin: 0;
@@ -45,8 +46,8 @@
 }
 
 .btn-category {
-    width: 100%;
-    padding: 10px ;
+  width: 100%;
+  padding: 10px;
 }
 
 @media (max-width: 468px) {
@@ -354,7 +355,6 @@ input:focus:invalid {
 }
 
 @media (max-width: 468px) {
-
   .receiver-list .user-item {
     height: 450px;
   }
@@ -385,8 +385,6 @@ input:focus:invalid {
     font-size: 1rem;
     justify-content: flex-start;
   }
-
-  
 }
 
 .receiver-list .user-item .user-card .user-info .buttons {
@@ -421,7 +419,6 @@ input:focus:invalid {
   text-decoration: none;
   color: white;
 } /*# sourceMappingURL=home.css.map */
-
 
 @media (max-width: 468px) {
   .footer p {

@@ -3,12 +3,14 @@ import AppNavBar from '../navbar/navbar'
 import './registration.css'
 import Axios from 'axios';
 import BASE_URL from '../Base_url';
+import { faKickstarterK } from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Registration() {
 
 const [FirstName, setFirstName] = useState("");
 const [LastName, setLastName] = useState("");
-const [Email, setEmail] = useState("");
+const [Bkash, setBkash] = useState("");
 const [Nid, setNid] = useState("");
 const [AccountType, setAccountType] = useState("Lender");
 const [Dob, setDob] = useState(null);
@@ -16,7 +18,7 @@ const [About, setAbout] = useState("")
 
 
 const sendData =  (e) => {
-    console.log(FirstName + " " + LastName + " " + Email + " " + Nid + " " + AccountType + " " + Dob + " " + About );
+    console.log(FirstName + " " + LastName + " " + Bkash + " " + Nid + " " + AccountType + " " + Dob + " " + About );
 
      e.preventDefault();
       
@@ -24,7 +26,7 @@ const sendData =  (e) => {
           method: "POST",
           data: {
             fullname: FirstName +" " + LastName,
-            email: Email,
+            bkash: Bkash,
             nid: Nid,
             usertype: AccountType,
             dob: Dob,
@@ -41,15 +43,14 @@ const sendData =  (e) => {
 
     return (
         <>
-  <AppNavBar />
   <div class="main content-box">
         <div class="icon">
-        <i class="fab fa-kickstarter-k fa-6x"></i>
+            <FontAwesomeIcon icon={faKickstarterK} size="6x"></FontAwesomeIcon>
         </div>
         <div class="registration">
         <div class="title-card">
             <h1>Personal Information</h1>
-            <p>Tell us a bit about yourself. This information will appear on your public profile, so that other users can get to know you better & in turn we can verify you.</p>
+            <p>Tell us a bit about yourself. Some of this information except for the sensitive ones( NID , Bkash , DOB etc. ) will appear on your public profile, so that other users can get to know you better & in turn we can verify you.</p>
         </div>
         <div class="form">
             <div class="full-name inputs-div">
@@ -64,11 +65,10 @@ const sendData =  (e) => {
             </div>
             <div class="small-input-field inputs-div">
                 <aside>
-                    <h3>Email Id.</h3>
-                    
+                    <h3>Bkash</h3> 
                 </aside>
                 <div class="input-field">
-                    <input type="email" class="small-input" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}" placeholder="example@gmail.com" onChange= {(e) => setEmail(e.target.value)} required/>
+                    <input type="tel" class="small-input" pattern="(?:\+88|01)?(?:\d{11}|\d{13})" onChange= {(e) => setBkash(e.target.value)} required/>
                 </div>
             </div>
             <div class="small-input-field inputs-div">

@@ -70,5 +70,10 @@
     "bkash": "01961145457",
     "dob": "1997-02-01",
     "usertype": "Lender"
+  },
+  {
+    "_id": "6076cfa408541e2ba057e338",
+    "email": "dummy@gmail.com",
+    "password": "123"
   }
 ]

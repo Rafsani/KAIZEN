@@ -46,8 +46,46 @@ const registerUser = async( body )=> {
     }
 }
 
-const registerUserFormData = async( body )=> {
-    console.log(body);
+
+
+const registerUserFormData = async ( body , userInfo )=> {
+    try {
+        const userQueryResult = await Users.findOneAndUpdate( {
+            email: userInfo.email
+        },
+        {
+            username: body.fullname,
+            nid: body.nid,
+            bkash: body.bkash,
+            usertype: body.usertype,
+            dob: body.dob,
+            details: body.about
+        },
+        {
+            returnOriginal: false
+        });
+    
+        if( userQueryResult ){
+            console.log(userQueryResult);
+            return {
+                data: userQueryResult, 
+                status: 'OK',
+                message: 'Users information has been added to the database'
+            }
+        }
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'User information could not be filled'
+        }
+    }catch( e ){
+        console.log("Error: " + e);
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
 }
 
 

@@ -7,10 +7,17 @@ const userSchema = new mongoose.Schema({
    
     username: {
         type: String,
-        required: true,
         validate : {
             validator: validate.validateString,
             msg: 'Name can not be empty.'
+        }
+    },
+
+    details: {
+        type: String,
+        validate: {
+            validator: validate.validateDetails,
+            msg: 'Need to provide details about yourself'
         }
     },
 
@@ -35,6 +42,7 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
+        required: true,
         validate: {
             validator: validate.validateEmail,
             msg: 'Invalid email address.'
@@ -101,7 +109,7 @@ function checkNID( NID ) {
 
 userSchema.pre('save' , async function(next){
     this.password = await bcrypt.hash( this.password, 10);
-    this.nid = await bcrypt.hash( this.nid , 10);
+    if( this.nid != undefined ) this.nid = await bcrypt.hash( this.nid , 10);
     next();
 })
 

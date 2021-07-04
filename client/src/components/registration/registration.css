@@ -158,6 +158,7 @@ input:focus:invalid {
 }
 
 .title-card {
+  text-align: left;
   font-family: "Staatliches", cursive;
   margin-bottom: 20px;
   font-size: 1.5rem;
@@ -575,6 +576,7 @@ input:focus:invalid {
 }
 
 .icon {
+  text-align: left;
   padding-top: 10px;
   padding-left: 10px;
   padding-bottom: 10px;
