@@ -1,6 +1,7 @@
 const Contracts = require('../models/contractModel');
 
 
+
 /**
  * 
  * @param body - will include the contract id and the id of the request issuer who has to be the lender
@@ -37,6 +38,49 @@ const endContract = async (body)=>{
     }
 }
 
+/**
+ * 
+ * @param userId 
+ * @returns - completed contracts , maximum amount lent, next installment date & amount
+ */
+const findContractHistory = async (userId)=>{
+    try {
+        const contractQueryResult = await Contracts.find({
+            lenderId : userId
+        })
+        .populate({
+            path: 'receiverId'
+        })
+        .populate({
+            path: 'loanId'
+        })
+        ;
+
+                
+        if( contractQueryResult ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'User history of contracts has been found.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'history not found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
-    endContract
+    endContract,
+    findContractHistory
 }

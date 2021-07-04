@@ -3,14 +3,20 @@ const userInterface = require('../db/interfaces/userInterface');
 
 /**
  * @description this method returns all loans from the database
- * @route - GET /api/auth/loans
+ * @route - GET /api/auth/loans?type=loan&sortby=review
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  */
 const handleGETallLoans = async( req,res,next)=>{
     try {
-        const loanQueryResult = await loanInterface.getAllLoans();
+        let type , sort;
+        
+        type = ( req.query.type == undefined )? 'loan':req.query.type;
+        sort = ( req.query.sort == undefined )? 'review':req.query.sort;
+
+
+        const loanQueryResult = await loanInterface.getAllLoans( type , sort );
 
         if( loanQueryResult.status == 'OK' ){
             return res.status(200).send(loanQueryResult.data);

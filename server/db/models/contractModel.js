@@ -27,6 +27,23 @@ const contractSchema = new mongoose.Schema({
         required: true
     },
 
+    interestRate: {
+        type: Number ,
+        min: [5 , 'Interest rate can not be less than 5%']
+    },
+
+    collectedAmount : {
+        type: Number,
+        default: 0
+    },
+
+    // if the receiver doesn't pay back money in time,, this is only for this contract
+    defaults: {
+        type: Number,
+        max: [1, 'Can not default more than 1 time on this contract'],
+        default: 0
+    },
+
     status: {
         type: String,
         enum: ['Pending' , 'Resolved'],
@@ -49,6 +66,15 @@ contractSchema.pre('save', async function( next ){
     // Adding the installment dates before saving the doc
     for( let i = 0; i < this.installments ; i++ ){
         this.installmentDates.push( Date.now() + (i+1) * 60 * 60 * 24 * 30 * 1000 );
+    }
+
+    // check if the receiver is verified, if so then the interest rate will be 5% , otherwise 8%
+    let userVerifiedStatus = await this.model('user').findById(this.receiverId);
+    if( userVerifiedStatus.verfiedStatus ){
+        this.interestRate = 5;
+    }
+    else {
+        this.interestRate = 8;
     }
 
     next();

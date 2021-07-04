@@ -27,6 +27,35 @@ const findUserByName = async( name ) => {
     }
 }
 
+const findUserbyId = async( userId ) => {
+    try {
+        const user = await Users.findById(userId);
+        if( user ){
+            return {
+                data: user, 
+                status: 'OK',
+                message: 'User found in the database'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'No user found with this name'
+        }
+        
+    }
+    catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+
 const findAllUsers = async()=>{
     try{
         const users = await User.find();
@@ -54,5 +83,6 @@ const findAllUsers = async()=>{
 
 module.exports = {
     findUserByName,
-    findAllUsers
+    findAllUsers,
+    findUserbyId
 }
