@@ -124,7 +124,7 @@ const checkIfFormFilled = async ( userId ) => {
             output.hiddenDetails = true;
         }
 
-        if( !output.hiddenDetails || !output.collateral ){
+        if (!output.hiddenDetails || (!output.collateral && user.usertype !== "Lender")) {
             return {
                 data: output, 
                 status: 'ERROR',
