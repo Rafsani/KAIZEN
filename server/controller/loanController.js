@@ -87,27 +87,50 @@ const handleGETLoanById = async( req,res,next)=>{
 
 /**
  * @description this method creates loan
- * @route - GET /api/auth/loans
+ * @route - POST /api/loans
  * @param {*} req - body will include user , amount, details
  * @param {*} res 
  * @param {*} next 
  */
 const handlePOSTCreateLoan = async( req,res,next)=>{
     try {
+        if( req.user == undefined ) {
+            req.user = {
+                email : "receiver@gmail.com"
+            }
+        }
+
+        let authQueryresult = await authInterface.loggedInUser( req.user.email ); // user id is here
+
+        let loanQueryResult , formQueryResult;
+
+        if( authQueryresult.status == 'OK' ){
+            // checking if the user has filled out the form
+            formQueryResult = await authInterface.checkIfFormFilled( authQueryresult.data );
+
+            if( !formQueryResult.data.hiddenDetails || !formQueryResult.data.collateral ){
+                return res.status(400).send( formQueryResult );
+            }
+
+            loanQueryResult = await loanInterface.getLoanByUserID( authQueryresult.data , 'Pending' );
+
+            if( loanQueryResult.status != 'OK' || !loanQueryResult.data ){
+                return res.status(400).send(loanQueryResult);
+            }
+
+            const body = {
+                userId : authQueryresult.data,
+                Amount : req.body.Amount,
+                Details: req.body.Details
+            }
+    
+            loanQueryResult = await loanInterface.createLoan( body );
+    
+            if( loanQueryResult.status == 'OK' ){
+                return res.status(201).send(loanQueryResult);
+            }
+        }
         
-        //won't work if there's multiple people with the same name . How do we know who's who. Must give id
-        const userQueryResult = await userInterface.findUserByName( req.user.username );
-        const body = {
-            userId : userQueryResult.data._id,
-            Amount : req.body.Amount,
-            Details: req.body.Details
-        }
-
-        const loanQueryResult = await loanInterface.createLoan( body );
-
-        if( loanQueryResult.status == 'OK' ){
-            return res.status(201).send(loanQueryResult);
-        }
 
         return res.status(400).send(loanQueryResult);
     }catch(e){
