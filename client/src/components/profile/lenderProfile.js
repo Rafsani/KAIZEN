@@ -2,29 +2,14 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 import "./profile.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 
 import ContractCard from "./contractCard";
 import formatDate from "../../utils/formatDate";
 
-function LenderProfile({ userId, hiddenData }) {
-  const [history, setHistory] = useState([]);
-
-  const fetchdata = async () => {
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:5000/api/user/" + userId + "/history",
-    }).then((res) => {
-      //   console.log("History fetched: ", res.data.data);
-      setHistory(res.data.data);
-      console.log("All the hidden history:", history);
-    });
-  };
-
-  useEffect(() => {
-    fetchdata();
-  }, []);
-
+function LenderProfile({ userId, hiddenData, history }) {
   console.log("userId: ", userId);
   console.log(" hiddenData: ", hiddenData);
   console.log("history: ", history);
@@ -64,6 +49,7 @@ function LenderProfile({ userId, hiddenData }) {
                   data-tooltip="User is verified"
                   id="verified"
                 ></i>
+                // <FontAwesomeIcon icon={faCheckSquare}></FontAwesomeIcon>
               )}
             </h1>
             <p>
@@ -73,8 +59,8 @@ function LenderProfile({ userId, hiddenData }) {
             <div class="" id="description">
               <div class="hidden-details " id="hidden-details">
                 <div class="item">
-                  <span class="field">NID Number</span>
-                  <span class="value">{hiddenData.nid}</span>
+                  <span class="field">User Type</span>
+                  <span class="value">{hiddenData.usertype}</span>
                 </div>
                 <div class="item">
                   <span class="field">Email</span>
@@ -85,8 +71,8 @@ function LenderProfile({ userId, hiddenData }) {
                   <span class="value">{formatDate(hiddenData.dob)}</span>
                 </div>
                 <div class="item">
-                  <span class="field">Password</span>
-                  <span class="value">{hiddenData.password}</span>
+                  <span class="field">Join Date</span>
+                  <span class="value">{formatDate(hiddenData.joinedDate)}</span>
                 </div>
               </div>
             </div>

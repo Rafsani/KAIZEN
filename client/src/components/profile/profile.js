@@ -10,6 +10,7 @@ import formatDate from "../../utils/formatDate";
 function Profile() {
   const [userId, setUserId] = useState([]);
   const [hiddenData, setHiddenData] = useState([]);
+  const [history, setHistory] = useState([]);
 
   const fetchdata = async () => {
     await Axios({
@@ -27,8 +28,18 @@ function Profile() {
       url: `http://localhost:5000/api/user/${userId}`,
     }).then((res) => {
       setHiddenData(res.data.data);
-      // console.log("All the hidden data:", hiddenData);
+      console.log("All the hidden data:", hiddenData);
       // console.log("Date in Good format: ", formatDate(hiddenData.dob));
+    });
+
+    await Axios({
+      method: "GET",
+      withCredentials: true,
+      url: "http://localhost:5000/api/user/" + userId + "/history",
+    }).then((res) => {
+      console.log("History fetched: ", res.data.data);
+      setHistory(res.data.data);
+      console.log("All the hidden history:", history);
     });
   };
 
@@ -38,7 +49,11 @@ function Profile() {
 
   return (
     <div>
-      <LenderProfile userId={userId} hiddenData={hiddenData} />
+      <LenderProfile
+        userId={userId}
+        hiddenData={hiddenData}
+        history={history}
+      />
 
       <div class="footer">
         <p>
