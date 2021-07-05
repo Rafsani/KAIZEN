@@ -66,7 +66,6 @@ const registerUserFormData = async ( body , userInfo )=> {
         });
     
         if( userQueryResult ){
-            console.log(userQueryResult);
             return {
                 data: userQueryResult, 
                 status: 'OK',
@@ -79,7 +78,6 @@ const registerUserFormData = async ( body , userInfo )=> {
             message: 'User information could not be filled'
         }
     }catch( e ){
-        console.log("Error: " + e);
         return {
             data: null,
             status: 'EXCEPTION',
@@ -91,8 +89,85 @@ const registerUserFormData = async ( body , userInfo )=> {
 
 
 
+/**
+ * @param - userId
+ * @returns - bool values for hiddden details & collateral
+ */
+const checkIfFormFilled = async ( userId ) => {
+    try {
+        const user = await Users.findById( userId );
+
+        if( !user ){
+            return {
+                data: null,
+                status: 'ERROR',
+                message: 'User information could not be filled'
+            }  
+        }
+
+        let output = {
+            hiddenDetails : false,
+            collateral : false
+        };
+
+        if( user.collateral ){
+            output.collateral = true;
+        }
+
+        if( user.nid ){
+            output.hiddenDetails = true;
+        }
+
+        return {
+            data: output, 
+            status: 'OK',
+            message: 'User has filled out the form'
+        }
+
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+/** returns the user currently logged in */
+const loggedInUser = async ( email ) =>{
+    try {
+        const userId = await Users.find({email}).select('_id');
+
+
+        if( userId.length !== 0 ){
+            return {
+                data: userId[0]._id, 
+                status: 'OK',
+                message: 'User has been found'
+            }
+
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'User could not be found'
+        } 
+
+    }catch(e){
+        console.log("Here");
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }  
+}
+
 
 module.exports = {
     registerUserFormData,
-    registerUser
+    registerUser,
+    checkIfFormFilled,
+    loggedInUser
 }

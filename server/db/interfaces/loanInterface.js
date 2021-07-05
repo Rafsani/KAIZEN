@@ -14,7 +14,10 @@ const LoanRequest = require('../models/LoanRequestModel');
             .populate({
             path: 'Receiver',
             // options: { sort: [[sort , 'desc']]} // will be added back when we have added reviews to the user model
-        });
+            })
+            .populate({
+                path: 'contracts'
+            });
         
         if( loans ){
             return {
