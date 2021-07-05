@@ -2,6 +2,7 @@ const loanInterface = require('../db/interfaces/loanInterface');
 const userInterface = require('../db/interfaces/userInterface');
 const authInterface = require('../db/interfaces/authInterface');
 const _ = require("lodash");
+const checkInstallmentDate = require('../util/date');
 
 /**
  * @description this method returns all loans from the database
@@ -144,8 +145,63 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
 }
 
 
+/**
+ * @description this method returns pending loan for userId
+ * @route - GET /api/loans/user/:userId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETPendingLoanForUser = async( req,res,next)=>{
+    try {
+        
+        const loanQueryResult = await loanInterface.getLoanByUserID( req.params.userId );
+
+        let output;
+        if( loanQueryResult.status == 'OK' ){
+            let data = loanQueryResult.data[0];
+            let minInstallmentDate = new Date(8640000000000000);
+
+            // checks every contract in the loan for minimum installment date
+            data.contracts.forEach( element => {
+                let minDate = checkInstallmentDate.returnNextInstallmentDate( element.installmentDates );
+
+                if( minDate < minInstallmentDate ){
+                    minInstallmentDate = minDate;
+                }
+            }) 
+            
+            let outputInstallmentDate = ( minInstallmentDate.getTime() == new Date(8640000000000000).getTime() ) ? "No Contract Signed Yet": minInstallmentDate.getDate() + '/' + parseInt(minInstallmentDate.getMonth() + 1) + '/' + minInstallmentDate.getFullYear();
+            let outputExpirationDate = new Date( new Date(data.issueDate).getTime() + parseInt( process.env.EXPIRE_LOAN ) );
+
+            output = {
+                leftAmount: data.Amount - data.collectedAmount ,
+                totalAmount: data.Amount,
+                nextInstallment:  outputInstallmentDate,
+                expirationDate: outputExpirationDate,
+                progress:( data.collectedAmount  ) * 100 / data.Amount,
+                currentLenders: data.contracts.length,
+                totalRequest: data.offerRequests.length
+            }
+            return res.status(200).send({
+                data: output,
+                status: 'OK',
+                message: 'Found pending loan in the database'
+            });
+        }
+
+        return res.status(400).send(loanQueryResult);
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
 module.exports = {
     handleGETallLoans,
     handleGETLoanById,
-    handlePOSTCreateLoan
+    handlePOSTCreateLoan,
+    handleGETPendingLoanForUser
 }

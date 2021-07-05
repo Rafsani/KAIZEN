@@ -59,12 +59,14 @@ const loanInterface = require('../db/interfaces/loanInterface');
                         return item;
                     }
                     else {
+                        let tempDate = ( item.installmentDates.length == 1 ) ? 0 : item.defaults;
+
                         currentlyActiveContacts.push( {
                             contractId : item._id,
                             amount: item.amount,
                             collectedAmount: item.collectedAmount,
                             nextInstallmentAmount : item.amount / item.installments,
-                            nextInstallmentDate: item.installmentDates[0], // since after an installment has been completed/defaulted we will remove the date
+                            nextInstallmentDate: item.installmentDates[ tempDate ], 
                             interestRate : item.interestRate,
                             contractDefaults: item.defaults,
                             installmentsCompleted:  item.installments - item.installmentDates.length
@@ -125,7 +127,7 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "akid100@gmail.com"
+                email : "receiver@gmail.com"
             }
         }
 
@@ -151,9 +153,13 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
             loanQueryResult = await loanInterface.getLoanByUserID( authQueryresult.data , 'Pending' );
 
             if( loanQueryResult.status != 'OK' || !loanQueryResult.data ){
+                // console.log(loanQueryResult);
                 return res.status(400).send(output);
             }
     
+            output.data = true;
+            output.status = 'OK';
+            output.message = 'Loan request can be made';
             return res.status(200).send(output);
             
         }

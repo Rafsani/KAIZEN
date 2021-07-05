@@ -10,5 +10,8 @@ router.route('/')
 
 router.route('/:id')
     .get(loanController.handleGETLoanById);
+    
+router.route('/user/:userId')
+    .get( loanController.handleGETPendingLoanForUser );
 
 module.exports = router;

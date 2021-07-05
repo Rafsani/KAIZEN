@@ -89,6 +89,7 @@ const LoanRequest = require('../models/LoanRequestModel');
         });
 
 
+
         let resolvedContract = true;
         
         if( pendingCheck ){

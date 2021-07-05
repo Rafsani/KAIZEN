@@ -189,6 +189,34 @@
                 "message": "User found in the database"
             }
 ---
+* **[Check If Loan request can be made](..\controller\userController.js)** - Checks if user can make a loan request<br><br>
+    - __GET__ : &nbsp; `{{URL}}/api/user/loanverify`
+        - If request can be made
+        ```x
+            {
+                "data": true,
+                "status": "OK",
+                "message": "Loan request can be made"
+            }
+---
+* **[Fetch Pending Loan For User](..\controller\loanController.js)** - Fetches the pending loan for the user. Can be only one at a time<br><br>
+    - __GET__ : &nbsp; `{{URL}}/api/loans/user/:userId`
+        - ```x
+            {
+                "data": {
+                    "leftAmount": 10000,
+                    "totalAmount": 10000,
+                    "nextInstallment": "No Contract Signed Yet",
+                    "expirationDate": "2021-09-03T18:00:00.000Z",
+                    "progress": 0,
+                    "currentLenders": 0,
+                    "totalRequest": 0
+                },
+                "status": "OK",
+                "message": "Found pending loan in the database"
+            }
+        
+---
 * **[Post A Loan Request](..\controller\loanController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
     - __POST__ : &nbsp; `{{URL}}/api/loans`
         - ```x

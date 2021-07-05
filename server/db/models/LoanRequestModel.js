@@ -65,6 +65,11 @@ const LoanRequestSchema = new mongoose.Schema({
                 return !(this.contracts.length > 5);
             }
         }
+    }],
+
+    offerRequests: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'contract'
     }]
 });
 
