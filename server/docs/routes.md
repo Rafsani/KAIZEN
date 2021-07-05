@@ -188,3 +188,23 @@
                 "message": "User found in the database"
             }
 ---
+* **[Post A Loan Request](..\controller\loanController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
+    - __POST__ : &nbsp; `{{URL}}/api/loans`
+        - ```x
+            {
+                "data": {
+                    "Status": "Pending",
+                    "collectedAmount": 0,
+                    "typeOfLoan": "Loan",
+                    "contracts": [],
+                    "_id": "60e362a87b6f321aac993aba",
+                    "Receiver": "6076cfa408541e2ba057e339",
+                    "Amount": 10000,
+                    "Details": "Hey There! I would like loans.",
+                    "issueDate": "6/6/2021",
+                    "__v": 0
+                },
+                "status": "OK",
+                "message": "Loan has been created in the database"
+            }
+---
