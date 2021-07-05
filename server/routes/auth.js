@@ -19,4 +19,7 @@ router.route('/logout')
 router.route('/isloggedin')
     .get( authController.handleGETloggedinUser );
 
+router.route('/:userId')
+    .get( authController.handleGETFormFilled );
+
 module.exports = router;

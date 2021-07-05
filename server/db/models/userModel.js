@@ -70,7 +70,7 @@ const userSchema = new mongoose.Schema({
     usertype: {
         type: String,
         enum: ['Lender' , 'Receiver'],
-        default: 'Receiver'
+        default: 'Lender'
     },
 
     verfiedStatus: {

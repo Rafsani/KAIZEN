@@ -1,5 +1,7 @@
 const loanInterface = require('../db/interfaces/loanInterface');
 const userInterface = require('../db/interfaces/userInterface');
+const authInterface = require('../db/interfaces/authInterface');
+const _ = require("lodash");
 
 /**
  * @description this method returns all loans from the database
@@ -10,17 +12,44 @@ const userInterface = require('../db/interfaces/userInterface');
  */
 const handleGETallLoans = async( req,res,next)=>{
     try {
-        let type , sort;
+        let type , sort , output;
         
         type = ( req.query.type == undefined )? 'loan':req.query.type;
         sort = ( req.query.sort == undefined )? 'review':req.query.sort;
 
-
         const loanQueryResult = await loanInterface.getAllLoans( type , sort );
 
-        if( loanQueryResult.status == 'OK' ){
+        if( type == 'donation' && loanQueryResult.status == 'OK' ){
             return res.status(200).send(loanQueryResult.data);
         }
+
+        else {
+            /** Make sure only the loans where there's already no established contract show up for the user */
+            const authQueryresult = await authInterface.loggedInUser( req.user.email ); // should return the current user id
+
+            if( authQueryresult.status == 'OK' ){
+                output = loanQueryResult.data.filter( item => {
+                    let retValue = true;
+
+                    item.contracts.every( element => {
+
+                        if( _.isEqual( element.lenderId , authQueryresult.data ) ){ // using lodash to check equality between two objects
+                            retValue = false;
+                            return false; // for every if we don't return a true the iteration stops;
+                        }
+                        
+                        return true;
+                    });
+                    
+                    return retValue;
+                } );
+
+                if( loanQueryResult.status == 'OK' ){
+                    return res.status(200).send(output);
+                }
+            }
+        }
+
 
         return res.status(400).send(loanQueryResult);
     }catch(e){

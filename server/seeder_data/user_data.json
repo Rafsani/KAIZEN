@@ -8,7 +8,8 @@
     "bkash": "01961145451",
     "dob": "1992-02-10",
     "collateral": "https://www.youtube.com/watch?v=u3D2jlCYyhY",
-    "verfiedStatus": true
+    "verfiedStatus": true,
+    "usertype": "Receiver"
   },
   {
     "_id": "6076cfa408541e2ba057e332",
@@ -18,7 +19,8 @@
     "nid": 2,
     "bkash": "01961145452",
     "dob": "1998-02-10",
-    "collateral": "https://youtu.be/CggXSu_P2GQ"
+    "collateral": "https://youtu.be/CggXSu_P2GQ",
+    "usertype": "Receiver"
   },
   {
     "_id": "6076cfa408541e2ba057e333",
@@ -28,7 +30,8 @@
     "nid": 3,
     "bkash": "01961145453",
     "dob": "1999-02-10",
-    "collateral": "https://youtu.be/fKNdoxRld34"
+    "collateral": "https://youtu.be/fKNdoxRld34",
+    "usertype": "Receiver"
   },
   {
     "_id": "6076cfa408541e2ba057e334",
@@ -39,7 +42,8 @@
     "bkash": "01961145454",
     "dob": "1997-05-10",
     "collateral": "https://youtu.be/fKNdoxRld34",
-    "verfiedStatus": true
+    "verfiedStatus": true,
+    "usertype": "Receiver"
   },
   {
     "_id": "6076cfa408541e2ba057e335",
@@ -49,7 +53,8 @@
     "nid": 5,
     "bkash": "01961145455",
     "dob": "1997-01-10",
-    "collateral": "https://youtu.be/CggXSu_P2GQ"
+    "collateral": "https://youtu.be/CggXSu_P2GQ",
+    "usertype": "Receiver"
   },
   {
     "_id": "6076cfa408541e2ba057e336",

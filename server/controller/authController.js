@@ -112,12 +112,11 @@ const handlePOSTloginUser = async ( req,res,next )=>{
  const handleGETloggedinUser = async ( req,res,next )=>{
     try {
         if(req.user) {
-            const userQueryResult = await User.find({email: req.user.email }).select('_id');
-            console.log(userQueryResult);
+            const userQueryResult = await authInterface.loggedInUser( req.user.email );
             return res.status(200).send({
-                data: userQueryResult[0]._id,
+                data: userQueryResult,
                 status: "OK",
-                message: `The user ${req.user.username} is logged in`,
+                message: `The user ${req.user.email} is logged in`,
             });
         }
 
@@ -147,7 +146,7 @@ const getLoggedInUser = async (req,res) => {
 
 /**
  * @description - Fills out information for a user
- * @route - GET /api/auth/registerdata
+ * @route - POST /api/auth/registerdata
  * @param {*} req - body will include username, details, dob, nid, bkash, collateral
  * @param {*} res - response for the api call
  * @param {*} next 
@@ -187,6 +186,39 @@ const handlePOSTregisterUserFormData = async ( req,res,next )=>{
     }
 }
 
+/**
+ * @description - Check if hidden information present for a user
+ * @route - GET /api/auth/:userId
+ * @param {*} req - 
+ * @param {*} res - response for the api call
+ * @param {*} next 
+ */
+
+const handleGETFormFilled = async ( req,res,next )=>{
+    try {
+        const authQueryResult = await authInterface.checkIfFormFilled(req.params.userId);
+
+        if( authQueryResult.status == 'OK' ){
+            return res.status(200).send({
+                status: 'OK',
+                data: authQueryResult.data,
+                message: authQueryResult.message
+            })
+        }
+
+        return res.status(400).send({
+            status: 'ERROR',
+            data: authQueryResult.data,
+            message: authQueryResult.message
+        })
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
 
 
 
@@ -196,5 +228,6 @@ module.exports = {
     handlePOSTregisterUser,
     handlePOSTloginUser,
     handleGETlogoutUser,
-    handleGETloggedinUser
+    handleGETloggedinUser,
+    handleGETFormFilled
 }
