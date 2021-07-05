@@ -1,5 +1,7 @@
 const userInterface = require('../db/interfaces/userInterface');
 const contractInterface = require('../db/interfaces/contractInterface');
+const authInterface = require('../db/interfaces/authInterface');
+const loanInterface = require('../db/interfaces/loanInterface');
 
 /**
  * @description this method returns the user's private data
@@ -112,8 +114,64 @@ const contractInterface = require('../db/interfaces/contractInterface');
 }
 
 
+/**
+ * @description this method checkes if loan request can be made
+ * @route - GET /api/user/loanverify
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
+    try {
+        if( req.user == undefined ) {
+            req.user = {
+                email : "akid100@gmail.com"
+            }
+        }
+
+        let output = {
+            data: false,
+            status: 'ERROR',
+            message: 'Loan Request Can Not Be Made'
+        }
+
+        let authQueryresult = await authInterface.loggedInUser( req.user.email ); // user id is here
+
+        let loanQueryResult , formQueryResult;
+
+        if( authQueryresult.status == 'OK' ){
+            // no need to check for lender type since they won't have collateral
+            // checking if the user has filled out the form
+            formQueryResult = await authInterface.checkIfFormFilled( authQueryresult.data );
+
+            if( !formQueryResult.data.hiddenDetails || !formQueryResult.data.collateral ){
+                return res.status(400).send( output );
+            }
+
+            loanQueryResult = await loanInterface.getLoanByUserID( authQueryresult.data , 'Pending' );
+
+            if( loanQueryResult.status != 'OK' || !loanQueryResult.data ){
+                return res.status(400).send(output);
+            }
+    
+            return res.status(200).send(output);
+            
+        }
+        
+
+        return res.status(400).send(loanQueryResult);
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
 
 module.exports = {
     handleGETUserById,
-    handleGETUserHistory
+    handleGETUserHistory,
+    handleGETCheckIfLoanRequestCanBeMade
 }

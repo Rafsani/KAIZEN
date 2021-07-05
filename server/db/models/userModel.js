@@ -90,6 +90,11 @@ const userSchema = new mongoose.Schema({
         validate: {
             validator: validate.validateYoutubeUrl // user has to provide a youtube video of their collateral
         }
+    }, 
+
+    joinedDate : {
+        type: Date,
+        default: Date.now
     }
 });
 

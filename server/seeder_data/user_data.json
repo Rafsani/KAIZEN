@@ -47,9 +47,9 @@
   },
   {
     "_id": "6076cfa408541e2ba057e335",
-    "username": "Shoummo",
     "password": "66",
     "email": "shoummo66@gmail.com",
+    "username": "Shoummo",
     "nid": 5,
     "bkash": "01961145455",
     "dob": "1997-01-10",
@@ -80,5 +80,16 @@
     "_id": "6076cfa408541e2ba057e338",
     "email": "dummy@gmail.com",
     "password": "123"
+  },
+  {
+    "_id": "6076cfa408541e2ba057e339",
+    "password": "12",
+    "email": "receiver@gmail.com",
+    "username": "Shoummo",
+    "nid": 9,
+    "bkash": "01961145455",
+    "dob": "1997-01-10",
+    "collateral": "https://youtu.be/CggXSu_P2GQ",
+    "usertype": "Receiver"
   }
 ]

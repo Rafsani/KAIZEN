@@ -50,6 +50,11 @@ const registerUser = async( body )=> {
 
 const registerUserFormData = async ( body , userInfo )=> {
     try {
+        let userVerifiedStatus = false;
+
+        if( body.usertype == 'Lender' ){
+            userVerifiedStatus = true
+        }
         const userQueryResult = await Users.findOneAndUpdate( {
             email: userInfo.email
         },
@@ -59,7 +64,8 @@ const registerUserFormData = async ( body , userInfo )=> {
             bkash: body.bkash,
             usertype: body.usertype,
             dob: body.dob,
-            details: body.about
+            details: body.about,
+            verfiedStatus: userVerifiedStatus
         },
         {
             returnOriginal: false
@@ -101,7 +107,7 @@ const checkIfFormFilled = async ( userId ) => {
             return {
                 data: null,
                 status: 'ERROR',
-                message: 'User information could not be filled'
+                message: 'User information could not be chekced'
             }  
         }
 
@@ -116,6 +122,14 @@ const checkIfFormFilled = async ( userId ) => {
 
         if( user.nid ){
             output.hiddenDetails = true;
+        }
+
+        if( !output.hiddenDetails || !output.collateral ){
+            return {
+                data: output, 
+                status: 'ERROR',
+                message: 'User has not filled out the form'
+            }    
         }
 
         return {
