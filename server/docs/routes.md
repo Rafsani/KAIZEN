@@ -18,7 +18,7 @@
                 },
                 "message": "User has filled out the form"
             }
-- __GET__ : &nbsp; 
+- __GET__ : &nbsp; `{{URL}}/api/loans?type=loan&sort=review` 
     - ```x
         [
             {
