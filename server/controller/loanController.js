@@ -85,6 +85,7 @@ const handleGETLoanById = async( req,res,next)=>{
 }
 
 
+
 /**
  * @description this method creates loan
  * @route - POST /api/loans
@@ -96,7 +97,7 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "akid100@gmail.com"
+                email : "receiver@gmail.com"
             }
         }
 
@@ -107,7 +108,7 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
         if( authQueryresult.status == 'OK' ){
             // no need to check for lender type since they won't have collateral
             // checking if the user has filled out the form
-            formQueryResult = await authInterface.checkIfFormFilled( authQueryresult.data , true );
+            formQueryResult = await authInterface.checkIfFormFilled( authQueryresult.data );
 
             if( !formQueryResult.data.hiddenDetails || !formQueryResult.data.collateral ){
                 return res.status(400).send( formQueryResult );

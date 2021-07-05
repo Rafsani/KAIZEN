@@ -104,6 +104,7 @@
                     "nid": "$2a$10$.lH2qDsusb2oZWiD4pjhWOAsQ6PFdYRQhV4s5PRGstiNDokd.1XjK",
                     "bkash": "01961145455",
                     "dob": "1997-01-10T00:00:00.000Z",
+                    "joinedDate": "2021-07-05T20:24:21.347+00:00"
                     "__v": 0
                 },
                 "status": "OK",
