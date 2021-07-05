@@ -1,5 +1,6 @@
 const authInterface = require('../db/interfaces/authInterface');
 const passport = require("passport");
+const User = require('../db/models/userModel');
 
 /**
  * @description - Creates a new user
@@ -111,7 +112,10 @@ const handlePOSTloginUser = async ( req,res,next )=>{
  const handleGETloggedinUser = async ( req,res,next )=>{
     try {
         if(req.user) {
+            const userQueryResult = await User.find({email: req.user.email }).select('_id');
+            console.log(userQueryResult);
             return res.status(200).send({
+                data: userQueryResult[0]._id,
                 status: "OK",
                 message: `The user ${req.user.username} is logged in`,
             });

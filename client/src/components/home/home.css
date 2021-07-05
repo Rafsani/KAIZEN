@@ -78,7 +78,7 @@
   color: #c3073f;
 }
 .btn-light:hover {
-  background: #4e4e50;
+  background: #c7c7d0;
   color: white;
 }
 
@@ -271,7 +271,7 @@ input:focus:invalid {
   font-size: 1.6rem;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  padding: 150px;
+  padding: 50px;
 }
 
 @media (max-width: 1300px) {
@@ -287,7 +287,7 @@ input:focus:invalid {
 }
 
 .receiver-list .user-item {
-  height: 600px;
+  height: 520px;
   padding: 20px;
 }
 .receiver-list .user-item .user-card {
@@ -313,26 +313,94 @@ input:focus:invalid {
   justify-content: space-between;
   text-align: center;
   align-items: center;
+  font-size: 1.6rem;
 }
 
 .receiver-list .user-item .user-card .user-info .name-rating .review {
   color: rgba(224, 203, 13, 0.993);
+  font-size: 1.2rem;
 }
 .receiver-list .user-item .user-card .user-info .name-rating .review i {
-  font-size: 1.4rem;
+  text-align: center;
 }
 .receiver-list .user-item .user-card .user-info .loan-info {
   font-size: 1.2rem;
-  padding-top: 20px;
+  margin-top: 20px;
+  
   display: flex;
+  gap: 1rem;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding-bottom: 20px;
+  margin-bottom: 20px;
+  font-family: 'Dosis';
+  font-weight: bold;
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .amount {
+  width: 100%;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  border-right : 1px solid rgb(62, 62, 62);
+  border-bottom : 1px solid rgb(62, 62, 62);
+  
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .amount:hover {
+  background: #c3073f;
+  border-radius: 5px 0 0 0;
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .amount .highlight {
+  display: none;
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .amount:hover .field {
+  display: none;
+}
+.receiver-list .user-item .user-card .user-info .loan-info .amount:hover .highlight {
+  color: white;
+  display: inline-block;
+  
+}
+
+
+.receiver-list .user-item .user-card .user-info .loan-info .date {
+  width: 100%;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-left : 1px solid rgb(62, 62, 62);
+  border-bottom : 1px solid rgb(62, 62, 62);
+
+  
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .date:hover {
+  background: #c3073f;
+  border-radius: 0 5px 0 0;
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .date .highlight {
+  display: none;
+}
+
+.receiver-list .user-item .user-card .user-info .loan-info .date:hover .field {
+  display: none;
+}
+.receiver-list .user-item .user-card .user-info .loan-info .date:hover .highlight {
+  display: inline-block;
+  color: white;
+  font-weight: 600 ;
+  padding-bottom: 0px !important;
 }
 
 .receiver-list .user-item .user-card .user-info .progress {
   font-size: 1.2rem;
+  font-family: 'Dosis';
+  font-weight: bold;
   display: flex;
   justify-content: space-between;
   padding-top: 5px;

@@ -41,9 +41,12 @@ const LoanRequestSchema = new mongoose.Schema({
     },
 
     issueDate: {
-        type: Date,
+        type: String,
         //default: Date.now
-        default: moment(new Date()).format("YYYY/MM/DD")
+        default: function() {
+            let today = new Date();
+            return today.getDate() + '/' + today.getMonth() + '/' + today.getFullYear() ;
+        }
     },
 
     typeOfLoan: {
