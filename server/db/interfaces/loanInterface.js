@@ -299,6 +299,43 @@ const LoanRequest = require('../models/LoanRequestModel');
 }
 
 
+/**
+ * @description returns last issued loan id
+ * @param  body -  userId
+ * @returns loan Id
+ */
+ const lastIssuedLoan = async( body )=> {
+    try {
+        const loan = await LoanRequest.find({
+            Receiver: body
+        }).sort({
+            issueDate : 1
+        });
+
+        
+        if( loan ){
+            return {
+                data: loan[0]._id, 
+                status: 'OK',
+                message: 'Recently issued loan has been found'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Loan was not found'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
 
 module.exports = {
     getAllLoans,
@@ -307,5 +344,6 @@ module.exports = {
     getLoanByUserID,
     getLoanOffersByUserID,
     acceptContractOffer,
-    denyContractOffer
+    denyContractOffer,
+    lastIssuedLoan
 }

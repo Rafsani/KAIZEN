@@ -98,7 +98,7 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "receiver@gmail.com"
+                email : "anik65@gmail.com"
             }
         }
 
@@ -110,6 +110,7 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
             // no need to check for lender type since they won't have collateral
             // checking if the user has filled out the form
             formQueryResult = await authInterface.checkIfFormFilled( authQueryresult.data );
+
 
             if( !formQueryResult.data.hiddenDetails || !formQueryResult.data.collateral ){
                 return res.status(400).send( formQueryResult );
@@ -154,6 +155,7 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
  */
  const handleGETPendingLoanForUser = async( req,res,next)=>{
     try {
+        const lastIssuedLoan = await loanInterface.lastIssuedLoan( req.params.userId );
         
         const loanQueryResult = await loanInterface.getLoanByUserID( req.params.userId );
 
@@ -185,12 +187,21 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
                 expirationDate: outputExpirationDate,
                 progress:( data.collectedAmount  ) * 100 / data.Amount,
                 currentLenders: data.contracts.length,
-                totalRequest: data.offerRequests.length
+                totalRequest: data.offerRequests.length,
+                lastIssuedLoan: lastIssuedLoan.data
             }
             return res.status(200).send({
                 data: output,
                 status: 'OK',
                 message: 'Found pending loan in the database'
+            });
+        }
+
+        if( lastIssuedLoan ){
+            return res.status(200).send({
+                data: lastIssuedLoan.data,
+                status: 'OK',
+                message: 'Found last issued loan from database'
             });
         }
 

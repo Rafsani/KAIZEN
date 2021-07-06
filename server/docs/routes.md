@@ -234,6 +234,7 @@
                 "totalAmount": 10000,
                 "interestRate": 8,
                 "nextInstallment": "No Contract Signed Yet",
+                "lastIssuedLoan": "60a2288f788f921b543cd8ca",
                 "expirationDate": "2021-10-03T18:00:00.000Z",
                 "progress": 0,
                 "currentLenders": 0,
@@ -243,6 +244,15 @@
             "message": "Found pending loan in the database"
         }
       ```
+    - ```x 
+        {
+            "data": {
+                "lastIssuedLoan": "60a2288f788f921b543cd8ca"
+            },
+            "status": "OK",
+            "message": "Found pending loan in the database"
+        }
+        ```
 
 ---
 
