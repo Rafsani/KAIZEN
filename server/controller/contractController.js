@@ -1,5 +1,6 @@
 const contractInterface = require('../db/interfaces/contractInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
+const authInterface = require('../db/interfaces/authInterface');
 /**
  * @description - this method will post a contract
  * @route - POST /api/contract
@@ -23,6 +24,51 @@ const loanInterface = require('../db/interfaces/loanInterface');
                 data: contractQueryResult.data,
                 message: contractQueryResult.message
             } );
+        }
+
+        return res.status(400).send({
+            status: 'ERROR',
+            data: contractQueryResult.data,
+            message: contractQueryResult.message
+        })
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+/**
+ * @description - this method will return the active contract
+ * @route - GET /api/contract/:receiverId
+ * @param {*} req - request for the api call
+ * @param {*} res - Response for the api call
+ * @returns 
+ */
+ const handleGETActiveContract = async ( req,res,next )=>{
+    try {
+        if( req.user == undefined ) {
+            req.user = {
+                email : "akid100@gmail.com"
+            }
+        }
+
+        const authQueryresult = await authInterface.loggedInUser(req.user.email);
+        
+        if( authQueryresult.status == 'OK' ){
+            const contractQueryResult = await contractInterface.activeContract({
+                receiverId: req.params.receiverId,
+                lenderId: authQueryresult.data
+            })
+    
+            if( contractQueryResult.status == 'OK' ){
+                return res.status(200).send( {
+                    status: 'OK',
+                    data: contractQueryResult.data,
+                    message: contractQueryResult.message
+                } );
+            }
         }
 
         return res.status(400).send({
@@ -85,7 +131,7 @@ const handlePUTEndContract = async ( req,res,next )=>{
 const handlePUTAcceptContract = async ( req,res,next )=>{
     try {
         let contractQueryResult = await contractInterface.acceptContract({
-            contractId: req.params.contractId,
+            contractId: req.params.id,
             issuerId: req.body.issuerId
         });
 
@@ -128,7 +174,7 @@ const handlePUTAcceptContract = async ( req,res,next )=>{
 const handleDELETEDenyContract = async ( req,res,next )=>{
     try {
         let contractQueryResult = await contractInterface.denyContract({
-            contractId: req.params.contractId,
+            contractId: req.params.id,
             issuerId: req.body.issuerId
         });
 
@@ -166,5 +212,6 @@ module.exports = {
     handlePUTEndContract,
     handlePOSTCreateContract,
     handlePUTAcceptContract,
-    handleDELETEDenyContract
+    handleDELETEDenyContract,
+    handleGETActiveContract
 }

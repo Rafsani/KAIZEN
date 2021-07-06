@@ -7,7 +7,8 @@ router.route('/')
     .post(contractController.handlePOSTCreateContract )
     .put( contractController.handlePUTEndContract );
 
-router.route('/:contractId')
+router.route('/:id')
+    .get( contractController.handleGETActiveContract )
     .put( contractController.handlePUTAcceptContract )
     .delete( contractController.handleDELETEDenyContract );
 

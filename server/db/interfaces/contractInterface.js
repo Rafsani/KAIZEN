@@ -7,6 +7,41 @@ const Contracts = require('../models/contractModel');
  * @param body - will include the contract id and the id of the request issuer who has to be the lender
  * @returns 
  */
+const activeContract = async (body)=>{
+    try {
+        const contract = await Contracts.find( {
+            receiverId: body.receiverId,
+            lenderId: body.lenderId
+        });
+                
+        if( contract ){
+            return {
+                data: contract, 
+                status: 'OK',
+                message: 'There is an active contract.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract could not be found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+/**
+ * 
+ * @param body - will include the contract id and the id of the request issuer who has to be the lender
+ * @returns 
+ */
 const endContract = async (body)=>{
     try {
         const finishedContract = await Contracts.updateOne( {
@@ -196,5 +231,6 @@ module.exports = {
     findContractHistory,
     createContract,
     acceptContract,
-    denyContract
+    denyContract,
+    activeContract
 }

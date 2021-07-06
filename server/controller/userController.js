@@ -147,7 +147,7 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "receiver@gmail.com"
+                email : "rafsani119@gmail.com"
             }
         }
 
@@ -158,6 +158,7 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
         }
 
         let authQueryresult = await authInterface.loggedInUser( req.user.email ); // user id is here
+        console.log(authQueryresult);
 
         let loanQueryResult , formQueryResult;
 
@@ -167,14 +168,14 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
             formQueryResult = await authInterface.checkIfFormFilled( authQueryresult.data );
 
             if( !formQueryResult.data.hiddenDetails || !formQueryResult.data.collateral ){
-                return res.status(400).send( output );
+                return res.status(200).send( output );
             }
 
             loanQueryResult = await loanInterface.getLoanByUserID( authQueryresult.data , 'Pending' );
 
             if( loanQueryResult.status != 'OK' || !loanQueryResult.data ){
                 // console.log(loanQueryResult);
-                return res.status(400).send(output);
+                return res.status(200).send(output);
             }
     
             output.data = true;
