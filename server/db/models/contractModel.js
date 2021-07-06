@@ -56,6 +56,12 @@ const contractSchema = new mongoose.Schema({
         max: [3,"Can't be more than 3 installments"]
     },
 
+    installmentsCompleted: {
+        type: Number,
+        default: 0,
+        max: [this.installments,"Can't be more than 3 installments completed"]
+    },
+
     installmentDates: [{
         type: Date
     }]

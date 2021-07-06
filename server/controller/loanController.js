@@ -209,12 +209,11 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
  */
 const handleGETLoanOffers = async (req,res,next) => {
     try {
-        const loanQueryResult = await loanInterface.getLoanOffersByUserID( req.params.loanId );
-    
+        const loanQueryResult = await loanInterface.getLoanOffersByUserID( req.params.loanId , 'offerRequests' );
         let outputOffers = [];
     
         if( loanQueryResult.status == 'OK' ){
-            let loanOffers = loanQueryResult.data[0].offerRequests; // since there can only be 1 pending loan request at a time
+            let loanOffers = loanQueryResult.data.offerRequests; // since there can only be 1 pending loan request at a time
             loanOffers.forEach( contractRequest => {
                 let totalAmount = contractRequest.amount;
                 let expirationDate = contractRequest.installmentDates[ contractRequest.installmentDates.length - 1 ];
@@ -249,10 +248,67 @@ const handleGETLoanOffers = async (req,res,next) => {
     }
 }
 
+/**
+ * @description this method returns loan request offers for a receiver
+ * @route - GET /api/loans/lenders/:loanId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETCurrentLenders = async (req,res,next) => {
+    try {
+        const loanQueryResult = await loanInterface.getLoanOffersByUserID( req.params.loanId , 'contracts' );
+        let outputOffers = [];
+    
+        if( loanQueryResult.status == 'OK' ){
+            let currentLenders = loanQueryResult.data.contracts; // since there can only be 1 pending loan request at a time
+            currentLenders.forEach( contractRequest => {
+                let totalAmount = contractRequest.amount;
+                let collectedAmount = contractRequest.collectedAmount;
+                let nextInstallmentDate = checkInstallmentDate.returnNextInstallmentDate( contractRequest.installmentDates );
+                let installmentAmount = totalAmount / contractRequest.installments
+                let installments = contractRequest.installments;
+                let installmentsCompleted = contractRequest.installmentsCompleted;
+                let interestRate = contractRequest.interestRate;
+                let myDefaults = contractRequest.defaults;
+    
+                outputOffers.push({
+                    contractId: contractRequest._id,
+                    lenderName: contractRequest.lenderId.username,
+                    totalAmount,
+                    collectedAmount,
+                    nextInstallmentDate,
+                    installmentAmount,
+                    installments,
+                    installmentsCompleted,
+                    interestRate,
+                    myDefaults
+                });
+            })
+    
+            if( outputOffers.length != 0 ){
+                return res.status(200).send({
+                    data: outputOffers,
+                    status: loanQueryResult.status,
+                    message: "All offers for this loan request have been fetched"
+                });
+            }
+        }
+    
+        return res.status(400).send(loanQueryResult) ;
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
 module.exports = {
     handleGETallLoans,
     handleGETLoanById,
     handlePOSTCreateLoan,
     handleGETPendingLoanForUser,
-    handleGETLoanOffers
+    handleGETLoanOffers,
+    handleGETCurrentLenders
 }

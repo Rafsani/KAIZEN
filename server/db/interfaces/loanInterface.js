@@ -150,15 +150,12 @@ const LoanRequest = require('../models/LoanRequestModel');
  * @param  body - user id
  * @returns 
  */
- const getLoanOffersByUserID = async( body )=> {
+ const getLoanOffersByUserID = async( body , field )=> {
     try {
 
-        const loan = await LoanRequest.find( { 
-            _id : body,
-            Status: 'Pending'
-        } )
+        const loan = await LoanRequest.findById(body)
         .populate({
-            path: 'offerRequests',
+            path: field,
             populate: {
                 path: 'lenderId'
             }

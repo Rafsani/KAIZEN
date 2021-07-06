@@ -286,7 +286,7 @@
 
 - **[Contract Requests/Offers for a loan request](..\controller\loanController.js)** - Fetches offers for a loan request by loan id.<br><br>
 
-  - **GET** : &nbsp; `{{URL}}/api/loans/request/60a2288f788f921b543cd8cc`
+  - **GET** : &nbsp; `{{URL}}/api/loans/request/:loanId`
 
     - ```x
         {
@@ -306,6 +306,45 @@
                     "expirationDate": "2021-09-04T15:35:16.478Z",
                     "installments": 2,
                     "interestRate": 8
+                }
+            ],
+            "status": "OK",
+            "message": "All offers for this loan request have been fetched"
+        }
+      ```
+
+---
+
+- **[Current Lenders for a loan request](..\controller\loanController.js)** - Fetches current lenders for a loan request by loan id.<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/loans/lenders/:loanId`
+
+    - ```x
+        {
+            "data": [
+                {
+                    "contractId": "60a2288f788f921b543cd812",
+                    "lenderName": "Rafid",
+                    "totalAmount": 500,
+                    "collectedAmount": 0,
+                    "nextInstallmentDate": "2021-08-05T16:25:47.611Z",
+                    "installmentAmount": 250,
+                    "installments": 2,
+                    "installmentsCompleted": 0,
+                    "interestRate": 5,
+                    "myDefaults": 0
+                },
+                {
+                    "contractId": "60a2288f788f921b543cd811",
+                    "lenderName": "Akid",
+                    "totalAmount": 200,
+                    "collectedAmount": 0,
+                    "nextInstallmentDate": "2021-08-05T16:25:47.606Z",
+                    "installmentAmount": 66.66666666666667,
+                    "installments": 3,
+                    "installmentsCompleted": 0,
+                    "interestRate": 5,
+                    "myDefaults": 0
                 }
             ],
             "status": "OK",
