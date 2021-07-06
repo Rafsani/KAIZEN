@@ -30,5 +30,13 @@
     "Receiver": "6076cfa408541e2ba057e335",
     "Amount": "1100",
     "Details": "Shoummo Needs Loan!!"
+  },
+  {
+    "_id": "60a2288f788f921b543cd8cf",
+    "Receiver": "6076cfa408541e2ba057e331",
+    "Amount": "2000",
+    "Details": "Anik 2 Needs Loan!!",
+    "typeOfLoan": "Loan",
+    "Status": "Completed"
   }
 ]

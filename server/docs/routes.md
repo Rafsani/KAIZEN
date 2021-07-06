@@ -234,6 +234,7 @@
                 "totalAmount": 10000,
                 "interestRate": 8,
                 "nextInstallment": "No Contract Signed Yet",
+                "lastIssuedLoan": "60a2288f788f921b543cd8ca",
                 "expirationDate": "2021-10-03T18:00:00.000Z",
                 "progress": 0,
                 "currentLenders": 0,
@@ -243,6 +244,15 @@
             "message": "Found pending loan in the database"
         }
       ```
+    - ```x 
+        {
+            "data": {
+                "lastIssuedLoan": "60a2288f788f921b543cd8ca"
+            },
+            "status": "OK",
+            "message": "Found pending loan in the database"
+        }
+        ```
 
 ---
 
@@ -556,4 +566,63 @@
         }
       ```
 
+---
+
+- **[Get Active Contract](..\controller\contractController.js)** - Fetches an active contract if there are any<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/contract/:receiverId`
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "contractId": "60a2288f788f921b543cd811",
+                "totalAmount": 200,
+                "signingDate": "2021-07-06T20:34:22.556Z",
+                "collectedAmount": 0,
+                "nextInstallment": "2021-08-05T20:34:22.556Z",
+                "nextInstallmentAmount": 66.66666666666667,
+                "installmentsCompleted": 0,
+                "interestRate": 5
+            },
+            "message": "There is an active contract."
+        }
+      ```
+    - ```x
+        {
+            "status": "ERROR",
+            "data": null,
+            "message": "No active request at this moment."
+        }
+        ```
+---
+- **[End Contract](..\controller\contractController.js)** - Ends Contract<br><br>
+  - **PUT** : &nbsp; `{{URL}} /api/contract`
+    - ```x 
+        {
+            "contractId": "60a2288f788f921b543cd811",
+            "issuerId": "6076cfa408541e2ba057e337"
+        }
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "n": 1,
+                "nModified": 1,
+                "opTime": {
+                    "ts": "6981945595686551553",
+                    "t": 11
+                },
+                "electionId": "7fffffff000000000000000b",
+                "ok": 1,
+                "$clusterTime": {
+                    "clusterTime": "6981945595686551553",
+                    "signature": {
+                        "hash": "UJ9p+//rIe4wt3Uih0z4R1Vtd1g=",
+                        "keyId": "6927623369017786372"
+                    }
+                },
+                "operationTime": "6981945595686551553"
+            },
+            "message": "The contract has been ended."
+        }
+      ```
 ---

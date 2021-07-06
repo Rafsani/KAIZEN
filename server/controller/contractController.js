@@ -1,6 +1,7 @@
 const contractInterface = require('../db/interfaces/contractInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
 const authInterface = require('../db/interfaces/authInterface');
+const checkInstallmentDate = require('../util/date');
 /**
  * @description - this method will post a contract
  * @route - POST /api/contract
@@ -58,16 +59,54 @@ const authInterface = require('../db/interfaces/authInterface');
         
         if( authQueryresult.status == 'OK' ){
             const contractQueryResult = await contractInterface.activeContract({
-                receiverId: req.params.receiverId,
+                receiverId: req.params.id,
                 lenderId: authQueryresult.data
-            })
-    
+            });
+
             if( contractQueryResult.status == 'OK' ){
-                return res.status(200).send( {
-                    status: 'OK',
-                    data: contractQueryResult.data,
-                    message: contractQueryResult.message
-                } );
+
+                let outputContract;
+
+                let data = contractQueryResult.data;
+                let index = -1;
+                console.log(data);
+
+                data.every( (item , idx ) => {
+                    if( item.status == 'Pending' ){
+                        index = idx;
+                        return false;
+                    }
+
+                    return true;
+                })
+
+                if( index != -1 ){
+                    let outputData = data[index];
+                    outputContract = {
+                        contractId: outputData._id,
+                        totalAmount : outputData.amount,
+                        signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
+                        collectedAmount: outputData.collectedAmount,
+                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                        nextInstallmentAmount: outputData.amount / outputData.installments,
+                        installmentsCompleted: outputData.installmentsCompleted,
+                        interestRate: outputData.interestRate,
+                        defaultedInstallments: outputData.defaultedInstallments
+                    }
+
+                    return res.status(200).send( {
+                        status: 'OK',
+                        data: outputContract,
+                        message: contractQueryResult.message
+                    } );
+                }else {
+                    return res.status(200).send( {
+                        status: 'ERROR',
+                        data: null,
+                        message: "No active request at this moment."
+                    } );
+                }
+                
             }
         }
 

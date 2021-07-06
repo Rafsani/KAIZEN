@@ -13,6 +13,7 @@ const activeContract = async (body)=>{
             receiverId: body.receiverId,
             lenderId: body.lenderId
         });
+
                 
         if( contract ){
             return {
@@ -44,7 +45,7 @@ const activeContract = async (body)=>{
  */
 const endContract = async (body)=>{
     try {
-        const finishedContract = await Contracts.updateOne( {
+        const finishedContract = await Contracts.findOneAndUpdate( {
             _id: body.contractId,
             lenderId: body.issuerId
         } , {
