@@ -199,9 +199,22 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
     }
 }
 
+
+/**
+ * @description this method returns loan request offers for a receiver
+ * @route - GET /api/loans/request/:userId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+const handleGETLoanOffers = async (req,res,next) => {
+    const loanQueryResult = await loanInterface
+}
+
 module.exports = {
     handleGETallLoans,
     handleGETLoanById,
     handlePOSTCreateLoan,
-    handleGETPendingLoanForUser
+    handleGETPendingLoanForUser,
+    handleGETLoanOffers
 }

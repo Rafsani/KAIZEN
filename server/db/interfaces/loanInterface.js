@@ -144,6 +144,35 @@ const LoanRequest = require('../models/LoanRequestModel');
     }
 }
 
+
+/**
+ * @description - returns the loan offers for a user
+ * @param  body - user id
+ * @returns 
+ */
+ const getLoanByUserID = async( body )=> {
+    try {
+
+        const loan = await LoanRequest.find( { 
+            Receiver : body
+        } ).populate({
+            path: 'offerRequests'
+        });
+        
+        return {
+            data: false, 
+            status: 'ERROR',
+            message: 'Can not post request or fetch loan'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 /**
  * @description create loan
  * @param  body -  user , amount, details

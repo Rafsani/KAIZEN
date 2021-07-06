@@ -3,32 +3,32 @@
     "_id": "60a2288f788f921b543cd8ca",
     "Receiver": "6076cfa408541e2ba057e331",
     "Amount": "1000",
-    "Details": "Hello I need Loan!!",
+    "Details": "Anik Needs Loan!!",
     "typeOfLoan": "Loan"
   },
   {
     "_id": "60a2288f788f921b543cd8cb",
     "Receiver": "6076cfa408541e2ba057e332",
     "Amount": "1200",
-    "Details": "Hello World!",
+    "Details": "Rafsani Needs Donation!",
     "typeOfLoan": "Donation"
   },
   {
     "_id": "60a2288f788f921b543cd8cc",
     "Receiver": "6076cfa408541e2ba057e333",
     "Amount": "1300",
-    "Details": "I need Loan!!"
+    "Details": "Shwarup Needs Loan!!"
   },
   {
     "_id": "60a2288f788f921b543cd8cd",
     "Receiver": "6076cfa408541e2ba057e334",
     "Amount": "1600",
-    "Details": "Clear!!"
+    "Details": "Syed Needs Loan!!"
   },
   {
     "_id": "60a2288f788f921b543cd8ce",
     "Receiver": "6076cfa408541e2ba057e335",
     "Amount": "1100",
-    "Details": "Hello I need Loan!!"
+    "Details": "Shoummo Needs Loan!!"
   }
 ]

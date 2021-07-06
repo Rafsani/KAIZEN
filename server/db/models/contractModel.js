@@ -84,12 +84,21 @@ contractSchema.pre('save', async function( next ){
 
 contractSchema.post('save' , async function(){
     // Adding the contract to the loan request model
-    await this.model('LoanRequest').updateOne({ 
-            _id: this.loanId
-        },{
-            $push: { contracts : {$each : [this._id] } }
-        }
-    )
+    if( this.status == 'Pending'){
+        await this.model('LoanRequest').updateOne({ 
+                _id: this.loanId
+            },{
+                $push: { contracts : {$each : [this._id] } }
+            }
+        )
+    }else if( this.status == 'Requested'){
+        await this.model('LoanRequest').updateOne({ 
+                _id: this.loanId
+            },{
+                $push: { offerRequests : {$each : [this._id] } }
+            }
+        )
+    }
 })
 
 
