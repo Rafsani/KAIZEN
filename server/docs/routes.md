@@ -295,19 +295,21 @@
         {
             "data": [
                 {
-                    "contractId": "60a2288f788f921b543cd813",
-                    "lenderName": "Rafid",
-                    "totalAmount": 500,
-                    "expirationDate": "2021-08-05T15:35:16.478Z",
-                    "installments": 1,
+                    "contractId": "60a2288f788f921b543cd814",
+                    "lenderId": "6076cfa408541e2ba057e337",
+                    "lenderName": "Akid",
+                    "totalAmount": 1000,
+                    "expirationDate": "2021-09-04T16:25:47.612Z",
+                    "installments": 2,
                     "interestRate": 8
                 },
                 {
-                    "contractId": "60a2288f788f921b543cd814",
-                    "lenderName": "Akid",
-                    "totalAmount": 1000,
-                    "expirationDate": "2021-09-04T15:35:16.478Z",
-                    "installments": 2,
+                    "contractId": "60a2288f788f921b543cd813",
+                    "lenderId": "6076cfa408541e2ba057e336",
+                    "lenderName": "Rafid",
+                    "totalAmount": 500,
+                    "expirationDate": "2021-08-05T16:25:47.612Z",
+                    "installments": 1,
                     "interestRate": 8
                 }
             ],
@@ -327,6 +329,7 @@
             "data": [
                 {
                     "contractId": "60a2288f788f921b543cd812",
+                    "lenderId": "6076cfa408541e2ba057e336",
                     "lenderName": "Rafid",
                     "totalAmount": 500,
                     "collectedAmount": 0,
@@ -339,6 +342,7 @@
                 },
                 {
                     "contractId": "60a2288f788f921b543cd811",
+                    "lenderId": "6076cfa408541e2ba057e337",
                     "lenderName": "Akid",
                     "totalAmount": 200,
                     "collectedAmount": 0,

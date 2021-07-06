@@ -222,6 +222,7 @@ const handleGETLoanOffers = async (req,res,next) => {
     
                 outputOffers.push({
                     contractId: contractRequest._id,
+                    lenderId: contractRequest.lenderId._id,
                     lenderName: contractRequest.lenderId.username,
                     totalAmount,
                     expirationDate,
@@ -274,6 +275,7 @@ const handleGETLoanOffers = async (req,res,next) => {
     
                 outputOffers.push({
                     contractId: contractRequest._id,
+                    lenderId:  contractRequest.lenderId._id,
                     lenderName: contractRequest.lenderId.username,
                     totalAmount,
                     collectedAmount,
