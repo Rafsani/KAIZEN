@@ -94,18 +94,19 @@ contractSchema.post('save' , async function(){
         await this.model('LoanRequest').updateOne({ 
                 _id: this.loanId
             },{
-                $push: { contracts : {$each : [this._id] } }
+                $addToSet: { contracts : {$each : [this._id] } }
             }
         )
     }else if( this.status == 'Requested'){
         await this.model('LoanRequest').updateOne({ 
                 _id: this.loanId
             },{
-                $push: { offerRequests : {$each : [this._id] } }
+                $addToSet: { offerRequests : {$each : [this._id] } }
             }
         )
     }
-})
+});
+
 
 
 const Contract = mongoose.model("contract", contractSchema );

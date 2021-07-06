@@ -223,11 +223,90 @@ const LoanRequest = require('../models/LoanRequestModel');
 }
 
 
+/**
+ * @description accept loan offer
+ * @param  body -  loanId , issuerId, contractId
+ * @returns the updated loan
+ */
+ const acceptContractOffer = async( body )=> {
+    try {
+        const loan = await LoanRequest.findOneAndUpdate( {
+            _id: body.loanId,
+            Receiver: body.issuerId
+        } , {
+            $addToSet: { contracts : body.contractId }, // add to set only adds once
+            $pull: { offerRequests : body.contractId }
+        },
+        { safe: true });
+        
+        if( loan ){
+            return {
+                data: loan, 
+                status: 'OK',
+                message: 'Contract offer has been accepted'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract offer could not be accepted'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+/**
+ * @description deny loan offer
+ * @param  body -  loanId , issuerId, contractId
+ * @returns the updated loan
+ */
+ const denyContractOffer = async( body )=> {
+    try {
+        const loan = await LoanRequest.findOneAndUpdate( {
+            _id: body.loanId,
+            Receiver: body.issuerId
+        } , {
+            $pull: { offerRequests : body.contractId }
+        },
+        { safe: true });
+        
+        if( loan ){
+            return {
+                data: loan, 
+                status: 'OK',
+                message: 'Contract offer has been denied'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract offer could not be denied'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
 
 module.exports = {
     getAllLoans,
     getLoanByID,
     createLoan,
     getLoanByUserID,
-    getLoanOffersByUserID
+    getLoanOffersByUserID,
+    acceptContractOffer,
+    denyContractOffer
 }

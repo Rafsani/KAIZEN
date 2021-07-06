@@ -321,6 +321,77 @@
 
 ---
 
+- **[Deny Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
+
+  - **DELETE** : &nbsp; `{{URL}}/api/contract/:contractId`
+    - ```x
+        req.body
+        {
+            "issuerId": "6076cfa408541e2ba057e335" // receiverId
+        }
+        ```
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "collectedAmount": 0,
+                "defaults": 0,
+                "status": "Requested",
+                "installments": 3,
+                "installmentsCompleted": 0,
+                "installmentDates": [
+                    "2021-08-05T20:27:25.177Z",
+                    "2021-09-04T20:27:25.179Z",
+                    "2021-10-04T20:27:25.179Z"
+                ],
+                "_id": "60e4bcad507bc5307c4728c9",
+                "loanId": "60a2288f788f921b543cd8ce",
+                "lenderId": "6076cfa408541e2ba057e336",
+                "receiverId": "6076cfa408541e2ba057e335",
+                "amount": 1200,
+                "interestRate": 8,
+                "__v": 0
+            },
+            "message": "The contract offer has been denied."
+        }
+      ```
+---
+
+- **[Accept Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
+
+  - **PUT** : &nbsp; `{{URL}}/api/contract/:contractId`
+    - ```x
+        req.body
+        {
+            "issuerId": "6076cfa408541e2ba057e335" // receiverId
+        }
+        ```
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "collectedAmount": 0,
+                "defaults": 0,
+                "status": "Requested",
+                "installments": 3,
+                "installmentsCompleted": 0,
+                "installmentDates": [
+                    "2021-08-05T20:35:48.459Z",
+                    "2021-09-04T20:35:48.460Z",
+                    "2021-10-04T20:35:48.460Z"
+                ],
+                "_id": "60e4bea401f3f22330e8b3ea",
+                "loanId": "60a2288f788f921b543cd8ce",
+                "lenderId": "6076cfa408541e2ba057e336",
+                "receiverId": "6076cfa408541e2ba057e335",
+                "amount": 1200,
+                "interestRate": 8,
+                "__v": 0
+            },
+            "message": "The contract offer has been accepted."
+        }
+      ```
+---
 - **[Current Lenders for a loan request](..\controller\loanController.js)** - Fetches current lenders for a loan request by loan id.<br><br>
 
   - **GET** : &nbsp; `{{URL}}/api/loans/lenders/:loanId`
@@ -363,6 +434,8 @@
 ---
 
 ## Lender Views Receiver Dashboard
+
+---
 
 - **[History For the Receiver](..\controller\userController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
 
@@ -441,6 +514,45 @@
             ],
             "status": "OK",
             "message": "All offers for this loan request have been fetched"
+        }
+      ```
+
+---
+
+- **[Post A Contract Offer/Request](..\controller\contractController.js)** - Creates a new Contract. Sends a request to the receiver<br><br>
+  - **POST** : &nbsp; `{{URL}}/api/contract`
+    - ```
+        req.body 
+        {
+            "loanId": "60a2288f788f921b543cd8ce",
+            "lenderId": "6076cfa408541e2ba057e336",
+            "receiverId": "6076cfa408541e2ba057e335",
+            "amount": "1200",
+            "installments": "3"
+        }
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "collectedAmount": 0,
+                "defaults": 0,
+                "status": "Requested",
+                "installments": 3,
+                "installmentsCompleted": 0,
+                "installmentDates": [
+                    "2021-08-05T20:35:48.459Z",
+                    "2021-09-04T20:35:48.460Z",
+                    "2021-10-04T20:35:48.460Z"
+                ],
+                "_id": "60e4bea401f3f22330e8b3ea",
+                "loanId": "60a2288f788f921b543cd8ce",
+                "lenderId": "6076cfa408541e2ba057e336",
+                "receiverId": "6076cfa408541e2ba057e335",
+                "amount": 1200,
+                "interestRate": 8,
+                "__v": 0
+            },
+            "message": "The contract has been created."
         }
       ```
 
