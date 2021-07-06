@@ -59,36 +59,51 @@ const checkInstallmentDate = require('../util/date');
         
         if( authQueryresult.status == 'OK' ){
             const contractQueryResult = await contractInterface.activeContract({
-                receiverId: req.params.receiverId,
+                receiverId: req.params.id,
                 lenderId: authQueryresult.data
             });
 
-    
             if( contractQueryResult.status == 'OK' ){
 
                 let outputContract;
 
-                if( contractQueryResult.status == 'Pending' ){
-                    outputContract = {
-                        totalAmount : contractQueryResult.amount,
-                        signingDate : checkInstallmentDate.contractSigningDate( contractQueryResult.installmentDates ),
-                        collectedAmount: contractQueryResult.collectedAmount,
-                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( contractQueryResult.installmentDates ),
-                        nextInstallmentAmount: contractQueryResult.amount / contractQueryResult.installments,
-                        installmentsCompleted: contractQueryResult.installmentsCompleted,
-                        interestRate: contractQueryResult.interestRate,
-                        defaultedInstallments: contractQueryResult.defaultedInstallments
+                let data = contractQueryResult.data;
+                let index = -1;
+                console.log(data);
+
+                data.every( (item , idx ) => {
+                    if( item.status == 'Pending' ){
+                        index = idx;
+                        return false;
                     }
+
+                    return true;
+                })
+
+                if( index != -1 ){
+                    let outputData = data[index];
+                    outputContract = {
+                        contractId: outputData._id,
+                        totalAmount : outputData.amount,
+                        signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
+                        collectedAmount: outputData.collectedAmount,
+                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                        nextInstallmentAmount: outputData.amount / outputData.installments,
+                        installmentsCompleted: outputData.installmentsCompleted,
+                        interestRate: outputData.interestRate,
+                        defaultedInstallments: outputData.defaultedInstallments
+                    }
+
                     return res.status(200).send( {
                         status: 'OK',
                         data: outputContract,
                         message: contractQueryResult.message
                     } );
-                }else if( contractQueryResult.status == 'Requested' ){
+                }else {
                     return res.status(200).send( {
                         status: 'ERROR',
                         data: null,
-                        message: "Your request is pending."
+                        message: "No active request at this moment."
                     } );
                 }
                 
