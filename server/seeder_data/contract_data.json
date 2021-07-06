@@ -35,6 +35,7 @@
         "loanId": "60a2288f788f921b543cd8cc",
         "lenderId": "6076cfa408541e2ba057e337",
         "receiverId": "6076cfa408541e2ba057e333",
+        "installments": 2,
         "amount": 1000
     }
 ]

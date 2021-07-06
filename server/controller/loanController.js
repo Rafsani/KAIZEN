@@ -208,7 +208,45 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
  * @param {*} next 
  */
 const handleGETLoanOffers = async (req,res,next) => {
-    const loanQueryResult = await loanInterface
+    try {
+        const loanQueryResult = await loanInterface.getLoanOffersByUserID( req.params.userId );
+    
+        let outputOffers = [];
+    
+        if( loanQueryResult.status == 'OK' ){
+            let loanOffers = loanQueryResult.data[0].offerRequests; // since there can only be 1 pending loan request at a time
+            loanOffers.forEach( contractRequest => {
+                let totalAmount = contractRequest.amount;
+                let expirationDate = contractRequest.installmentDates[ contractRequest.installmentDates.length - 1 ];
+                let installments = contractRequest.installments;
+                let interestRate = contractRequest.interestRate;
+    
+                outputOffers.push({
+                    contractId: contractRequest._id,
+                    lenderName: contractRequest.lenderId.username,
+                    totalAmount,
+                    expirationDate,
+                    installments,
+                    interestRate
+                });
+            })
+    
+            if( outputOffers.length != 0 ){
+                return res.status(200).send({
+                    data: outputOffers,
+                    status: loanQueryResult.status,
+                    message: "All offers for this loan request have been fetched"
+                });
+            }
+        }
+    
+        return res.status(400).send(loanQueryResult) ;
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
 }
 
 module.exports = {

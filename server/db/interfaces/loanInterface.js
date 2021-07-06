@@ -150,19 +150,32 @@ const LoanRequest = require('../models/LoanRequestModel');
  * @param  body - user id
  * @returns 
  */
- const getLoanByUserID = async( body )=> {
+ const getLoanOffersByUserID = async( body )=> {
     try {
 
         const loan = await LoanRequest.find( { 
-            Receiver : body
-        } ).populate({
-            path: 'offerRequests'
+            Receiver : body,
+            Status: 'Pending'
+        } )
+        .populate({
+            path: 'offerRequests',
+            populate: {
+                path: 'lenderId'
+            }
         });
+
+        if( loan ){
+            return {
+                data: loan, 
+                status: 'OK',
+                message: 'Fetched Loan Offers'
+            }
+        }
         
         return {
-            data: false, 
+            data: null, 
             status: 'ERROR',
-            message: 'Can not post request or fetch loan'
+            message: 'Can not fetch loan offers'
         }
     }catch( e ){
         return {
@@ -215,5 +228,6 @@ module.exports = {
     getAllLoans,
     getLoanByID,
     createLoan,
-    getLoanByUserID
+    getLoanByUserID,
+    getLoanOffersByUserID
 }
