@@ -147,7 +147,7 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "receiver@gmail.com"
+                email : "rafsani119@gmail.com"
             }
         }
 
@@ -158,6 +158,7 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
         }
 
         let authQueryresult = await authInterface.loggedInUser( req.user.email ); // user id is here
+        console.log(authQueryresult);
 
         let loanQueryResult , formQueryResult;
 
