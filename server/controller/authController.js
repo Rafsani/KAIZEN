@@ -77,7 +77,7 @@ const handlePOSTloginUser = async ( req,res,next )=>{
 
 /**
  * @description - Logs out a user
- * @route - GET /api/auth/login
+ * @route - GET /api/auth/logout
  * @param {*} req 
  * @param {*} res - response for the api call
  * @param {*} next 
