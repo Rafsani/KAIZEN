@@ -38,6 +38,44 @@ const endContract = async (body)=>{
     }
 }
 
+
+/**
+ * 
+ * @param body - body will include the user id of the lender Id + receiver id + loan Id + amount + installments
+ * @returns 
+ */
+ const createContract = async (body)=>{
+    try {
+        const createdContract = await Contracts.create({
+            loanId: body.loanId,
+            lenderId: body.lenderId,
+            receiverId: body.receiverId,
+            amount: body.amount,
+            installments: body.installments
+        })
+                
+        if( createdContract ){
+            return {
+                data: createdContract, 
+                status: 'OK',
+                message: 'The contract has been created.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract could not be created.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 /**
  * 
  * @param userId 
@@ -82,5 +120,6 @@ const findContractHistory = async (userId)=>{
 
 module.exports = {
     endContract,
-    findContractHistory
+    findContractHistory,
+    createContract
 }
