@@ -2,6 +2,10 @@ import React from "react";
 
 export default function formatDate(dateInBadFormat) {
   const date = new Date(dateInBadFormat);
+  if (date.getTime() !== date.getTime()) {
+    return dateInBadFormat;
+  }
+
   let monthNames = [
     "Jan",
     "Feb",
