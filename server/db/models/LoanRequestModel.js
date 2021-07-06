@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const validate = require('../validate');
-const moment = require("moment");
 const LoanRequestSchema = new mongoose.Schema({
 
     Receiver: {

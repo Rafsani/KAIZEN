@@ -86,6 +86,9 @@ const LoanRequest = require('../models/LoanRequestModel');
         } )
         .populate({
             path: 'contracts'
+        })
+        .populate({
+            path: 'Receiver'
         });
 
 

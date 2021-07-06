@@ -232,8 +232,9 @@
             "data": {
                 "leftAmount": 10000,
                 "totalAmount": 10000,
+                "interestRate": 8,
                 "nextInstallment": "No Contract Signed Yet",
-                "expirationDate": "2021-09-03T18:00:00.000Z",
+                "expirationDate": "2021-10-03T18:00:00.000Z",
                 "progress": 0,
                 "currentLenders": 0,
                 "totalRequest": 0
@@ -268,7 +269,7 @@
 
 ---
 
-- **[History For the Receiver](..\controller\loanController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
+- **[History For the Receiver](..\controller\userController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
 
   - **GET** : &nbsp; `{{URL}}/api/user/6076cfa408541e2ba057e339/history`
 
@@ -315,6 +316,90 @@
             ],
             "status": "OK",
             "message": "All offers for this loan request have been fetched"
+        }
+      ```
+
+---
+
+- **[Current Lenders for a loan request](..\controller\loanController.js)** - Fetches current lenders for a loan request by loan id.<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/loans/lenders/:loanId`
+
+    - ```x
+        {
+            "data": [
+                {
+                    "contractId": "60a2288f788f921b543cd812",
+                    "lenderId": "6076cfa408541e2ba057e336",
+                    "lenderName": "Rafid",
+                    "totalAmount": 500,
+                    "collectedAmount": 0,
+                    "nextInstallmentDate": "2021-08-05T16:25:47.611Z",
+                    "installmentAmount": 250,
+                    "installments": 2,
+                    "installmentsCompleted": 0,
+                    "interestRate": 5,
+                    "myDefaults": 0
+                },
+                {
+                    "contractId": "60a2288f788f921b543cd811",
+                    "lenderId": "6076cfa408541e2ba057e337",
+                    "lenderName": "Akid",
+                    "totalAmount": 200,
+                    "collectedAmount": 0,
+                    "nextInstallmentDate": "2021-08-05T16:25:47.606Z",
+                    "installmentAmount": 66.66666666666667,
+                    "installments": 3,
+                    "installmentsCompleted": 0,
+                    "interestRate": 5,
+                    "myDefaults": 0
+                }
+            ],
+            "status": "OK",
+            "message": "All offers for this loan request have been fetched"
+        }
+      ```
+
+---
+
+## Lender Views Receiver Dashboard
+
+- **[History For the Receiver](..\controller\userController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/user/:receiverId/history`
+
+    - ```x
+        {
+            "data": {
+                "loanRequests": 1,
+                "totalContracts": 0,
+                "defaults": 0,
+                "review": 5
+            },
+            "status": "OK",
+            "message": "All loans for this user have been fetched from the database"
+        }
+      ```
+
+---
+
+
+- **[Fetch Pending Loan For User](..\controller\loanController.js)** - Fetches the pending loan for the receiver. Can be only one at a time<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/loans/user/:receiverId`
+    - ```x
+        {
+            "data": {
+                "leftAmount": 10000,
+                "totalAmount": 10000,
+                "interestRate": 8,
+                "nextInstallment": "No Contract Signed Yet",
+                "expirationDate": "2021-10-03T18:00:00.000Z",
+                "progress": 0,
+                "currentLenders": 0,
+                "totalRequest": 0
+            },
+            "status": "OK",
+            "message": "Found pending loan in the database"
         }
       ```
 

@@ -173,10 +173,12 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
             
             let outputInstallmentDate = ( minInstallmentDate.getTime() == new Date(8640000000000000).getTime() ) ? "No Contract Signed Yet": minInstallmentDate.getDate() + '/' + parseInt(minInstallmentDate.getMonth() + 1) + '/' + minInstallmentDate.getFullYear();
             let outputExpirationDate = new Date( new Date(data.issueDate).getTime() + parseInt( process.env.EXPIRE_LOAN ) );
+            let interestRate = (loanQueryResult.data[0].Receiver.verfiedStatus)? 5 : 8;
 
             output = {
                 leftAmount: data.Amount - data.collectedAmount ,
                 totalAmount: data.Amount,
+                interestRate,
                 nextInstallment:  outputInstallmentDate,
                 expirationDate: outputExpirationDate,
                 progress:( data.collectedAmount  ) * 100 / data.Amount,
