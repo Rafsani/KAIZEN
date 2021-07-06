@@ -237,3 +237,18 @@
                 "message": "Loan has been created in the database"
             }
 ---
+* **[History For the Receiver](..\controller\loanController.js)** - Posts a loan only if the user is of receiver type + has no active request + all previous contracts are resolved<br><br>
+    - __GET__ : &nbsp; `{{URL}}/api/user/6076cfa408541e2ba057e339/history`
+
+        - ```x
+            {
+                "data": {
+                    "loanRequests": 1,
+                    "totalContracts": 0,
+                    "defaults": 0,
+                    "review": 5
+                },
+                "status": "OK",
+                "message": "All loans for this user have been fetched from the database"
+            }
+---

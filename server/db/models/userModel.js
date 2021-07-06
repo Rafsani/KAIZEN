@@ -95,6 +95,19 @@ const userSchema = new mongoose.Schema({
     joinedDate : {
         type: Date,
         default: Date.now
+    },
+
+    loanDefaults : {
+        type: Number,
+        default: 0,
+        max: [3, 'Can not have more than 3 defaults' ]
+    },
+
+    rating: {
+        type: Number,
+        default: 5,
+        max: 5,
+        min: 1
     }
 });
 

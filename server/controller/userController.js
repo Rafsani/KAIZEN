@@ -31,7 +31,7 @@ const loanInterface = require('../db/interfaces/loanInterface');
 }
 
 /**
- * @description this method returns the user's history of site usage
+ * @description this method returns the user's history of site usage ( contract for lender / loan for receiver )
  * @route - GET /api/user/:userId/history
  * @param {*} req 
  * @param {*} res 
@@ -42,19 +42,20 @@ const loanInterface = require('../db/interfaces/loanInterface');
         // make sure the user making the request has the same id as the one's data we are fetching
         /** not yet implemented */
         const userQueryResult = await userInterface.findUserbyId( req.params.userId ); // this will include the number of defaults as well
-        let contractQueryResult , outputHistory;
+        let  outputHistory ;
+        let historyQueryResult;
 
         /** This is for the lender dashboard */
         if( userQueryResult.data.usertype == 'Lender' ){
-            contractQueryResult = await contractInterface.findContractHistory( req.params.userId );
+            historyQueryResult = await contractInterface.findContractHistory( req.params.userId );
 
-            if( contractQueryResult.status == 'OK' ){
-                // console.log(contractQueryResult);
+            if( historyQueryResult.status == 'OK' ){
+                // console.log(historyQueryResult);
                 let currentlyActiveContacts = [];
                 let maxAmountLent = 0; // this returns the max amount of loan for the lender
                 let nextInstallmentDate = new Date( new Date().getTime() + ( 4 * 30 * 24 * 60 * 60 * 1000 ) );
                 let nextInstallmentAmount = 0;
-                let completedContractCount = contractQueryResult.data.filter( item => {
+                let completedContractCount = historyQueryResult.data.filter( item => {
                     if( item.status == 'Resolved' ){
                         return item;
                     }
@@ -96,16 +97,34 @@ const loanInterface = require('../db/interfaces/loanInterface');
     
             }
         }
+        /** This is for the receiver dashboard */
+        else if( userQueryResult.data.usertype == 'Receiver' ){
+            historyQueryResult = await loanInterface.getLoanByUserID( req.params.userId ) ;
+            
+            if( historyQueryResult.status == 'OK' ){
+                let loanRequests = historyQueryResult.data.length;
+                let totalContracts = 0;
+                historyQueryResult.data.forEach( item => {
+                    totalContracts += item.contracts.length;
+                });
 
-        if( userQueryResult.status == 'OK' && contractQueryResult.status == 'OK' ){
+                outputHistory = {
+                    loanRequests ,
+                    totalContracts,
+                    defaults: userQueryResult.data.loanDefaults,
+                    review: userQueryResult.data.rating
+                }
+            }
+        }
+        if( userQueryResult.status == 'OK' && (historyQueryResult.status == 'OK' || historyQueryResult.status == 'OK') ){
             return res.status(200).send({
                 data: outputHistory,
                 status: 'OK',
-                message: contractQueryResult.message
+                message: historyQueryResult.message
             });
         }
 
-        return res.status(400).send(contractQueryResult);
+        return res.status(400).send(historyQueryResult) ;
         
     }catch(e){
         return res.status(500).send({
@@ -173,7 +192,6 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
         });
     }
 }
-
 
 
 module.exports = {
