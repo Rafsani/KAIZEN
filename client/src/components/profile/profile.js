@@ -14,7 +14,7 @@ function Profile() {
   const [history, setHistory] = useState([]);
 
   const fetchdata = async () => {
-    let tempUserId, tempHiddenData, tempHistory;
+    let tempUserId, tempHiddenData;
 
     // Get userId 
     await Axios({
@@ -37,32 +37,32 @@ function Profile() {
       console.log("tempHiddenData: ", tempHiddenData);
       setHiddenData(tempHiddenData);
     })
-
-    // Get history
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: `http://localhost:5000/api/user/${tempUserId}/history`,
-    }).then((res) => {
-      tempHistory = res.data.data;
-      console.log("tempHistory:", tempHistory);
-      setHistory(res.data.data);
-    });
   };
 
   useEffect(() => {
     fetchdata();
   }, []);
 
+  const showProfile = () => {
+    const userType = hiddenData.usertype;
+    if (userType === "Lender") {
+      return (
+        <LenderProfile
+          userId={userId}
+          hiddenData={hiddenData}
+        />
+      )
+    }
+    else {
+      return <p>Hello world!</p>
+    }
+  }
+
   return (
     <div>
       <AppNavBar />
 
-      <LenderProfile
-        userId={userId}
-        hiddenData={hiddenData}
-        history={history}
-      />
+      {showProfile()}
 
       <div class="footer">
         <p>

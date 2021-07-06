@@ -9,7 +9,28 @@ import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import ContractCard from "./contractCard";
 import formatDate from "../../utils/formatDate";
 
-function LenderProfile({ userId, hiddenData, history }) {
+function LenderProfile({ userId, hiddenData }) {
+  const [history, setHistory] = useState([]);
+
+  const fetchdata = async () => {
+    let tempHistory;
+
+    // Get history
+    await Axios({
+      method: "GET",
+      withCredentials: true,
+      url: `http://localhost:5000/api/user/${userId}/history`,
+    }).then((res) => {
+      tempHistory = res.data.data;
+      console.log("tempHistory:", tempHistory);
+      setHistory(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
   console.log("userId: ", userId);
   console.log(" hiddenData: ", hiddenData);
   console.log("history: ", history);
