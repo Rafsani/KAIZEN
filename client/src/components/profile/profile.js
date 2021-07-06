@@ -13,33 +13,39 @@ function Profile() {
   const [history, setHistory] = useState([]);
 
   const fetchdata = async () => {
+    let tempUserId, tempHiddenData, tempHistory;
+
+    // Get userId 
     await Axios({
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/auth/isloggedin",
     }).then((res) => {
-      setUserId(res.data.data.data);
-      console.log("UserId: ", userId);
-    });
+      tempUserId = res.data.data.data;
+      console.log("tempUserId: ", tempUserId);
+      setUserId(tempUserId);
+    })
 
+    // Get hiddenData
     await Axios({
       method: "GET",
       withCredentials: true,
-      url: `http://localhost:5000/api/user/${userId}`,
+      url: `http://localhost:5000/api/user/${tempUserId}`,
     }).then((res) => {
-      setHiddenData(res.data.data);
-      console.log("All the hidden data:", hiddenData);
-      // console.log("Date in Good format: ", formatDate(hiddenData.dob));
-    });
+      tempHiddenData = res.data.data;
+      console.log("tempHiddenData: ", tempHiddenData);
+      setHiddenData(tempHiddenData);
+    })
 
+    // Get history
     await Axios({
       method: "GET",
       withCredentials: true,
-      url: "http://localhost:5000/api/user/" + userId + "/history",
+      url: `http://localhost:5000/api/user/${tempUserId}/history`,
     }).then((res) => {
-      console.log("History fetched: ", res.data.data);
+      tempHistory = res.data.data;
+      console.log("tempHistory:", tempHistory);
       setHistory(res.data.data);
-      console.log("All the hidden history:", history);
     });
   };
 

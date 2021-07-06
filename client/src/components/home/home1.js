@@ -8,6 +8,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import BASE_URL from "../Base_url";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import LoanCards from "./LoanCards";
+import { config } from "@fortawesome/fontawesome-svg-core";
 
 function getdate(dt) {
   return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
@@ -22,57 +23,61 @@ export default function HomePage() {
   const [formBooleans, setFormBooleans] = useState([]);
 
   const fetchdata = async () => {
-    // Get loans
+    let tempLoans, tempDonations;
+    let tempUserId, tempHiddenData;
+    let tempFormBooleans;
+
+    // Get loans and donations
     await Axios({
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/loans?type=loan&sort=review",
     }).then((res) => {
-      // console.log(res);
-      setLoans(res.data);
-      console.log("Received Loans: ", loans, loans.length);
+      tempLoans = res.data;
+      console.log("Received Loans: ", tempLoans, tempLoans.length);
+      setLoans(tempLoans);
     });
 
-    // Get donations
     await Axios({
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/loans?type=donation&sort=review",
     }).then((res) => {
-      console.log(res);
-      setDonations(res.data);
-      console.log("Received Donations: ", donations, donations.length);
+      tempDonations = res.data;
+      console.log("Received Donations: ", tempDonations, tempDonations.length);
+      setDonations(tempDonations);
     });
 
-    // Get userId
+    // Get userId and hiddenData
     await Axios({
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/auth/isloggedin",
     }).then((res) => {
-      setUserId(res.data.data.data);
-      console.log("UserId: ", userId);
-    });
+      tempUserId = res.data.data.data;
+      console.log("tempUserId: ", tempUserId);
+      setUserId(tempUserId);
+    })
 
-    // Get hiddenData for usertype
     await Axios({
       method: "GET",
       withCredentials: true,
-      url: `http://localhost:5000/api/user/${userId}`,
+      url: `http://localhost:5000/api/user/${tempUserId}`,
     }).then((res) => {
-      setHiddenData(res.data.data);
-      console.log("All the hidden data:", hiddenData);
-    });
+      tempHiddenData = res.data.data;
+      console.log("tempHiddenData: ", tempHiddenData);
+      setHiddenData(tempHiddenData);
+    })
 
     // Get form booleans (collateral and hiddenDetails)
     await Axios({
       method: "GET",
       withCredentials: true,
-      url: `http://localhost:5000/api/auth/${userId}`,
+      url: `http://localhost:5000/api/auth/${tempUserId}`,
     }).then((res) => {
-      console.log("Verified or not: ", res);
-      setFormBooleans(res.data.data);
-      console.log("form Booleans: ", formBooleans);
+      tempFormBooleans = res.data.data;
+      console.log("form Booleans: ", tempFormBooleans);
+      setFormBooleans(tempFormBooleans);
     });
   };
 
