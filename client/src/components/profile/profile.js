@@ -17,7 +17,7 @@ function Profile() {
   const fetchdata = async () => {
     let tempUserId, tempHiddenData;
 
-    // Get userId 
+    // Get userId
     await Axios({
       method: "GET",
       withCredentials: true,
@@ -26,7 +26,7 @@ function Profile() {
       tempUserId = res.data.data.data;
       console.log("tempUserId: ", tempUserId);
       setUserId(tempUserId);
-    })
+    });
 
     // Get hiddenData
     await Axios({
@@ -37,7 +37,7 @@ function Profile() {
       tempHiddenData = res.data.data;
       console.log("tempHiddenData: ", tempHiddenData);
       setHiddenData(tempHiddenData);
-    })
+    });
   };
 
   useEffect(() => {
@@ -47,22 +47,14 @@ function Profile() {
   const showProfile = () => {
     const userType = hiddenData.usertype;
     if (userType === "Lender") {
-      return (
-        <LenderProfile
-          userId={userId}
-          hiddenData={hiddenData}
-        />
-      )
+      return <LenderProfile userId={userId} hiddenData={hiddenData} />;
+    } else if (userType == "Receiver") {
+      return <ReceiverProfile userId={userId} hiddenData={hiddenData} />;
     }
-    else if (userType == "Receiver") {
-      return (
-        <ReceiverProfile userId={userId} hiddenData={hiddenData} />
-      )
-    }
-  }
+  };
 
   return (
-    <div>
+    <div className="Profile">
       <AppNavBar />
 
       {showProfile()}
