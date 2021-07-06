@@ -776,6 +776,7 @@
 .Profile .user-info .description {
   padding-left: 40px;
   padding-top: 20px;
+  width: 50%;
 }
 
 .Profile .user-info .description h1 {
