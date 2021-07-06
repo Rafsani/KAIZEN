@@ -131,28 +131,31 @@
         {
             "data": {
                 "completedContractCount": 0,
-                "maxAmountLent": 200,
-                "nextInstallmentDate": "2021-08-03T12:10:27.786Z",
+                "maxAmountLent": 1000,
+                "nextInstallmentDate": "2021-08-05T16:25:47.606Z",
                 "nextInstallmentAmount": 66.66666666666667,
                 "currentlyActiveContacts": [
                     {
                         "contractId": "60a2288f788f921b543cd811",
+                        "receiverId": "6076cfa408541e2ba057e331",
+                        "receiverName": "Anik",
                         "amount": 200,
                         "collectedAmount": 0,
                         "nextInstallmentAmount": 66.66666666666667,
-                        "nextInstallmentDate": "2021-08-03T12:10:27.786Z",
+                        "nextInstallmentDate": "2021-08-05T16:25:47.606Z",
                         "interestRate": 5,
                         "contractDefaults": 0,
                         "installmentsCompleted": 0
                     },
-
                     {
-                        "contractId": "60a2288f788f921b543cd811",
-                        "amount": 200,
+                        "contractId": "60a2288f788f921b543cd814",
+                        "receiverId": "6076cfa408541e2ba057e333",
+                        "receiverName": "Shwarup",
+                        "amount": 1000,
                         "collectedAmount": 0,
-                        "nextInstallmentAmount": 66.66666666666667,
-                        "nextInstallmentDate": "2021-08-03T12:10:27.786Z",
-                        "interestRate": 5,
+                        "nextInstallmentAmount": 500,
+                        "nextInstallmentDate": "2021-08-05T16:25:47.612Z",
+                        "interestRate": 8,
                         "contractDefaults": 0,
                         "installmentsCompleted": 0
                     }

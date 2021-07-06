@@ -50,7 +50,6 @@ const loanInterface = require('../db/interfaces/loanInterface');
             historyQueryResult = await contractInterface.findContractHistory( req.params.userId );
 
             if( historyQueryResult.status == 'OK' ){
-                // console.log(historyQueryResult);
                 let currentlyActiveContacts = [];
                 let maxAmountLent = 0; // this returns the max amount of loan for the lender
                 let nextInstallmentDate = new Date( new Date().getTime() + ( 4 * 30 * 24 * 60 * 60 * 1000 ) );
@@ -64,6 +63,8 @@ const loanInterface = require('../db/interfaces/loanInterface');
 
                         currentlyActiveContacts.push( {
                             contractId : item._id,
+                            receiverId: item.receiverId._id,
+                            receiverName: item.receiverId.username,
                             amount: item.amount,
                             collectedAmount: item.collectedAmount,
                             nextInstallmentAmount : item.amount / item.installments,
