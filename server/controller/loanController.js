@@ -178,6 +178,8 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
             output = {
                 leftAmount: data.Amount - data.collectedAmount ,
                 totalAmount: data.Amount,
+                issueDate: data.issueDate,
+                details: data.Details,
                 interestRate,
                 nextInstallment:  outputInstallmentDate,
                 expirationDate: outputExpirationDate,
@@ -291,6 +293,11 @@ const handleGETLoanOffers = async (req,res,next) => {
             })
     
             if( outputOffers.length != 0 ){
+                // sorting output based on installment dates
+                outputOffers.sort( (a,b)=> {
+                    return a.nextInstallmentDate.getTime() - b.nextInstallmentDate.getTime() ; // ascending order
+                })
+
                 return res.status(200).send({
                     data: outputOffers,
                     status: loanQueryResult.status,

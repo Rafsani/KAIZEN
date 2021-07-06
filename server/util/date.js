@@ -11,7 +11,12 @@ const returnNextInstallmentDate = ( installmentDates ) => {
     return minDate;
 }
 
+const contractSigningDate = ( installmentDates ) => {
+    return new Date(installmentDates[0].getTime() - parseInt( process.env.EXPIRE_LOAN) / 3);
+}
+
 
 module.exports = {
-    returnNextInstallmentDate
+    returnNextInstallmentDate,
+    contractSigningDate
 }

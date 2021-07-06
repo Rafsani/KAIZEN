@@ -1,6 +1,7 @@
 const contractInterface = require('../db/interfaces/contractInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
 const authInterface = require('../db/interfaces/authInterface');
+const checkInstallmentDate = require('../util/date');
 /**
  * @description - this method will post a contract
  * @route - POST /api/contract
@@ -60,14 +61,37 @@ const authInterface = require('../db/interfaces/authInterface');
             const contractQueryResult = await contractInterface.activeContract({
                 receiverId: req.params.receiverId,
                 lenderId: authQueryresult.data
-            })
+            });
+
     
             if( contractQueryResult.status == 'OK' ){
-                return res.status(200).send( {
-                    status: 'OK',
-                    data: contractQueryResult.data,
-                    message: contractQueryResult.message
-                } );
+
+                let outputContract;
+
+                if( contractQueryResult.status == 'Pending' ){
+                    outputContract = {
+                        totalAmount : contractQueryResult.amount,
+                        signingDate : checkInstallmentDate.contractSigningDate( contractQueryResult.installmentDates ),
+                        collectedAmount: contractQueryResult.collectedAmount,
+                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( contractQueryResult.installmentDates ),
+                        nextInstallmentAmount: contractQueryResult.amount / contractQueryResult.installments,
+                        installmentsCompleted: contractQueryResult.installmentsCompleted,
+                        interestRate: contractQueryResult.interestRate,
+                        defaultedInstallments: contractQueryResult.defaultedInstallments
+                    }
+                    return res.status(200).send( {
+                        status: 'OK',
+                        data: outputContract,
+                        message: contractQueryResult.message
+                    } );
+                }else if( contractQueryResult.status == 'Requested' ){
+                    return res.status(200).send( {
+                        status: 'ERROR',
+                        data: null,
+                        message: "Your request is pending."
+                    } );
+                }
+                
             }
         }
 
