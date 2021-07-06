@@ -12,7 +12,7 @@ function ContractCard({ contractDetails }) {
       <div class="card-profile">
         <div class="photo-space"></div>
         <div class="user-info">
-          <div class="name">Dummy Username</div>
+          <div class="name">{contractDetails.receiverName}</div>
           <div class="loan-contract-details">
             <div class="item">
               <div class="total">

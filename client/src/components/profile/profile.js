@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import formatDate from "../../utils/formatDate";
+import AppNavBar from "../navbar/navbar";
 
 function Profile() {
   const [userId, setUserId] = useState([]);
@@ -55,6 +56,8 @@ function Profile() {
 
   return (
     <div>
+      <AppNavBar />
+
       <LenderProfile
         userId={userId}
         hiddenData={hiddenData}

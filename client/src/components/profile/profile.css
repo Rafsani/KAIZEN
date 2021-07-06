@@ -664,6 +664,40 @@
   position: absolute;
 }
 
+.Profile .special-item {
+  padding: 10px;
+  border-top: 1px solid #6f2232;
+  border-right: 1px solid #6f2232;
+  display: flex;
+  justify-content: center;
+}
+
+.Profile .special-item .next-installment .field {
+  color: #c3073f;
+}
+
+.Profile .special-item .amount {
+  display: none;
+}
+
+.Profile .special-item:hover {
+  background-color: #c3073f;
+  color: white;
+  border-radius: 0 0 0 10px;
+}
+
+.Profile .special-item:hover .next-installment {
+  display: none;
+}
+
+.Profile .special-item:hover .amount {
+  display: inline-block;
+}
+
+.Profile .special-item:hover .amount .value {
+  color: yellow;
+}
+
 .Profile .banner {
   width: 100vw;
   height: 30vh;
@@ -683,6 +717,7 @@
   font-family: "Dosis", sans-serif;
   display: flex;
   margin-top: 10px;
+  padding-bottom: 50px;
 }
 
 .Profile .user-info .profile-circle {
@@ -1828,6 +1863,88 @@
   display: block;
 }
 
+.Profile .upcoming-installment {
+  position: absolute;
+  width: 15rem;
+  top: 16rem;
+  right: 1rem;
+  font-size: 1.2rem;
+  font-family: "Dosis", sans-serif;
+  border: 3px dashed #6f2232;
+  padding: 10px;
+}
+
+.Profile .upcoming-installment>h3 {
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 2px dotted #4e4e50;
+}
+
+.Profile .upcoming-installment>.installments {
+  padding-top: 10px;
+  overflow-y: scroll;
+  scrollbar-color: #c3073f white;
+  height: 190px;
+}
+
+.Profile .upcoming-installment>.installments .installment-item {
+  display: flex;
+  border: 1px solid gray;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 10px;
+  background: white;
+}
+
+.Profile .upcoming-installment>.installments .installment-item .fields {
+  flex-grow: 1;
+  border-right: 1px solid lightgray;
+}
+
+.Profile .upcoming-installment>.installments .installment-item .fields .hidden-field {
+  display: none;
+}
+
+.Profile .upcoming-installment>.installments .installment-item .values {
+  flex-grow: 1;
+  color: #c3073f;
+}
+
+.Profile .upcoming-installment>.installments .installment-item .values .hidden-field {
+  display: none;
+}
+
+.Profile .upcoming-installment>.installments .installment-item:hover {
+  background: #c3073f;
+  color: white;
+}
+
+.Profile .upcoming-installment>.installments .installment-item:hover .fields .field {
+  display: none;
+}
+
+.Profile .upcoming-installment>.installments .installment-item:hover .fields .hidden-field {
+  display: inline-block;
+}
+
+.Profile .upcoming-installment>.installments .installment-item:hover .values {
+  flex-grow: 1;
+  color: #c3073f;
+}
+
+.Profile .upcoming-installment>.installments .installment-item:hover .values .field {
+  display: none;
+}
+
+.Profile .upcoming-installment>.installments .installment-item:hover .values .hidden-field {
+  display: inline-block;
+  color: yellow;
+}
+
 .Profile .current-lenders-section {
   margin: 25px;
   padding: 50px;
@@ -2140,7 +2257,7 @@
 .Profile .contract-offer-card {
   background-color: white;
   position: fixed;
-  top: 5%;
+  top: 15%;
   left: 32%;
   width: 615px;
   height: max-content;
