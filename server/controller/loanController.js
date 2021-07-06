@@ -202,14 +202,14 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
 
 /**
  * @description this method returns loan request offers for a receiver
- * @route - GET /api/loans/request/:userId
+ * @route - GET /api/loans/request/:loanId
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
  */
 const handleGETLoanOffers = async (req,res,next) => {
     try {
-        const loanQueryResult = await loanInterface.getLoanOffersByUserID( req.params.userId );
+        const loanQueryResult = await loanInterface.getLoanOffersByUserID( req.params.loanId );
     
         let outputOffers = [];
     

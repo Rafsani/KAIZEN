@@ -154,7 +154,7 @@ const LoanRequest = require('../models/LoanRequestModel');
     try {
 
         const loan = await LoanRequest.find( { 
-            Receiver : body,
+            _id : body,
             Status: 'Pending'
         } )
         .populate({

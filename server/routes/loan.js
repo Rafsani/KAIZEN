@@ -14,7 +14,7 @@ router.route('/:id')
 router.route('/user/:userId')
     .get( loanController.handleGETPendingLoanForUser );
 
-router.route('/request/:userId')
+router.route('/request/:loanId')
     .get( loanController.handleGETLoanOffers );
 
 module.exports = router;
