@@ -57,7 +57,7 @@ export default function HomePage() {
       tempUserId = res.data.data.data;
       console.log("tempUserId: ", tempUserId);
       setUserId(tempUserId);
-    })
+    });
 
     await Axios({
       method: "GET",
@@ -67,7 +67,7 @@ export default function HomePage() {
       tempHiddenData = res.data.data;
       console.log("tempHiddenData: ", tempHiddenData);
       setHiddenData(tempHiddenData);
-    })
+    });
 
     // Get form booleans (collateral and hiddenDetails)
     await Axios({
@@ -93,14 +93,16 @@ export default function HomePage() {
     ) {
       return <div></div>;
     } else {
-      <div class="banner">
-        <div class="text-box">
-          <p>Looking For A Place to lend money to someone in need ?</p>
-          <a href="/registration" class="btn btn-dark">
-            Fill Up the form
-          </a>
+      return (
+        <div class="banner">
+          <div class="text-box">
+            <p>Looking For A Place to lend money to someone in need ?</p>
+            <a href="/registration" class="btn btn-dark">
+              Fill Up the form
+            </a>
+          </div>
         </div>
-      </div>;
+      );
     }
   };
 
