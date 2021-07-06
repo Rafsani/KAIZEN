@@ -8,7 +8,8 @@ router.route('/')
     .put( contractController.handlePUTEndContract );
 
 router.route('/:contractId')
-    .put( contractController.handlePUTAcceptDenyContract );
+    .put( contractController.handlePUTAcceptContract )
+    .delete( contractController.handleDELETEDenyContract );
 
 
 module.exports = router;

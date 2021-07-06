@@ -64,7 +64,40 @@ const acceptContract = async (body)=>{
         return {
             data: null,
             status: 'ERROR',
-            message: 'Contract could not be ended.'
+            message: 'Contract could not be accepted.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+/**
+ * 
+ * @param body - will include the contract id, issuer id and remove it from contract model
+ * @returns 
+ */
+const denyContract = async (body)=>{
+    try {
+        const deniedContract = await Contracts.findOneAndDelete( {
+            _id: body.contractId,
+            receiverId: body.issuerId
+        });
+                
+        if( deniedContract ){
+            return {
+                data: deniedContract, 
+                status: 'OK',
+                message: 'The contract offer has been denied.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract could not be denied.'
         }
     }catch(e){
         return {
@@ -162,5 +195,6 @@ module.exports = {
     endContract,
     findContractHistory,
     createContract,
-    acceptContract
+    acceptContract,
+    denyContract
 }
