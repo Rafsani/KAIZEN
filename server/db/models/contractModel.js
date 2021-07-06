@@ -88,7 +88,7 @@ contractSchema.pre('save', async function( next ){
 
 })
 
-contractSchema.post('save' , async function(){
+contractSchema.post('save' , async function(next){
     // Adding the contract to the loan request model
     if( this.status == 'Pending'){
         await this.model('LoanRequest').updateOne({ 
@@ -105,7 +105,9 @@ contractSchema.post('save' , async function(){
             }
         )
     }
-})
+    next();
+});
+
 
 
 const Contract = mongoose.model("contract", contractSchema );

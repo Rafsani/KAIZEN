@@ -41,6 +41,46 @@ const endContract = async (body)=>{
 
 /**
  * 
+ * @param body - will include the contract id, issuer id and change it's status
+ * @returns 
+ */
+const acceptContract = async (body)=>{
+    try {
+        const acceptedContract = await Contracts.findOneAndUpdate( {
+            _id: body.contractId,
+            receiverId: body.issuerId
+        } , {
+            status: 'Pending' // from requested to pending
+        });
+                
+        if( acceptedContract ){
+            return {
+                data: acceptedContract, 
+                status: 'OK',
+                message: 'The contract offer has been accepted.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract could not be ended.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+
+
+
+/**
+ * 
  * @param body - body will include the user id of the lender Id + receiver id + loan Id + amount + installments
  * @returns 
  */
@@ -121,5 +161,6 @@ const findContractHistory = async (userId)=>{
 module.exports = {
     endContract,
     findContractHistory,
-    createContract
+    createContract,
+    acceptContract
 }

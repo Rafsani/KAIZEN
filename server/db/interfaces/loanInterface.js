@@ -223,11 +223,51 @@ const LoanRequest = require('../models/LoanRequestModel');
 }
 
 
+/**
+ * @description accept loan offer
+ * @param  body -  loanId , issuerId, contractId
+ * @returns the updated loan
+ */
+ const acceptContractOffer = async( body )=> {
+    try {
+        const loan = await LoanRequest.findOneAndUpdate( {
+            _id: body.loanId,
+            Receiver: body.issuerId
+        } , {
+            $push: { contracts : body.contractId },
+            $pull: { offerRequests : body.contractId }
+        },
+        { safe: true });
+        
+        if( loan ){
+            return {
+                data: loan, 
+                status: 'OK',
+                message: 'Contract offer has been accepted'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract offer could not be accepted'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
 
 module.exports = {
     getAllLoans,
     getLoanByID,
     createLoan,
     getLoanByUserID,
-    getLoanOffersByUserID
+    getLoanOffersByUserID,
+    acceptContractOffer
 }

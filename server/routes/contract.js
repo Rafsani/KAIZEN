@@ -7,5 +7,8 @@ router.route('/')
     .post(contractController.handlePOSTCreateContract )
     .put( contractController.handlePUTEndContract );
 
+router.route('/:contractId')
+    .put( contractController.handlePUTAcceptDenyContract );
+
 
 module.exports = router;
