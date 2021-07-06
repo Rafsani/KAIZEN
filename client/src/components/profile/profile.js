@@ -7,6 +7,7 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 import formatDate from "../../utils/formatDate";
 import AppNavBar from "../navbar/navbar";
+import ReceiverProfile from "./receiverProfile";
 
 function Profile() {
   const [userId, setUserId] = useState([]);
@@ -53,8 +54,10 @@ function Profile() {
         />
       )
     }
-    else {
-      return <p>Hello world!</p>
+    else if (userType == "Receiver") {
+      return (
+        <ReceiverProfile userId={userId} hiddenData={hiddenData} />
+      )
     }
   }
 
