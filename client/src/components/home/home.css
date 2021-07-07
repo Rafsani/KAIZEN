@@ -343,14 +343,20 @@ input:focus:invalid {
   padding-top: 5px;
   padding-bottom: 5px;
 
-  border-right : 1px solid rgb(62, 62, 62);
-  border-bottom : 1px solid rgb(62, 62, 62);
+  /* border-right : 1px solid rgb(62, 62, 62);
+  border-bottom : 1px solid rgb(62, 62, 62); */
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: all 0.5s ease-in-out;
+  /* box-shadow: 1px 1px 37px -18px #000000; */
   
 }
 
 .receiver-list .user-item .user-card .user-info .loan-info .amount:hover {
   background: #c3073f;
-  border-radius: 5px 0 0 0;
+  /* border-radius: 5px 0 0 0; */
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .receiver-list .user-item .user-card .user-info .loan-info .amount .highlight {
@@ -372,15 +378,20 @@ input:focus:invalid {
   padding-left: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
-  border-left : 1px solid rgb(62, 62, 62);
-  border-bottom : 1px solid rgb(62, 62, 62);
+  /* border-left : 1px solid rgb(62, 62, 62);
+  border-bottom : 1px solid rgb(62, 62, 62); */
 
-  
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: all 0.5s ease-in-out;
+
 }
 
 .receiver-list .user-item .user-card .user-info .loan-info .date:hover {
   background: #c3073f;
-  border-radius: 0 5px 0 0;
+  /* border-radius: 0 5px 0 0; */
+  border: 1px solid black;
+  border-radius: 10px;
 }
 
 .receiver-list .user-item .user-card .user-info .loan-info .date .highlight {
@@ -402,8 +413,11 @@ input:focus:invalid {
   font-family: 'Dosis';
   font-weight: bold;
   display: flex;
-  justify-content: space-between;
-  padding-top: 5px;
+  justify-content: space-around;
+  padding-top: 1px;
+  font-size: 1.4rem;
+  transition: all 0.5s ease-in-out;
+  
 }
 
 .receiver-list .user-item .user-card .user-info .progress .bar {
@@ -413,9 +427,18 @@ input:focus:invalid {
   border: 1px solid #c3073f;
   background: #c3073f;
   padding: 4px;
+  margin-top: 5px;
 }
 
 .receiver-list .user-item .user-card .user-info .progress .bar .fillup-bar {
+  width: calc(5% - 4px);
+  height: 94%;
+  background: white;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.receiver-list .user-item .user-card:hover .user-info .progress .bar .fillup-bar {
   width: calc(50% - 4px);
   height: 94%;
   background: white;
@@ -456,7 +479,7 @@ input:focus:invalid {
 }
 
 .receiver-list .user-item .user-card .user-info .buttons {
-  padding-top: 36px;
+  padding-top: 28px;
   display: flex;
   justify-content: space-around;
   align-items: center;

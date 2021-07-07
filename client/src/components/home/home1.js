@@ -88,9 +88,9 @@ export default function HomePage() {
 
   const showBanner = () => {
     if (
-      formBooleans.hiddenDetails &&
-      hiddenData.usertype === "Receiver" &&
-      formBooleans.collateral
+      formBooleans.hiddenDetails ||
+      (hiddenData.usertype === "Receiver" &&
+      formBooleans.collateral)
     ) {
       return <div></div>;
     } else {
@@ -153,7 +153,7 @@ export default function HomePage() {
       <div class="footer">
         <p>You can find the project link here:</p>
         <a href="#">
-          <FontAwesomeIcon icon={faGithub}></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faGithub} size="2x"></FontAwesomeIcon>
           <i class="fab fa-github fa-2x"></i>
         </a>
       </div>
