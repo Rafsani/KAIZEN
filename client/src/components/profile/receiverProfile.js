@@ -12,6 +12,7 @@ import formatDate from "../../utils/formatDate";
 import BasicInfo from "./basicInfo";
 import LenderCard from "./lenderCard";
 import ContractRequestCard from "./contractRequestCard";
+import PostRequestForm from "./PostRequestForm";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState([]);
@@ -20,6 +21,10 @@ function ReceiverProfile({ userId, hiddenData }) {
   const [lenders, setLenders] = useState(null);
   const [lenderLimit, setLenderLimit] = useState(5);
   const [contractRequests, setContractRequests] = useState(null);
+  const [
+    postRequestPopUpFormVisible,
+    setPostRequestPopUpFormVisible,
+  ] = useState(false);
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -220,19 +225,50 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+  const handleOpenPostRequestPopUp = () => {
+    setPostRequestPopUpFormVisible(true);
+  };
+
+  const handleClosePostRequestPopUp = () => {
+    setPostRequestPopUpFormVisible(false);
+  };
+
+  const handleSubmitPostRequestPopUp = (val) => {
+    console.log("Submitted!", val);
+    handleClosePostRequestPopUp();
+  };
+
+  const showPostRequestForm = () => {
+    if (!activeRequest && (!lenders || lenders.length === 0)) {
+      if (postRequestPopUpFormVisible) {
+        return (
+          <PostRequestForm
+            onCancel={handleClosePostRequestPopUp}
+            onSubmit={handleSubmitPostRequestPopUp}
+          />
+        );
+      }
+    }
+  };
+
   const showPostRequest = () => {
-    return (
-      !activeRequest &&
-      (!lenders || lenders.length === 0) && (
-        <div class="no-loan-buttons" id="no-loan-buttons">
-          <div class="buttons">
-            <a href="#!" class="btn-profile btn-dark">
-              Post A Request
-            </a>
+    if (!activeRequest && (!lenders || lenders.length === 0)) {
+      if (!postRequestPopUpFormVisible) {
+        return (
+          <div class="no-loan-buttons" id="no-loan-buttons">
+            <div class="buttons">
+              <a
+                onClick={handleOpenPostRequestPopUp}
+                href="#!"
+                class="btn-profile btn-dark"
+              >
+                Post A Request
+              </a>
+            </div>
           </div>
-        </div>
-      )
-    );
+        );
+      }
+    }
   };
 
   const showLenders = () => {
@@ -286,7 +322,7 @@ function ReceiverProfile({ userId, hiddenData }) {
 
   return (
     <div>
-      <main class="" id="main">
+      <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
         <BasicInfo hiddenData={hiddenData} />
         <div class="loan-contract-info content-box" id="loan-contract-info">
           {showNoLoanRequest()}
@@ -299,6 +335,7 @@ function ReceiverProfile({ userId, hiddenData }) {
         {showLenders()}
         {showContractRequests()}
       </main>
+      {showPostRequestForm()}
     </div>
   );
 }
