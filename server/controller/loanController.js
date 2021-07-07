@@ -98,7 +98,7 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "anik65@gmail.com"
+                email : "receiver@gmail.com"
             }
         }
 

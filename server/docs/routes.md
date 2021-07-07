@@ -626,3 +626,63 @@
         }
       ```
 ---
+
+## Receiver Views Lender Dashboard
+
+---
+
+- **[Get Active Contract](..\controller\contractController.js)** - Fetches an active contract if there are any<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/contract/:lenderId`
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "contractId": "60a2288f788f921b543cd811",
+                "totalAmount": 200,
+                "signingDate": "2021-07-06T20:34:22.556Z",
+                "collectedAmount": 0,
+                "nextInstallment": "2021-08-05T20:34:22.556Z",
+                "nextInstallmentAmount": 66.66666666666667,
+                "installmentsCompleted": 0,
+                "interestRate": 5
+            },
+            "message": "There is an active contract."
+        }
+      ```
+    - ```x
+        {
+            "status": "ERROR",
+            "data": null,
+            "message": "No active request at this moment."
+        }
+        ```
+---
+
+
+- **[ Get Contract Offer ](..\controller\contractController.js)** - Fetches an active contract if there are any<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/contract/:lenderId`
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "contractId": "60a2288f788f921b543cd811",
+                "totalAmount": 200,
+                "signingDate": "2021-07-06T20:34:22.556Z",
+                "collectedAmount": 0,
+                "nextInstallment": "2021-08-05T20:34:22.556Z",
+                "nextInstallmentAmount": 66.66666666666667,
+                "installmentsCompleted": 0,
+                "interestRate": 5
+            },
+            "message": "There is an active contract."
+        }
+      ```
+    - ```x
+        {
+            "status": "ERROR",
+            "data": null,
+            "message": "No active request at this moment."
+        }
+        ```
+---
+

@@ -4,7 +4,7 @@ const Contracts = require('../models/contractModel');
 
 /**
  * 
- * @param body - will include the contract id and the id of the request issuer who has to be the lender
+ * @param body -  will include the receiver id and the id of the lenderid
  * @returns 
  */
 const activeContract = async (body)=>{
