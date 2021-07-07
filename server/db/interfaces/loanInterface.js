@@ -267,7 +267,6 @@ const LoanRequest = require('../models/LoanRequestModel');
  */
  const acceptContractOffer = async( body )=> {
     try {
-        console.log(body.contractId);
         const loan = await LoanRequest.findOneAndUpdate( {
             _id: body.loanId,
             Receiver: body.issuerId
@@ -277,8 +276,6 @@ const LoanRequest = require('../models/LoanRequestModel');
         },{
             safe: true
         });
-
-        console.log(loan);
         
         if( loan ){
             return {
