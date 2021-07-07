@@ -158,7 +158,6 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
         }
 
         let authQueryresult = await authInterface.loggedInUser( req.user.email ); // user id is here
-        console.log(authQueryresult);
 
         let loanQueryResult , formQueryResult;
 
@@ -195,9 +194,82 @@ const handleGETCheckIfLoanRequestCanBeMade = async (req,res,next)=>{
     }
 }
 
+/**
+ * @description this method returns lender information for receiver
+ * @route - GET /api/user/view/:lenderId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+const handleGETLenderInfo = async (req,res,next)=>{
+    try {
+        if( req.user == undefined ) {
+            req.user = {
+                email : "shwarup101@gmail.com"
+            }
+        }
 
+        const authQueryresult = await authInterface.loggedInUser(req.user.email);
+        const user = await userInterface.findUserbyId( authQueryresult.data );
+        let output;
+
+        if( authQueryresult.status == 'OK' && user.data.usertype == 'Receiver' ){
+           const userQueryResult = await contractInterface.viewLenderContracts( req.params.lenderId );
+           if( userQueryResult.status == 'OK' ){
+                let data = userQueryResult.data;
+            
+                let maxAmountLent = 0;
+                let totalAmountLent = 0;
+                let defaults = 0;
+                let completedContracts = 0;
+    
+                data.forEach( item => {
+                    if( item.status != 'Requested' ){
+                        if( item.amount > maxAmountLent ){
+                            maxAmountLent = item.amount;
+                        }
+    
+                        totalAmountLent += item.amount;
+    
+                        if( item.status == 'Resolved' ){
+                            completedContracts++;
+                        }
+    
+                        defaults += item.defaults;
+                    }
+                });
+    
+                output = {
+                    maxAmountLent,
+                    totalAmountLent,
+                    defaults,
+                    completedContracts
+                }
+    
+                return res.status(200).send({
+                    data: output,
+                    status: 'OK',
+                    message: userQueryResult.message
+                });
+           }
+
+           return res.status(400).send({
+               data:null,
+               status: 'ERROR',
+               message: 'Lender Details could not be fetched'
+           })
+        }
+
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
 module.exports = {
     handleGETUserById,
     handleGETUserHistory,
-    handleGETCheckIfLoanRequestCanBeMade
+    handleGETCheckIfLoanRequestCanBeMade,
+    handleGETLenderInfo
 }

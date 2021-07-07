@@ -574,6 +574,7 @@
         {
             "status": "OK",
             "data": {
+                "activeContract": true,
                 "contractId": "60a2288f788f921b543cd811",
                 "totalAmount": 200,
                 "signingDate": "2021-07-06T20:34:22.556Z",
@@ -637,6 +638,7 @@
         {
             "status": "OK",
             "data": {
+                "activeContract": true,
                 "contractId": "60a2288f788f921b543cd811",
                 "totalAmount": 200,
                 "signingDate": "2021-07-06T20:34:22.556Z",
@@ -659,22 +661,23 @@
 ---
 
 
-- **[ Get Contract Offer ](..\controller\contractController.js)** - Fetches an active contract if there are any<br><br>
+- **[ Get Contract Offer ](..\controller\contractController.js)** - Fetches a contract offer if there are any( only happens if there are no active request)<br><br>
   - **GET** : &nbsp; `{{URL}}/api/contract/:lenderId`
     - ```x
         {
             "status": "OK",
             "data": {
-                "contractId": "60a2288f788f921b543cd811",
-                "totalAmount": 200,
-                "signingDate": "2021-07-06T20:34:22.556Z",
-                "collectedAmount": 0,
-                "nextInstallment": "2021-08-05T20:34:22.556Z",
-                "nextInstallmentAmount": 66.66666666666667,
-                "installmentsCompleted": 0,
-                "interestRate": 5
+                "activeContract": false,
+                "contractId": "60e4f16d91a05f33d88baec8",
+                "totalAmount": 1500,
+                "signingDate": "2021-07-07T00:12:29.938Z",
+                "installments": 2,
+                "firstInstallmentDate": "2021-08-06T00:12:29.938Z",
+                "finalInstallmentDate": "2021-09-05T00:12:29.939Z",
+                "totalAmountWithInterest": 1620,
+                "interestRate": 8
             },
-            "message": "There is an active contract."
+            "message": "Contract Offer has been found"
         }
       ```
     - ```x
@@ -685,4 +688,97 @@
         }
         ```
 ---
+- **[ Get Lender Info For Receiver ](..\controller\userController.js)** - Fetches aggregated Lender info<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/user/view/:lenderId`
+    - ```x
+        {
+            "data": {
+                "maxAmountLent": 200,
+                "totalAmountLent": 200,
+                "defaults": 0,
+                "completedContracts": 0
+            },
+            "status": "OK",
+            "message": "All contracts for this lender have been found."
+        }
+      ```
+    - ```x
+        {
+               data:null,
+               status: 'ERROR',
+               message: 'Lender Details could not be fetched'
+        }
+        ```
+---
 
+- **[Deny Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
+
+  - **DELETE** : &nbsp; `{{URL}}/api/contract/:contractId`
+    - ```x
+        req.body
+        {
+            "issuerId": "6076cfa408541e2ba057e335" // receiverId
+        }
+        ```
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "collectedAmount": 0,
+                "defaults": 0,
+                "status": "Requested",
+                "installments": 3,
+                "installmentsCompleted": 0,
+                "installmentDates": [
+                    "2021-08-05T20:27:25.177Z",
+                    "2021-09-04T20:27:25.179Z",
+                    "2021-10-04T20:27:25.179Z"
+                ],
+                "_id": "60e4bcad507bc5307c4728c9",
+                "loanId": "60a2288f788f921b543cd8ce",
+                "lenderId": "6076cfa408541e2ba057e336",
+                "receiverId": "6076cfa408541e2ba057e335",
+                "amount": 1200,
+                "interestRate": 8,
+                "__v": 0
+            },
+            "message": "The contract offer has been denied."
+        }
+      ```
+---
+
+- **[Accept Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
+
+  - **PUT** : &nbsp; `{{URL}}/api/contract/:contractId`
+    - ```x
+        req.body
+        {
+            "issuerId": "6076cfa408541e2ba057e335" // receiverId
+        }
+        ```
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "collectedAmount": 0,
+                "defaults": 0,
+                "status": "Requested",
+                "installments": 3,
+                "installmentsCompleted": 0,
+                "installmentDates": [
+                    "2021-08-05T20:35:48.459Z",
+                    "2021-09-04T20:35:48.460Z",
+                    "2021-10-04T20:35:48.460Z"
+                ],
+                "_id": "60e4bea401f3f22330e8b3ea",
+                "loanId": "60a2288f788f921b543cd8ce",
+                "lenderId": "6076cfa408541e2ba057e336",
+                "receiverId": "6076cfa408541e2ba057e335",
+                "amount": 1200,
+                "interestRate": 8,
+                "__v": 0
+            },
+            "message": "The contract offer has been accepted."
+        }
+      ```
+---

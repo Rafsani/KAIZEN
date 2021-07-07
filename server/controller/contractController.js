@@ -100,6 +100,7 @@ const checkInstallmentDate = require('../util/date');
                 if( index != -1 ){
                     outputData = data[index];
                     outputContract = {
+                        activeContract: true,
                         contractId: outputData._id,
                         totalAmount : outputData.amount,
                         signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
@@ -122,6 +123,7 @@ const checkInstallmentDate = require('../util/date');
                 else if( offerIndex != -1 ){
                     outputData = data[offerIndex];
                     outputContract = {
+                        activeContract: false,
                         contractId: outputData._id,
                         totalAmount : outputData.amount,
                         signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),

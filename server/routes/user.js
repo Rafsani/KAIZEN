@@ -10,6 +10,9 @@ router.route('/loanverify')
 router.route('/:userId')
     .get(userController.handleGETUserById);
 
+router.route('/view/:lenderId')
+    .get(userController.handleGETLenderInfo );
+
 router.route('/:userId/history')
     .get( userController.handleGETUserHistory );
     
