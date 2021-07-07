@@ -65,7 +65,8 @@ const registerUserFormData = async ( body , userInfo )=> {
             usertype: body.usertype,
             dob: body.dob,
             details: body.about,
-            verfiedStatus: userVerifiedStatus
+            verfiedStatus: userVerifiedStatus,
+            collateral: body.collateral
         },
         {
             returnOriginal: false
