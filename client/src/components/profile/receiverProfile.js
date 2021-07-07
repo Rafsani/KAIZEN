@@ -60,6 +60,7 @@ function ReceiverProfile({ userId, hiddenData }) {
       })
       .catch((error) => {
         console.log(error);
+        setHistory(null);
       });
 
     // get loan info
@@ -75,6 +76,7 @@ function ReceiverProfile({ userId, hiddenData }) {
       })
       .catch((error) => {
         console.log(error);
+        setLoanInfo(null);
       });
 
     // if loanInfo.lastIssuedLoan exists,
@@ -92,6 +94,7 @@ function ReceiverProfile({ userId, hiddenData }) {
         })
         .catch((error) => {
           console.log(error);
+          setLenders(null);
         });
 
       await Axios({
@@ -106,6 +109,7 @@ function ReceiverProfile({ userId, hiddenData }) {
         })
         .catch((error) => {
           console.log(error);
+          setContractRequests(null);
         });
     }
   };
