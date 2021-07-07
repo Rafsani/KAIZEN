@@ -1,5 +1,6 @@
 const contractInterface = require('../db/interfaces/contractInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
+const userInterface = require('../db/interfaces/userInterface');
 const authInterface = require('../db/interfaces/authInterface');
 const checkInstallmentDate = require('../util/date');
 /**
@@ -41,8 +42,8 @@ const checkInstallmentDate = require('../util/date');
 }
 
 /**
- * @description - this method will return the active contract
- * @route - GET /api/contract/:receiverId
+ * @description - this method will return the active contract , otherwise contract request
+ * @route - GET /api/contract/:receiverId  // can be lenderId as well
  * @param {*} req - request for the api call
  * @param {*} res - Response for the api call
  * @returns 
@@ -51,17 +52,29 @@ const checkInstallmentDate = require('../util/date');
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "akid100@gmail.com"
+                email : "anik65@gmail.com"
             }
         }
 
+
         const authQueryresult = await authInterface.loggedInUser(req.user.email);
+        const user = await userInterface.findUserbyId( authQueryresult.data );
+        let contractQueryResult;
         
         if( authQueryresult.status == 'OK' ){
-            const contractQueryResult = await contractInterface.activeContract({
-                receiverId: req.params.id,
-                lenderId: authQueryresult.data
-            });
+
+            if( user.data.usertype == 'Lender' ){
+                contractQueryResult = await contractInterface.activeContract({
+                    receiverId: req.params.id,
+                    lenderId: authQueryresult.data
+                });
+            }else {
+                contractQueryResult = await contractInterface.activeContract({
+                    lenderId: req.params.id,
+                    receiverId: authQueryresult.data
+                });
+            }
+
 
             if( contractQueryResult.status == 'OK' ){
 
@@ -69,41 +82,74 @@ const checkInstallmentDate = require('../util/date');
 
                 let data = contractQueryResult.data;
                 let index = -1;
-                console.log(data);
+                let offerIndex = -1;
+                let outputData;
 
                 data.every( (item , idx ) => {
                     if( item.status == 'Pending' ){
                         index = idx;
                         return false;
                     }
+                    else if( item.status == 'Requested' ){
+                        offerIndex = idx;
+                    }
 
                     return true;
                 })
 
                 if( index != -1 ){
-                    let outputData = data[index];
+                    outputData = data[index];
+                    const bkashInspect = await userInterface.fetchBkashNumber(req.params.id);
+                    if( bkashInspect.status == 'OK' ){
+                        outputContract = {
+                            activeContract: true,
+                            bkash: bkashInspect.data,
+                            contractId: outputData._id,
+                            totalAmount : outputData.amount,
+                            signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
+                            collectedAmount: outputData.collectedAmount,
+                            nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                            nextInstallmentAmount: outputData.amount / outputData.installments,
+                            installmentsCompleted: outputData.installmentsCompleted,
+                            interestRate: outputData.interestRate,
+                            defaultedInstallments: outputData.defaultedInstallments
+                        }
+    
+                        return res.status(200).send( {
+                            status: 'OK',
+                            data: outputContract,
+                            message: contractQueryResult.message
+                        } );
+                    }
+                }
+
+                /**Checking For Contract Offer here */
+                else if( offerIndex != -1 ){
+                    outputData = data[offerIndex];
                     outputContract = {
+                        activeContract: false,
                         contractId: outputData._id,
                         totalAmount : outputData.amount,
                         signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
-                        collectedAmount: outputData.collectedAmount,
-                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
-                        nextInstallmentAmount: outputData.amount / outputData.installments,
-                        installmentsCompleted: outputData.installmentsCompleted,
-                        interestRate: outputData.interestRate,
-                        defaultedInstallments: outputData.defaultedInstallments
+                        installments:  outputData.installments,
+                        firstInstallmentDate: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                        finalInstallmentDate: outputData.installmentDates[ outputData.installmentDates.length - 1 ],
+                        totalAmountWithInterest: outputData.amount * ( 1 + outputData.interestRate /100 ),
+                        interestRate: outputData.interestRate
                     }
 
                     return res.status(200).send( {
                         status: 'OK',
                         data: outputContract,
-                        message: contractQueryResult.message
+                        message: "Contract Offer has been found"
                     } );
-                }else {
+                }
+                
+                else {
                     return res.status(200).send( {
                         status: 'ERROR',
                         data: null,
-                        message: "No active request at this moment."
+                        message: "No active request at this moment. Nor any contract offer found."
                     } );
                 }
                 
@@ -246,6 +292,7 @@ const handleDELETEDenyContract = async ( req,res,next )=>{
         });
     }
 }
+
 
 module.exports = {
     handlePUTEndContract,

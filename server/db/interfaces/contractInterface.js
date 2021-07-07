@@ -4,7 +4,7 @@ const Contracts = require('../models/contractModel');
 
 /**
  * 
- * @param body - will include the contract id and the id of the request issuer who has to be the lender
+ * @param body -  will include the receiver id and the id of the lenderid
  * @returns 
  */
 const activeContract = async (body)=>{
@@ -226,6 +226,40 @@ const findContractHistory = async (userId)=>{
         };
     }
 }
+/**
+ * 
+ * @param userId 
+ * @returns - return all contracts for this lender
+ */
+const viewLenderContracts = async (userId)=>{
+    try {
+        const contractQueryResult = await Contracts.find({
+            lenderId : userId
+        });
+
+                
+        if( contractQueryResult ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'All contracts for this lender have been found.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contracts not found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
 
 module.exports = {
     endContract,
@@ -233,5 +267,6 @@ module.exports = {
     createContract,
     acceptContract,
     denyContract,
-    activeContract
+    activeContract,
+    viewLenderContracts
 }
