@@ -52,7 +52,7 @@ const checkInstallmentDate = require('../util/date');
     try {
         if( req.user == undefined ) {
             req.user = {
-                email : "receiver@gmail.com"
+                email : "anik65@gmail.com"
             }
         }
 
@@ -99,24 +99,28 @@ const checkInstallmentDate = require('../util/date');
 
                 if( index != -1 ){
                     outputData = data[index];
-                    outputContract = {
-                        activeContract: true,
-                        contractId: outputData._id,
-                        totalAmount : outputData.amount,
-                        signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
-                        collectedAmount: outputData.collectedAmount,
-                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
-                        nextInstallmentAmount: outputData.amount / outputData.installments,
-                        installmentsCompleted: outputData.installmentsCompleted,
-                        interestRate: outputData.interestRate,
-                        defaultedInstallments: outputData.defaultedInstallments
+                    const bkashInspect = await userInterface.fetchBkashNumber(req.params.id);
+                    if( bkashInspect.status == 'OK' ){
+                        outputContract = {
+                            activeContract: true,
+                            bkash: bkashInspect.data,
+                            contractId: outputData._id,
+                            totalAmount : outputData.amount,
+                            signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
+                            collectedAmount: outputData.collectedAmount,
+                            nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                            nextInstallmentAmount: outputData.amount / outputData.installments,
+                            installmentsCompleted: outputData.installmentsCompleted,
+                            interestRate: outputData.interestRate,
+                            defaultedInstallments: outputData.defaultedInstallments
+                        }
+    
+                        return res.status(200).send( {
+                            status: 'OK',
+                            data: outputContract,
+                            message: contractQueryResult.message
+                        } );
                     }
-
-                    return res.status(200).send( {
-                        status: 'OK',
-                        data: outputContract,
-                        message: contractQueryResult.message
-                    } );
                 }
 
                 /**Checking For Contract Offer here */

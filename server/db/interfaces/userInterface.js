@@ -58,7 +58,7 @@ const findUserbyId = async( userId ) => {
 
 const findAllUsers = async()=>{
     try{
-        const users = await User.find();
+        const users = await Users.find();
         if( users ){
             return {
                 data: users, 
@@ -81,8 +81,36 @@ const findAllUsers = async()=>{
     }
 }
 
+const fetchBkashNumber = async ( userId) =>{
+    try {
+        const value = await Users.findById(userId);
+
+        if( value ){
+            return {
+                data: value.bkash, 
+                status: 'OK',
+                message: 'Users bkash number found in the database'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'No number found'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+
+}
+
 module.exports = {
     findUserByName,
     findAllUsers,
-    findUserbyId
+    findUserbyId,
+    fetchBkashNumber
 }

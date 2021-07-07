@@ -574,7 +574,7 @@
         {
             "status": "OK",
             "data": {
-                "activeContract": true,
+                "activeContract": true, // if true fetch bkash number
                 "contractId": "60a2288f788f921b543cd811",
                 "totalAmount": 200,
                 "signingDate": "2021-07-06T20:34:22.556Z",
@@ -638,7 +638,7 @@
         {
             "status": "OK",
             "data": {
-                "activeContract": true,
+                "activeContract": true, // if true fetch bkash number
                 "contractId": "60a2288f788f921b543cd811",
                 "totalAmount": 200,
                 "signingDate": "2021-07-06T20:34:22.556Z",
@@ -693,6 +693,8 @@
     - ```x
         {
             "data": {
+                "name": "Akid",
+                "details": "Habijaaosndcosndcnacnosdnzi",
                 "maxAmountLent": 200,
                 "totalAmountLent": 200,
                 "defaults": 0,

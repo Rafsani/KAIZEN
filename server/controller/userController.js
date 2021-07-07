@@ -215,6 +215,7 @@ const handleGETLenderInfo = async (req,res,next)=>{
 
         if( authQueryresult.status == 'OK' && user.data.usertype == 'Receiver' ){
            const userQueryResult = await contractInterface.viewLenderContracts( req.params.lenderId );
+           let userInfo = await userInterface.findUserbyId( req.params.lenderId );
            if( userQueryResult.status == 'OK' ){
                 let data = userQueryResult.data;
             
@@ -240,6 +241,8 @@ const handleGETLenderInfo = async (req,res,next)=>{
                 });
     
                 output = {
+                    name: userInfo.data.username,
+                    details: userInfo.data.details,
                     maxAmountLent,
                     totalAmountLent,
                     defaults,
