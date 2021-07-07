@@ -4,7 +4,39 @@ import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 
-function PostRequestForm({ onCancel, onSubmit }) {
+function PostRequestForm({ interestRate, onCancel, onSubmit }) {
+  const [amount, setAmount] = useState([]);
+  const [reason, setReason] = useState([]);
+  const [minAmount, setMinAmount] = useState(1000);
+  const [maxAmount, setMaxAmount] = useState(10000);
+  const [minReasonLength, setMinReasonLength] = useState(1);
+
+  const handleAmountChange = (event) => {
+    console.log(event.target.name, event.target.value);
+    setAmount(event.target.value);
+  };
+
+  const handleReasonChange = (event) => {
+    console.log(event.target.name, event.target.value);
+    setReason(event.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (
+      amount &&
+      amount >= minAmount &&
+      amount <= maxAmount &&
+      reason &&
+      reason.length >= minReasonLength
+    ) {
+      const value = {
+        Amount: amount,
+        Details: reason,
+      };
+      onSubmit(value);
+    }
+  };
+
   return (
     <div class="loan-request-popup " id="loan-request-popup">
       <div class="loan-request-card content-box" id="popup-request">
@@ -16,14 +48,25 @@ function PostRequestForm({ onCancel, onSubmit }) {
           <div class="small-input-field inputs-div">
             <aside>
               <h3>Loan Amount</h3>
-              <p>Between (1000 - 10000 bdt)</p>
+              <p>
+                Between ({minAmount} - {maxAmount} BDT)
+              </p>
               <p>
                 {" "}
-                +<span class="interest">5%</span> interest-rate applies
+                +<span class="interest">{interestRate}%</span> interest-rate
+                applies
               </p>
             </aside>
             <div class="input-field">
-              {/* <input type="number" class="small-input" max="10000" min="1000" required> */}
+              <input
+                type="number"
+                class="small-input"
+                max={maxAmount}
+                min={minAmount}
+                value={amount}
+                onChange={handleAmountChange}
+                required
+              />
             </div>
           </div>
 
@@ -41,6 +84,8 @@ function PostRequestForm({ onCancel, onSubmit }) {
                 rows="5"
                 maxlength="140"
                 minlength="1"
+                value={reason}
+                onChange={handleReasonChange}
               ></textarea>
             </div>
           </div>
@@ -50,11 +95,7 @@ function PostRequestForm({ onCancel, onSubmit }) {
             <a href="#!" class="btn-form btn-light" onClick={onCancel}>
               Cancel
             </a>
-            <a
-              href="#"
-              class="btn-form btn-dark"
-              onClick={() => onSubmit(">:(")}
-            >
+            <a href="#" class="btn-form btn-dark" onClick={handleSubmit}>
               Post
             </a>
           </div>
