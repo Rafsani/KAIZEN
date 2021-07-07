@@ -313,6 +313,44 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+  const handleAcceptContractRequest = async (contractDetails) => {
+    console.log("handling Accept", contractDetails);
+    await Axios({
+      method: "PUT",
+      withCredentials: true,
+      url: `http://localhost:5000/api/contract/${contractDetails.contractId}`,
+      data: {
+        issuerId: userId,
+      },
+    })
+      .then((res) => {
+        console.log("PUT Response: ", res);
+        fetchData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleDeclineContractRequest = async (contractDetails) => {
+    console.log("handling Decline", contractDetails);
+    await Axios({
+      method: "DELETE",
+      withCredentials: true,
+      url: `http://localhost:5000/api/contract/${contractDetails.contractId}`,
+      data: {
+        issuerId: userId,
+      },
+    })
+      .then((res) => {
+        console.log("DELETE Response: ", res);
+        fetchData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const showContractRequests = () => {
     return (
       contractRequests &&
@@ -324,6 +362,8 @@ function ReceiverProfile({ userId, hiddenData }) {
               {contractRequests.map((offerDetails) => (
                 <ContractRequestCard
                   offerDetails={offerDetails}
+                  onAccept={handleAcceptContractRequest}
+                  onDecline={handleDeclineContractRequest}
                   key={offerDetails.contractId}
                 />
               ))}
