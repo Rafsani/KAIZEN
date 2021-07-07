@@ -164,14 +164,18 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
             let data = loanQueryResult.data[0];
             let minInstallmentDate = new Date(8640000000000000);
 
-            // checks every contract in the loan for minimum installment date
-            data.contracts.forEach( element => {
-                let minDate = checkInstallmentDate.returnNextInstallmentDate( element.installmentDates );
 
-                if( minDate < minInstallmentDate ){
-                    minInstallmentDate = minDate;
-                }
-            }) 
+            // checks every contract in the loan for minimum installment date
+            if( data.contracts[0] != null ){
+                console.log(data.contracts);
+                data.contracts.forEach( element => {
+                    let minDate = checkInstallmentDate.returnNextInstallmentDate( element.installmentDates );
+    
+                    if( minDate < minInstallmentDate ){
+                        minInstallmentDate = minDate;
+                    }
+                })
+            } 
             
             let outputInstallmentDate = ( minInstallmentDate.getTime() == new Date(8640000000000000).getTime() ) ? "No Contract Signed Yet": minInstallmentDate.getDate() + '/' + parseInt(minInstallmentDate.getMonth() + 1) + '/' + minInstallmentDate.getFullYear();
             let outputExpirationDate = new Date( new Date(data.issueDate).getTime() + parseInt( process.env.EXPIRE_LOAN ) );

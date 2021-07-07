@@ -224,9 +224,10 @@ const handlePUTAcceptContract = async ( req,res,next )=>{
 
             const loanQueryResult = await loanInterface.acceptContractOffer( {
                 loanId: contractQueryResult.data.loanId,
-                contractId: req.params.contractId,
+                contractId: req.params.id,
                 issuerId: req.body.issuerId
             });
+
 
             if( loanQueryResult.status == 'OK' ){
                 return res.status(200).send( {
@@ -267,7 +268,7 @@ const handleDELETEDenyContract = async ( req,res,next )=>{
 
             const loanQueryResult = await loanInterface.denyContractOffer( {
                 loanId: contractQueryResult.data.loanId,
-                contractId: req.params.contractId,
+                contractId: req.params.id,
                 issuerId: req.body.issuerId
             });
 
