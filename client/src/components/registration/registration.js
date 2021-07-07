@@ -43,6 +43,7 @@ function Registration() {
         usertype: AccountType,
         dob: Dob,
         about: About,
+        collateral: "https://youtu.be/CggXSu_P2GQ",
       },
       withCredentials: true,
       // url: "http://localhost:5000/api/auth/login",
