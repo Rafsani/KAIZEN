@@ -198,8 +198,11 @@ const handlePOSTCreateLoan = async( req,res,next)=>{
         }
 
         if( lastIssuedLoan ){
+			let outputLoan = {
+			    lastIssuedLoan: lastIssuedLoan.data
+			}
             return res.status(200).send({
-                data: lastIssuedLoan.data,
+                data: outputLoan,
                 status: 'OK',
                 message: 'Found last issued loan from database'
             });
