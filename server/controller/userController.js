@@ -101,8 +101,11 @@ const loanInterface = require('../db/interfaces/loanInterface');
         /** This is for the receiver dashboard */
         else if( userQueryResult.data.usertype == 'Receiver' ){
             historyQueryResult = await loanInterface.getLoanByUserID( req.params.userId ) ;
+            const receiverQueryResult = await userInterface.findUserbyId( req.params.userId );
             
-            if( historyQueryResult.status == 'OK' ){
+            if( historyQueryResult.status == 'OK' && receiverQueryResult.status == 'OK' ){
+                let username = receiverQueryResult.data.username;
+                let details = receiverQueryResult.data.detais;
                 let loanRequests = historyQueryResult.data.length;
                 let totalContracts = 0;
                 historyQueryResult.data.forEach( item => {
@@ -110,6 +113,8 @@ const loanInterface = require('../db/interfaces/loanInterface');
                 });
 
                 outputHistory = {
+                    username,
+                    details,
                     loanRequests ,
                     totalContracts,
                     defaults: userQueryResult.data.loanDefaults,
