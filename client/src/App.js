@@ -12,6 +12,7 @@ import HomePage from "./components/home/home1";
 import Registration from "./components/registration/registration";
 import Profile from "./components/profile/profile";
 import LenderViewsReceiver from "./components/profile/LenderViewsReceiver";
+import ReceiverViewsLender from "./components/profile/receiverViewsLender";
 
 function App() {
   return (
@@ -33,9 +34,15 @@ function App() {
           exact
         />
         <PrivateRoute
-          name="view"
+          name="lenderViewsReceiver"
           path="/lenderViewsReceiver"
           component={LenderViewsReceiver}
+          exact
+        />
+        <PrivateRoute
+          name="receiverViewsLender"
+          path="/receiverViewsLender"
+          component={ReceiverViewsLender}
           exact
         />
         <Route name="signup" path="/signup" component={Signup} exact />

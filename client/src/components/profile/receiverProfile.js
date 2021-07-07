@@ -366,6 +366,7 @@ function ReceiverProfile({ userId, hiddenData }) {
               {contractRequests.map((offerDetails) => (
                 <ContractRequestCard
                   offerDetails={offerDetails}
+                  userId={userId}
                   onAccept={handleAcceptContractRequest}
                   onDecline={handleDeclineContractRequest}
                   key={offerDetails.contractId}
