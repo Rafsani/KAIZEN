@@ -326,11 +326,39 @@ const handleGETLoanOffers = async (req,res,next) => {
     }
 }
 
+
+
+
+/**
+ * @description this method repays loans
+ * @route - PUT /api/loans/pay/:contractId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handlePUTRepayLoans = async( req,res,next)=>{
+    try {
+        
+        const loanQueryResult = await loanInterface.repayLoan( req.params.contractId );
+        if( loanQueryResult.status == 'OK' ){
+            return res.status(200).send(loanQueryResult);
+        }
+
+        return res.status(400).send(loanQueryResult);
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
 module.exports = {
     handleGETallLoans,
     handleGETLoanById,
     handlePOSTCreateLoan,
     handleGETPendingLoanForUser,
     handleGETLoanOffers,
-    handleGETCurrentLenders
+    handleGETCurrentLenders,
+    handlePUTRepayLoans
 }

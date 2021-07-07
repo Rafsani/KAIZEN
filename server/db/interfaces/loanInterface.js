@@ -185,6 +185,44 @@ const LoanRequest = require('../models/LoanRequestModel');
     }
 }
 
+/** WILL BE REMOVED */
+/**
+ * @description - repays the loan
+ * @param  body - contractId
+ * @returns 
+ */
+ const repayLoan = async( contractId )=> {
+    try {
+
+        const loan = await LoanRequest.findOneAndUpdate( {
+            contracts: { $in: contractId }
+        } , {
+            $pull: { contracts : contractId }, // add to set only adds once
+        },
+        { safe: true });
+
+        if( loan ){
+            return {
+                data: loan, 
+                status: 'OK',
+                message: 'Repaid Loan'
+            }
+        }
+        
+        return {
+            data: null, 
+            status: 'ERROR',
+            message: 'Can not repay loan'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 /**
  * @description create loan
  * @param  body -  user , amount, details
@@ -345,5 +383,6 @@ module.exports = {
     getLoanOffersByUserID,
     acceptContractOffer,
     denyContractOffer,
-    lastIssuedLoan
+    lastIssuedLoan,
+    repayLoan
 }

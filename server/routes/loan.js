@@ -20,4 +20,8 @@ router.route('/request/:loanId')
 router.route('/lenders/:loanId')
     .get( loanController.handleGETCurrentLenders );
 
+router.route('/pay/:contractId')
+    .put( loanController.handlePUTRepayLoans );
+
+
 module.exports = router;
