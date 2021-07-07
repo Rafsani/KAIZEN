@@ -10,51 +10,99 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import ContractCard from "./contractCard";
 import formatDate from "../../utils/formatDate";
 import BasicInfo from "./basicInfo";
+import LenderCard from "./lenderCard";
+import ContractRequestCard from "./contractRequestCard";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState([]);
   const [history, setHistory] = useState(null);
   const [loanInfo, setLoanInfo] = useState(null);
+  const [lenders, setLenders] = useState(null);
+  const [lenderLimit, setLenderLimit] = useState(5);
+  const [contractRequests, setContractRequests] = useState(null);
 
   const fetchData = async () => {
     let tempActiveRequest;
     let tempHistory;
     let tempLoanInfo;
+    let tempLenders, tempContractRequests;
 
     // check if receiver has active loan request
     await Axios({
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/user/loanverify",
-    }).then((res) => {
-      console.log(res);
-      tempActiveRequest = !res.data.data;
-      console.log("Receiver has active loan request: ", tempActiveRequest);
-      setActiveRequest(tempActiveRequest);
-    });
+    })
+      .then((res) => {
+        console.log(res);
+        tempActiveRequest = !res.data.data;
+        console.log("Receiver has active loan request: ", tempActiveRequest);
+        setActiveRequest(tempActiveRequest);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     // check user's past history
     await Axios({
       method: "GET",
       withCredentials: true,
       url: `http://localhost:5000/api/user/${userId}/history`,
-    }).then((res) => {
-      tempHistory = res.data.data;
-      console.log("Receiver history: ", tempHistory);
-      setHistory(tempHistory);
-    });
+    })
+      .then((res) => {
+        tempHistory = res.data.data;
+        console.log("Receiver history: ", tempHistory);
+        setHistory(tempHistory);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-    // if there's an active loan, get loan info
-    if (tempActiveRequest) {
-      await Axios({
-        method: "GET",
-        withCredentials: true,
-        url: `http://localhost:5000/api/loans/user/${userId}`,
-      }).then((res) => {
+    // get loan info
+    await Axios({
+      method: "GET",
+      withCredentials: true,
+      url: `http://localhost:5000/api/loans/user/${userId}`,
+    })
+      .then((res) => {
         tempLoanInfo = res.data.data;
         console.log("Receiver Loan Info: ", tempLoanInfo);
         setLoanInfo(tempLoanInfo);
+      })
+      .catch((error) => {
+        console.log(error);
       });
+
+    // if loanInfo.lastIssuedLoan exists,
+    // fetch the current lenders and contract requests
+    if (tempLoanInfo && tempLoanInfo.lastIssuedLoan) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/loans/lenders/${tempLoanInfo.lastIssuedLoan}`,
+      })
+        .then((res) => {
+          tempLenders = res.data.data;
+          console.log("Current lenders: ", tempLenders);
+          setLenders(tempLenders);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/loans/request/${tempLoanInfo.lastIssuedLoan}`,
+      })
+        .then((res) => {
+          tempContractRequests = res.data.data;
+          console.log("Contract Requests/Offers: ", tempContractRequests);
+          setContractRequests(tempContractRequests);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -86,7 +134,7 @@ function ReceiverProfile({ userId, hiddenData }) {
             be healthy again.{" "}
           </p>
           <cite>
-            - 01/01/2021 <br />
+            - {formatDate(loanInfo.issueDate)} <br />
           </cite>
           <div class="loan-data">
             <div class="item">
@@ -172,6 +220,70 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+  const showPostRequest = () => {
+    return (
+      !activeRequest &&
+      (!lenders || lenders.length === 0) && (
+        <div class="no-loan-buttons" id="no-loan-buttons">
+          <div class="buttons">
+            <a href="#!" class="btn-profile btn-dark">
+              Post A Request
+            </a>
+          </div>
+        </div>
+      )
+    );
+  };
+
+  const showLenders = () => {
+    return (
+      lenders && (
+        <div
+          class="current-lenders-section content-box "
+          id="current-lenders-section"
+        >
+          <div class="accepted-requests">
+            <h1>
+              Current Lenders
+              {lenders.length >= lenderLimit && (
+                <i
+                  class="fas fa-flag-checkered "
+                  data-tooltip="Reached Your Limit For Lenders"
+                ></i>
+              )}
+            </h1>
+            <div class="user-cards">
+              {lenders.map((lenderDetails) => (
+                <LenderCard lenderDetails={lenderDetails} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    );
+  };
+
+  const showContractRequests = () => {
+    return (
+      contractRequests &&
+      contractRequests.length > 0 && (
+        <div class="side-scroll-section content-box " id="side-scroll-section">
+          <div class="loan-offers " id="loan-offers">
+            <h1>Contract Requests</h1>
+            <div class="user-cards scroller">
+              {contractRequests.map((offerDetails) => (
+                <ContractRequestCard
+                  offerDetails={offerDetails}
+                  key={offerDetails.contractId}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    );
+  };
+
   return (
     <div>
       <main class="" id="main">
@@ -180,7 +292,12 @@ function ReceiverProfile({ userId, hiddenData }) {
           {showNoLoanRequest()}
           {showLoanInfo()}
         </div>
+        <div class="buttons-list content-box" id="buttons-list">
+          {showPostRequest()}
+        </div>
         {showReceiverHistory()}
+        {showLenders()}
+        {showContractRequests()}
       </main>
     </div>
   );

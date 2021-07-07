@@ -9,6 +9,7 @@ import BASE_URL from "../Base_url";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import LoanCards from "./LoanCards";
 import { config } from "@fortawesome/fontawesome-svg-core";
+import { Redirect, useHistory } from "react-router-dom";
 
 function getdate(dt) {
   return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
@@ -113,6 +114,10 @@ export default function HomePage() {
   const switchToDonations = () => {
     if (!showDonations) setShowDonations(true);
   };
+
+  if (hiddenData.usertype === "Receiver") {
+    return <Redirect to="/profile" />;
+  }
 
   return (
     <div>

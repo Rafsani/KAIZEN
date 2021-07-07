@@ -1,0 +1,66 @@
+import React, { useState, useEffect } from "react";
+
+import "./profile.css";
+
+import formatDate from "../../utils/formatDate";
+
+function ContractRequestCard({ offerDetails }) {
+  return (
+    <div class="card-profile">
+      <div class="photo-space"></div>
+      <div class="user-info">
+        <div class="name">{offerDetails.lenderName}</div>
+        <div class="loan-contract-details">
+          <div class="item">
+            <div class="total">
+              <span class="field">Total Amount</span>
+            </div>
+            <div class="collected">
+              <span class="field">{offerDetails.totalAmount} BDT</span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="next-installment">
+              <span class="field">Expiration Date</span>
+            </div>
+            <div class="amount">
+              <span class="field">
+                {formatDate(offerDetails.expirationDate)}
+              </span>
+            </div>
+          </div>
+          <div class="item  special-item">
+            <div class="next-installment">
+              <span class="field">Installments</span>
+            </div>
+            <div class="amount">
+              <span class="field">{offerDetails.installments}</span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="interest-rate">
+              <span class="field">Interest Rate</span>
+            </div>
+            <div class="default">
+              <span class="field">{offerDetails.interestRate}%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="small-buttons-list">
+        <div class="buttons ">
+          <a href="#" class="small-btn-profile btn-dark">
+            Accept
+          </a>
+        </div>
+        <div class="buttons">
+          <a href="#" class="small-btn-profile btn-light">
+            Decline
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ContractRequestCard;

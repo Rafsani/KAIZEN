@@ -8,7 +8,6 @@ import formatDate from "../../utils/formatDate";
 function ContractCard({ contractDetails }) {
   return (
     <div>
-      {/* <p>Shit hit the fan!</p> */}
       <div class="card-profile">
         <div class="photo-space"></div>
         <div class="user-info">

@@ -66,26 +66,32 @@ function LenderProfile({ userId, hiddenData }) {
           </div>
         </div>
 
-        <div class="side-scroll-section content-box " id="side-scroll-section">
-          <div class="currently-lending " id="currently-lending">
-            <h1>
-              Currently Lending
-              <i
-                class="fas fa-flag-checkered "
-                data-tooltip="Reached Your Limit For Lenders"
-              ></i>
-            </h1>
-            <div class="user-cards scroller">
-              {history.currentlyActiveContacts &&
-                history.currentlyActiveContacts.map((contract) => (
-                  <ContractCard
-                    key={contract.contractId}
-                    contractDetails={contract}
-                  />
-                ))}
+        {history.currentlyActiveContacts &&
+          history.currentlyActiveContacts.length > 0 && (
+            <div
+              class="side-scroll-section content-box "
+              id="side-scroll-section"
+            >
+              <div class="currently-lending " id="currently-lending">
+                <h1>
+                  Currently Lending
+                  <i
+                    class="fas fa-flag-checkered "
+                    data-tooltip="Reached Your Limit For Lenders"
+                  ></i>
+                </h1>
+                <div class="user-cards scroller">
+                  {history.currentlyActiveContacts &&
+                    history.currentlyActiveContacts.map((contract) => (
+                      <ContractCard
+                        key={contract.contractId}
+                        contractDetails={contract}
+                      />
+                    ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
       </main>
     </div>
   );
