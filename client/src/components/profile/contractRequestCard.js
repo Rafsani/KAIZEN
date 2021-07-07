@@ -4,7 +4,8 @@ import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 
-function ContractRequestCard({ offerDetails }) {
+function ContractRequestCard({ offerDetails, onAccept, onDecline }) {
+  console.log("Offer details: ", offerDetails);
   return (
     <div class="card-profile">
       <div class="photo-space"></div>
@@ -49,12 +50,20 @@ function ContractRequestCard({ offerDetails }) {
       </div>
       <div class="small-buttons-list">
         <div class="buttons ">
-          <a href="#" class="small-btn-profile btn-dark">
+          <a
+            onClick={() => onAccept(offerDetails)}
+            href="#"
+            class="small-btn-profile btn-dark"
+          >
             Accept
           </a>
         </div>
         <div class="buttons">
-          <a href="#" class="small-btn-profile btn-light">
+          <a
+            onClick={() => onDecline(offerDetails)}
+            href="#"
+            class="small-btn-profile btn-light"
+          >
             Decline
           </a>
         </div>
