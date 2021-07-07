@@ -44,7 +44,6 @@ const checkInstallmentDate = require('../util/date');
 /**
  * @description - this method will return the active contract , otherwise contract request
  * @route - GET /api/contract/:receiverId  // can be lenderId as well
- * @route - GET /api/contract/:receiverId?type=offer
  * @param {*} req - request for the api call
  * @param {*} res - Response for the api call
  * @returns 
@@ -57,7 +56,6 @@ const checkInstallmentDate = require('../util/date');
             }
         }
 
-        console.log(req.query.type);
 
         const authQueryresult = await authInterface.loggedInUser(req.user.email);
         const user = await userInterface.findUserbyId( authQueryresult.data );
@@ -84,85 +82,69 @@ const checkInstallmentDate = require('../util/date');
 
                 let data = contractQueryResult.data;
                 let index = -1;
+                let offerIndex = -1;
+                let outputData;
 
-
-                if( req.query.type == undefined ){
-
-                    data.every( (item , idx ) => {
-                        if( item.status == 'Pending' ){
-                            index = idx;
-                            return false;
-                        }
-
-                        return true;
-                    })
-
-                    if( index != -1 ){
-                        let outputData = data[index];
-                        outputContract = {
-                            contractId: outputData._id,
-                            totalAmount : outputData.amount,
-                            signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
-                            collectedAmount: outputData.collectedAmount,
-                            nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
-                            nextInstallmentAmount: outputData.amount / outputData.installments,
-                            installmentsCompleted: outputData.installmentsCompleted,
-                            interestRate: outputData.interestRate,
-                            defaultedInstallments: outputData.defaultedInstallments
-                        }
-
-                        return res.status(200).send( {
-                            status: 'OK',
-                            data: outputContract,
-                            message: contractQueryResult.message
-                        } );
-                    }else {
-                        return res.status(200).send( {
-                            status: 'ERROR',
-                            data: null,
-                            message: "No active request at this moment."
-                        } );
+                data.every( (item , idx ) => {
+                    if( item.status == 'Pending' ){
+                        index = idx;
+                        return false;
                     }
-                } 
+                    else if( item.status == 'Requested' ){
+                        offerIndex = idx;
+                    }
+
+                    return true;
+                })
+
+                if( index != -1 ){
+                    outputData = data[index];
+                    outputContract = {
+                        contractId: outputData._id,
+                        totalAmount : outputData.amount,
+                        signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
+                        collectedAmount: outputData.collectedAmount,
+                        nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                        nextInstallmentAmount: outputData.amount / outputData.installments,
+                        installmentsCompleted: outputData.installmentsCompleted,
+                        interestRate: outputData.interestRate,
+                        defaultedInstallments: outputData.defaultedInstallments
+                    }
+
+                    return res.status(200).send( {
+                        status: 'OK',
+                        data: outputContract,
+                        message: contractQueryResult.message
+                    } );
+                }
+
+                /**Checking For Contract Offer here */
+                else if( offerIndex != -1 ){
+                    outputData = data[offerIndex];
+                    outputContract = {
+                        contractId: outputData._id,
+                        totalAmount : outputData.amount,
+                        signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
+                        installments:  outputData.installments,
+                        firstInstallmentDate: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
+                        finalInstallmentDate: outputData.installmentDates[ outputData.installmentDates.length - 1 ],
+                        totalAmountWithInterest: outputData.amount * ( 1 + outputData.interestRate /100 ),
+                        interestRate: outputData.interestRate
+                    }
+
+                    return res.status(200).send( {
+                        status: 'OK',
+                        data: outputContract,
+                        message: "Contract Offer has been found"
+                    } );
+                }
                 
-                else if( req.query.type == 'offer' ){
-                    // this will only be accessed by receiver
-                    /**Means there is no active contract */
-
-                    data.every( (item , idx ) => {
-                        if( item.status == 'Requested' ){
-                            index = idx;
-                            return false;
-                        }
-
-                        return true;
-                    })
-
-                    if( index != -1 ){
-                        let outputData = data[index];
-                        outputContract = {
-                            contractId: outputData._id,
-                            totalAmount : outputData.amount,
-                            signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
-                            installments:  outputData.installments,
-                            firstInstallmentDate: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
-                            finishPaymentDate: outputData.installmentDates[ outputData.installmentDates.length - 1 ],
-                            totalAmountWithInterest: outputData.amount * ( 1 + outputData.interestRate /100 ),
-                            interestRate: outputData.interestRate
-                        }
-
-                        return res.status(200).send( {
-                            status: 'OK',
-                            data: outputContract,
-                            message: "Contract Offer has been found"
-                        } );
-                    }else {
-                        return res.status(200).send( {
-                            status: 'ERROR',
-                            data: null,
-                            message: "No contract offer found."
-                        } );
-                    }
+                else {
+                    return res.status(200).send( {
+                        status: 'ERROR',
+                        data: null,
+                        message: "No active request at this moment. Nor any contract offer found."
+                    } );
                 }
                 
             }
