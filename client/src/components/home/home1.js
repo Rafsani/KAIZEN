@@ -89,8 +89,7 @@ export default function HomePage() {
   const showBanner = () => {
     if (
       formBooleans.hiddenDetails ||
-      (hiddenData.usertype === "Receiver" &&
-      formBooleans.collateral)
+      (hiddenData.usertype === "Receiver" && formBooleans.collateral)
     ) {
       return <div></div>;
     } else {
@@ -148,7 +147,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <LoanCards requests={showDonations ? donations : loans} />
+      <LoanCards requests={showDonations ? donations : loans} userId={userId} />
 
       <div class="footer">
         <p>You can find the project link here:</p>

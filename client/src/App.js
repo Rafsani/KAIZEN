@@ -11,6 +11,7 @@ import Loanrequest from "./components/loanRequest/loanrequest";
 import HomePage from "./components/home/home1";
 import Registration from "./components/registration/registration";
 import Profile from "./components/profile/profile";
+import LenderViewsReceiver from "./components/profile/LenderViewsReceiver";
 
 function App() {
   return (
@@ -29,6 +30,12 @@ function App() {
           name="profile"
           path="/profile"
           component={Profile}
+          exact
+        />
+        <PrivateRoute
+          name="view"
+          path="/lenderViewsReceiver"
+          component={LenderViewsReceiver}
           exact
         />
         <Route name="signup" path="/signup" component={Signup} exact />

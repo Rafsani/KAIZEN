@@ -4,7 +4,7 @@ import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 
-function LenderCard({ lenderDetails }) {
+function LenderCard({ lenderDetails, viewButtons }) {
   return (
     <div class="card-profile">
       <div class="photo-space"></div>
@@ -58,18 +58,20 @@ function LenderCard({ lenderDetails }) {
           </div>
         </div>
       </div>
-      <div class="small-buttons-list" id="report-issue-1">
-        <div class="buttons">
-          <a href="#" class="small-btn-profile btn-dark">
-            Repay Loan
-          </a>
+      {viewButtons && (
+        <div class="small-buttons-list" id="report-issue-1">
+          <div class="buttons">
+            <a href="#" class="small-btn-profile btn-dark">
+              Repay Loan
+            </a>
+          </div>
+          <div class="buttons">
+            <a href="#" class="small-btn-profile btn-light">
+              Report Issue
+            </a>
+          </div>
         </div>
-        <div class="buttons">
-          <a href="#" class="small-btn-profile btn-light">
-            Report Issue
-          </a>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
