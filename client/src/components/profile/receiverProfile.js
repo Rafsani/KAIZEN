@@ -39,7 +39,6 @@ function ReceiverProfile({ userId, hiddenData }) {
       url: "http://localhost:5000/api/user/loanverify",
     })
       .then((res) => {
-        console.log(res);
         tempActiveRequest = !res.data.data;
         console.log("Receiver has active loan request: ", tempActiveRequest);
         setActiveRequest(tempActiveRequest);
@@ -135,8 +134,9 @@ function ReceiverProfile({ userId, hiddenData }) {
         <div class="loan-info " id="loan-info">
           <h1>Loan Information</h1>
           <p>
-            I want loan because I need treatment. I want to live and I want to
-            be healthy again.{" "}
+            {/* I want loan because I need treatment. I want to live and I want to
+            be healthy again.{" "} */}
+            {loanInfo.details}
           </p>
           <cite>
             - {formatDate(loanInfo.issueDate)} <br />
@@ -233,8 +233,21 @@ function ReceiverProfile({ userId, hiddenData }) {
     setPostRequestPopUpFormVisible(false);
   };
 
-  const handleSubmitPostRequestPopUp = (val) => {
+  const handleSubmitPostRequestPopUp = async (val) => {
     console.log("Submitted!", val);
+    await Axios({
+      method: "POST",
+      withCredentials: true,
+      url: `http://localhost:5000/api/loans`,
+      data: val,
+    })
+      .then((res) => {
+        console.log("POST response: ", res);
+        fetchData();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     handleClosePostRequestPopUp();
   };
 
@@ -243,6 +256,7 @@ function ReceiverProfile({ userId, hiddenData }) {
       if (postRequestPopUpFormVisible) {
         return (
           <PostRequestForm
+            interestRate={hiddenData.verifiedStatus ? 5 : 8}
             onCancel={handleClosePostRequestPopUp}
             onSubmit={handleSubmitPostRequestPopUp}
           />
