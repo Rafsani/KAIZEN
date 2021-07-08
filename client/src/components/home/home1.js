@@ -10,6 +10,7 @@ import { faStar } from "@fortawesome/free-solid-svg-icons";
 import LoanCards from "./LoanCards";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { Redirect, useHistory } from "react-router-dom";
+import LoadingScreen from "../loadingScreen/loadingScreen";
 
 function getdate(dt) {
   return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
@@ -22,6 +23,7 @@ export default function HomePage() {
   const [userId, setUserId] = useState([]);
   const [hiddenData, setHiddenData] = useState([]);
   const [formBooleans, setFormBooleans] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
 
   const fetchdata = async () => {
     let tempLoans, tempDonations;
@@ -80,6 +82,8 @@ export default function HomePage() {
       console.log("form Booleans: ", tempFormBooleans);
       setFormBooleans(tempFormBooleans);
     });
+
+    setLoadingData(false);
   };
 
   useEffect(() => {
@@ -116,6 +120,10 @@ export default function HomePage() {
 
   if (hiddenData.usertype === "Receiver") {
     return <Redirect to="/profile" />;
+  }
+
+  if (loadingData) {
+    return <LoadingScreen />;
   }
 
   return (

@@ -20,9 +20,9 @@ function LoanCards({ requests, userId }) {
               <Link
                 to={{
                   pathname: "/lenderViewsReceiver",
-                  loanInfo: value,
                   lenderViewsReceiver: true,
-                  userId: userId,
+                  lenderId: userId,
+                  receiverId: value.Receiver._id,
                 }}
               >
                 <div class="photo-space"></div>

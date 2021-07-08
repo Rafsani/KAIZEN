@@ -5,15 +5,24 @@ import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 
-function LenderCard({ lenderDetails, userId, viewButtons }) {
+function LenderCard({
+  lenderDetails,
+  userId,
+  targetId,
+  viewAsReceiver,
+  viewButtons,
+}) {
   return (
     <div class="card-profile">
       <Link
         to={{
-          pathname: "/receiverViewsLender",
-          receiverViewsLender: true,
-          receiverId: userId,
-          lenderId: lenderDetails.lenderId,
+          pathname: viewAsReceiver
+            ? "/receiverViewsLender"
+            : "/lenderViewsLender",
+          receiverViewsLender: viewAsReceiver,
+          receiverId: viewAsReceiver && userId,
+          lenderId: viewAsReceiver ? targetId : userId,
+          lender2Id: !viewAsReceiver && targetId,
         }}
       >
         <div class="photo-space"></div>

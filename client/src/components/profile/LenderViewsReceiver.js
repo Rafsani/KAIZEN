@@ -13,11 +13,13 @@ import ContractRequestCard from "./contractRequestCard";
 import OfferContractForm from "./OfferContractForm";
 import { useRadioGroup } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
+import LoadingScreen from "../loadingScreen/loadingScreen";
 
 function LenderViewsReceiver(props) {
   const [lenderViewsReceiver, setLenderViewsReceiver] = useState(false);
-  const [userId, setUserId] = useState(null);
-  const [receiver, setReceiver] = useState(null);
+  const [lenderId, setLenderId] = useState(null);
+  const [receiverId, setReceiverId] = useState(null);
+  const [receiverData, setReceiverData] = useState(null);
   const [loanInfo, setLoanInfo] = useState(null);
   const [lenders, setLenders] = useState(null);
   const [lenderLimit, setLenderLimit] = useState(5);
@@ -25,11 +27,13 @@ function LenderViewsReceiver(props) {
     contractOfferPopUpFormVisible,
     setContractOfferPopUpFormVisible,
   ] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   let pageHistory = useHistory();
 
   const fetchData = async () => {
     let tempLenderViewsReceiver;
-    let tempUserId, tempReceiver;
+    let tempLenderId, tempReceiverId;
+    let tempReceiverData;
     let tempLoanInfo;
     let tempLenders;
 
@@ -39,22 +43,30 @@ function LenderViewsReceiver(props) {
       props && props.location && props.location.lenderViewsReceiver;
     setLenderViewsReceiver(props.location.lenderViewsReceiver);
 
-    tempUserId = props && props.location && props.location.userId;
-    setUserId(tempUserId);
+    tempLenderId = props && props.location && props.location.lenderId;
+    setLenderId(tempLenderId);
 
-    tempReceiver =
-      props &&
-      props.location &&
-      props.location.loanInfo &&
-      props.location.loanInfo.Receiver;
-    setReceiver(tempReceiver);
+    tempReceiverId = props && props.location && props.location.receiverId;
+    setReceiverId(tempReceiverId);
 
-    if (tempReceiver) {
+    if (tempReceiverId) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/user/${tempReceiverId}`,
+      }).then((res) => {
+        tempReceiverData = res.data.data;
+        console.log("Receiver Data: ", tempReceiverData);
+        setReceiverData(tempReceiverData);
+      });
+    }
+
+    if (tempReceiverId) {
       // get loan info
       await Axios({
         method: "GET",
         withCredentials: true,
-        url: `http://localhost:5000/api/loans/user/${tempReceiver._id}`,
+        url: `http://localhost:5000/api/loans/user/${tempReceiverId}`,
       })
         .then((res) => {
           tempLoanInfo = res.data.data;
@@ -85,13 +97,17 @@ function LenderViewsReceiver(props) {
           setLenders(null);
         });
     }
+
+    setLoadingData(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  console.log("receiver: ", receiver);
+  console.log("lenderId: ", lenderId);
+  console.log("receiverId: ", receiverId);
+  console.log("receiverData: ", receiverData);
   console.log("loanInfo: ", loanInfo);
   console.log("lenders: ", lenders);
 
@@ -176,7 +192,13 @@ function LenderViewsReceiver(props) {
             </h1>
             <div class="user-cards">
               {lenders.map((lenderDetails) => (
-                <LenderCard viewButtons={false} lenderDetails={lenderDetails} />
+                <LenderCard
+                  lenderDetails={lenderDetails}
+                  userId={lenderId}
+                  targetId={lenderDetails.lenderId}
+                  viewAsReceiver={false}
+                  viewButtons={false}
+                />
               ))}
             </div>
           </div>
@@ -197,8 +219,8 @@ function LenderViewsReceiver(props) {
     console.log("Submitted: ", val);
     const data = {
       loanId: loanInfo.lastIssuedLoan,
-      lenderId: userId,
-      receiverId: receiver._id,
+      lenderId: lenderId,
+      receiverId: receiverId,
       amount: val.amount,
       installments: val.installments,
     };
@@ -224,7 +246,7 @@ function LenderViewsReceiver(props) {
       if (contractOfferPopUpFormVisible) {
         return (
           <OfferContractForm
-            interestRate={receiver.verifiedStatus ? 5 : 8}
+            interestRate={receiverData.verifiedStatus ? 5 : 8}
             onCancel={handleCloseContractOfferPopUp}
             onSubmit={handleSubmitContractOfferPopUp}
           />
@@ -253,25 +275,31 @@ function LenderViewsReceiver(props) {
     }
   };
 
-  return (
-    <div className="Profile">
-      <AppNavBar />
+  if (loadingData) {
+    return <LoadingScreen />;
+  }
 
-      <main
-        class={contractOfferPopUpFormVisible && "background-blur"}
-        id="main"
-      >
-        {receiver && <BasicInfo hiddenData={receiver} />}
-        <div class="loan-contract-info content-box" id="loan-contract-info">
-          {showLoanInfo()}
-        </div>
-        <div class="buttons-list content-box" id="buttons-list">
-          {showContractOfferButton()}
-        </div>
-        {showLenders()}
-      </main>
-      {showContractOfferForm()}
-    </div>
+  return (
+    receiverData && (
+      <div className="Profile">
+        <AppNavBar />
+
+        <main
+          class={contractOfferPopUpFormVisible && "background-blur"}
+          id="main"
+        >
+          {receiverData && <BasicInfo hiddenData={receiverData} />}
+          <div class="loan-contract-info content-box" id="loan-contract-info">
+            {showLoanInfo()}
+          </div>
+          <div class="buttons-list content-box" id="buttons-list">
+            {showContractOfferButton()}
+          </div>
+          {showLenders()}
+        </main>
+        {showContractOfferForm()}
+      </div>
+    )
   );
 }
 

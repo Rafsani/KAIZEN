@@ -309,9 +309,11 @@ function ReceiverProfile({ userId, hiddenData }) {
             <div class="user-cards">
               {lenders.map((lenderDetails) => (
                 <LenderCard
-                  viewButtons={true}
                   lenderDetails={lenderDetails}
                   userId={userId}
+                  targetId={lenderDetails.lenderId}
+                  viewAsReceiver={true}
+                  viewButtons={true}
                 />
               ))}
             </div>

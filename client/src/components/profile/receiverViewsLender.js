@@ -13,12 +13,14 @@ import ContractRequestCard from "./contractRequestCard";
 import OfferContractForm from "./OfferContractForm";
 import { useRadioGroup } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
+import LoadingScreen from "../loadingScreen/loadingScreen";
 
 function ReceiverViewsLender(props) {
   const [lenderId, setLenderId] = useState(null);
   const [receiverId, setReceiverId] = useState(null);
   const [lenderData, setLenderData] = useState(null);
   const [lenderContract, setLenderContract] = useState(null);
+  const [loadingData, setLoadingData] = useState(true);
   let pageHistory = useHistory();
 
   console.log(props);
@@ -65,6 +67,8 @@ function ReceiverViewsLender(props) {
         console.log(error);
         setLenderContract(null);
       });
+
+    setLoadingData(false);
   };
 
   useEffect(() => {
@@ -296,6 +300,10 @@ function ReceiverViewsLender(props) {
       )
     );
   };
+
+  if (loadingData) {
+    return <LoadingScreen />;
+  }
 
   return lenderData ? (
     <div className="Profile">

@@ -8,11 +8,13 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import formatDate from "../../utils/formatDate";
 import AppNavBar from "../navbar/navbar";
 import ReceiverProfile from "./receiverProfile";
+import LoadingScreen from "../loadingScreen/loadingScreen";
 
 function Profile() {
   const [userId, setUserId] = useState([]);
   const [hiddenData, setHiddenData] = useState([]);
   const [history, setHistory] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
 
   const fetchdata = async () => {
     let tempUserId, tempHiddenData;
@@ -38,6 +40,8 @@ function Profile() {
       console.log("tempHiddenData: ", tempHiddenData);
       setHiddenData(tempHiddenData);
     });
+
+    setLoadingData(false);
   };
 
   useEffect(() => {
@@ -52,6 +56,10 @@ function Profile() {
       return <ReceiverProfile userId={userId} hiddenData={hiddenData} />;
     }
   };
+
+  if (loadingData) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="Profile">

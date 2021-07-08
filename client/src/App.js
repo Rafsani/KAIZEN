@@ -13,6 +13,7 @@ import Registration from "./components/registration/registration";
 import Profile from "./components/profile/profile";
 import LenderViewsReceiver from "./components/profile/LenderViewsReceiver";
 import ReceiverViewsLender from "./components/profile/receiverViewsLender";
+import LenderViewsLender from "./components/profile/lenderViewsLender";
 
 function App() {
   return (
@@ -31,6 +32,12 @@ function App() {
           name="profile"
           path="/profile"
           component={Profile}
+          exact
+        />
+        <PrivateRoute
+          name="lenderViewsLender"
+          path="/lenderViewsLender"
+          component={LenderViewsLender}
           exact
         />
         <PrivateRoute
