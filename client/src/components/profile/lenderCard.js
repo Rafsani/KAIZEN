@@ -1,13 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 
-function LenderCard({ lenderDetails, viewButtons }) {
+function LenderCard({ lenderDetails, userId, viewButtons }) {
   return (
     <div class="card-profile">
-      <div class="photo-space"></div>
+      <Link
+        to={{
+          pathname: "/receiverViewsLender",
+          receiverViewsLender: true,
+          receiverId: userId,
+          lenderId: lenderDetails.lenderId,
+        }}
+      >
+        <div class="photo-space"></div>
+      </Link>
       <div class="user-info">
         <div class="name">{lenderDetails.lenderName}</div>
         <div class="loan-contract-details">

@@ -19,6 +19,7 @@ function ReceiverViewsLender(props) {
   const [receiverId, setReceiverId] = useState(null);
   const [lenderData, setLenderData] = useState(null);
   const [lenderContract, setLenderContract] = useState(null);
+  let pageHistory = useHistory();
 
   console.log(props);
 
@@ -73,6 +74,48 @@ function ReceiverViewsLender(props) {
   console.log("ids: ", lenderId, receiverId);
   console.log("lenderData: ", lenderData);
   console.log("lenderContract: ", lenderContract);
+
+  const handleAcceptContractRequest = async () => {
+    if (lenderContract) {
+      console.log("handling Accept", lenderContract);
+      await Axios({
+        method: "PUT",
+        withCredentials: true,
+        url: `http://localhost:5000/api/contract/${lenderContract.contractId}`,
+        data: {
+          issuerId: receiverId,
+        },
+      })
+        .then((res) => {
+          console.log("PUT Response: ", res);
+          pageHistory.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  const handleDeclineContractRequest = async () => {
+    if (lenderContract) {
+      console.log("handling Decline", lenderContract);
+      await Axios({
+        method: "DELETE",
+        withCredentials: true,
+        url: `http://localhost:5000/api/contract/${lenderContract.contractId}`,
+        data: {
+          issuerId: receiverId,
+        },
+      })
+        .then((res) => {
+          console.log("DELETE Response: ", res);
+          pageHistory.push("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 
   const showNoActiveContract = () => {
     return (
@@ -129,11 +172,11 @@ function ReceiverViewsLender(props) {
                   <li>
                     Total amount with interest is:{" "}
                     <span class="highlight">
-                      {lenderContract.totalAmountWithInterest}
+                      {Math.round(lenderContract.totalAmountWithInterest)}
                     </span>{" "}
                     BDT
                   </li>
-                  <li class="collateral remove" id="collateral">
+                  <li class="collateral " id="collateral">
                     Your collateral will be subjected to seizure in case of{" "}
                     <span class="highlight">default.</span>
                   </li>
@@ -144,10 +187,20 @@ function ReceiverViewsLender(props) {
           <div class="buttons-list content-box " id="buttons-list">
             <div class="contract-buttons " id="offer-buttons">
               <div class="buttons">
-                <a class="btn-profile btn-dark">Accept</a>
+                <a
+                  class="btn-profile btn-dark"
+                  onClick={handleAcceptContractRequest}
+                >
+                  Accept
+                </a>
               </div>
               <div class="buttons">
-                <a class="btn-profile btn-light">Decline</a>
+                <a
+                  class="btn-profile btn-light"
+                  onClick={handleDeclineContractRequest}
+                >
+                  Decline
+                </a>
               </div>
             </div>
           </div>
@@ -156,12 +209,107 @@ function ReceiverViewsLender(props) {
     );
   };
 
-  return (
+  const showActiveContract = () => {
+    return (
+      lenderContract &&
+      lenderContract.activeContract && (
+        <div class="loan-contract-info content-box " id="loan-contract-info">
+          <div class="contract-info " id="contract-info">
+            <h1>
+              Contract Information{" "}
+              {/* ToDo
+              <i
+                class="fas fa-exclamation-triangle "
+                data-tooltip="Installment Not Paid"
+              ></i> */}
+            </h1>
+
+            <p>
+              I, hereby, agree to the terms & conditions set upon by this
+              contract agreement.{" "}
+            </p>
+            <cite>
+              - {formatDate(lenderContract.signingDate)} <br />{" "}
+            </cite>
+            <div class="contract-data">
+              <div class="item">
+                <div class="total">
+                  <span class="field">Total Amount:</span>{" "}
+                  <span class="value">{lenderContract.totalAmount} BDT</span>
+                </div>
+                <div class="collected">
+                  <span class="field">Collected Amount:</span>{" "}
+                  <span class="value">
+                    {lenderContract.collectedAmount} BDT
+                  </span>
+                </div>
+              </div>
+              <div class="item">
+                <div class="next-installment">
+                  <span class="field">Next Installment:</span>{" "}
+                  <span class="value">
+                    {formatDate(lenderContract.nextInstallment)}
+                  </span>
+                </div>
+                <div class="amount">
+                  <span class="field">Installment Amount: </span>{" "}
+                  <span class="value">
+                    {Math.round(lenderContract.nextInstallmentAmount)} BDT
+                  </span>
+                </div>
+              </div>
+              <div class="item">
+                <div class="installment-values">
+                  <div class="centering">
+                    <span class="field">Installments Completed: </span>{" "}
+                    <span class="value">
+                      {" "}
+                      {lenderContract.installmentsCompleted}{" "}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div class="interest-rate">
+                  <span class="field">Interest Rate:</span>{" "}
+                  <span class="value"> {lenderContract.interestRate}% </span>
+                </div>
+                <div class="default">
+                  <span class="field">Defaulted Installments: </span>{" "}
+                  <span class="value">
+                    <i style={{ color: "black" }}>ToDo</i> times
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="buttons-list content-box " id="buttons-list">
+            <div class="contract-buttons" id="contract-buttons">
+              <div class="buttons">
+                <a href="#" class="btn-profile btn-light">
+                  Report Issue
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    );
+  };
+
+  return lenderData ? (
     <div className="Profile">
+      <AppNavBar />
+
       <main class="" id="main">
         {lenderData && <BasicInfo hiddenData={lenderData} />}
         {showNoActiveContract()}
+        {showActiveContract()}
       </main>
+    </div>
+  ) : (
+    <div>
+      <i>Oh nou nou Robert...</i>
     </div>
   );
 }

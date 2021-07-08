@@ -5,6 +5,7 @@ import Axios from "axios";
 import BASE_URL from "../Base_url";
 import { faKickstarterK } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useHistory } from "react-router-dom";
 
 function Registration() {
   const [FirstName, setFirstName] = useState("");
@@ -14,6 +15,8 @@ function Registration() {
   const [AccountType, setAccountType] = useState("Lender");
   const [Dob, setDob] = useState(null);
   const [About, setAbout] = useState("");
+  const [Collateral, setCollateral] = useState("");
+  let pageHistory = useHistory();
 
   const sendData = (e) => {
     console.log(
@@ -29,7 +32,9 @@ function Registration() {
         " " +
         Dob +
         " " +
-        About
+        About +
+        " " +
+        Collateral
     );
 
     e.preventDefault();
@@ -43,7 +48,7 @@ function Registration() {
         usertype: AccountType,
         dob: Dob,
         about: About,
-        collateral: "https://youtu.be/CggXSu_P2GQ",
+        collateral: Collateral,
       },
       withCredentials: true,
       // url: "http://localhost:5000/api/auth/login",
@@ -51,6 +56,8 @@ function Registration() {
     }).then((res) => {
       console.log(res);
     });
+
+    pageHistory.push("/");
   };
 
   return (
@@ -135,6 +142,22 @@ function Registration() {
                 />
               </div>
             </div>
+            <div class="small-input-field inputs-div">
+              <aside>
+                <h3>Collateral URL.</h3>
+              </aside>
+              <div class="input-field">
+                <input
+                  type="text"
+                  class="small-input"
+                  pattern="((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?"
+                  placeholder="Url for the youtube link"
+                  value={Collateral}
+                  onChange={(e) => setCollateral(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
             <div class="text-area-input-field inputs-div">
               <aside>
                 <h3>Who am I?</h3>
@@ -144,7 +167,7 @@ function Registration() {
                   class="text-area-input"
                   cols="50"
                   rows="5"
-                  maxlength="140"
+                  // maxlength="140"
                   minlength="1"
                   onChange={(e) => setAbout(e.target.value)}
                   required
@@ -165,7 +188,12 @@ function Registration() {
               </div>
             </div>
             <div class="buttons inputs-div">
-              <a href="#" class="btn-form btn-light">
+              <a
+                onClick={() => {
+                  pageHistory.push("/");
+                }}
+                class="btn-form btn-light"
+              >
                 Go Back
               </a>
               <a href="#" onClick={sendData} class="btn-form btn-dark">

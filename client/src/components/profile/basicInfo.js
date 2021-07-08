@@ -43,9 +43,10 @@ function BasicInfo({ hiddenData }) {
               // <FontAwesomeIcon icon={faCheckSquare}></FontAwesomeIcon>
             )}
           </h1>
-          <p>
-            Details about a user in 120 characters that will be taken from the
-            sign up page. We will show it to them and the lender.
+          <p style={{ textAlign: "left" }}>
+            {hiddenData.details
+              ? hiddenData.details
+              : "Details about a user in 120 characters that will be taken from the sign up page. We will show it to them and the lender."}
           </p>
           <div class="" id="description">
             <div class="hidden-details " id="hidden-details">
