@@ -13,7 +13,6 @@ import LoadingScreen from "../loadingScreen/loadingScreen";
 function Profile() {
   const [userId, setUserId] = useState([]);
   const [hiddenData, setHiddenData] = useState([]);
-  const [history, setHistory] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
 
   const fetchdata = async () => {
@@ -24,22 +23,34 @@ function Profile() {
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/auth/isloggedin",
-    }).then((res) => {
-      tempUserId = res.data.data.data;
-      console.log("tempUserId: ", tempUserId);
-      setUserId(tempUserId);
-    });
+    })
+      .then((res) => {
+        tempUserId = res.data.data.data;
+        console.log("tempUserId: ", tempUserId);
+        setUserId(tempUserId);
+      })
+      .catch((error) => {
+        console.log(error);
+        setUserId(null);
+      });
 
-    // Get hiddenData
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: `http://localhost:5000/api/user/${tempUserId}`,
-    }).then((res) => {
-      tempHiddenData = res.data.data;
-      console.log("tempHiddenData: ", tempHiddenData);
-      setHiddenData(tempHiddenData);
-    });
+    if (tempUserId) {
+      // Get hiddenData
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/user/${tempUserId}`,
+      })
+        .then((res) => {
+          tempHiddenData = res.data.data;
+          console.log("tempHiddenData: ", tempHiddenData);
+          setHiddenData(tempHiddenData);
+        })
+        .catch((error) => {
+          console.log(error);
+          setHiddenData(null);
+        });
+    }
 
     setLoadingData(false);
   };

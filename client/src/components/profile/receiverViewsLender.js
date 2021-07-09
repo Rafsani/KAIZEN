@@ -192,6 +192,7 @@ function ReceiverViewsLender(props) {
             <div class="contract-buttons " id="offer-buttons">
               <div class="buttons">
                 <a
+                  href="#"
                   class="btn-profile btn-dark"
                   onClick={handleAcceptContractRequest}
                 >
@@ -200,6 +201,7 @@ function ReceiverViewsLender(props) {
               </div>
               <div class="buttons">
                 <a
+                  href="#"
                   class="btn-profile btn-light"
                   onClick={handleDeclineContractRequest}
                 >

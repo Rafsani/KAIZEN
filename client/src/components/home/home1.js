@@ -26,62 +26,97 @@ export default function HomePage() {
   const [loadingData, setLoadingData] = useState(true);
 
   const fetchdata = async () => {
-    let tempLoans, tempDonations;
     let tempUserId, tempHiddenData;
+    let tempLoans, tempDonations;
     let tempFormBooleans;
-
-    // Get loans and donations
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:5000/api/loans?type=loan&sort=review",
-    }).then((res) => {
-      tempLoans = res.data;
-      console.log("Received Loans: ", tempLoans, tempLoans.length);
-      setLoans(tempLoans);
-    });
-
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: "http://localhost:5000/api/loans?type=donation&sort=review",
-    }).then((res) => {
-      tempDonations = res.data;
-      console.log("Received Donations: ", tempDonations, tempDonations.length);
-      setDonations(tempDonations);
-    });
 
     // Get userId and hiddenData
     await Axios({
       method: "GET",
       withCredentials: true,
       url: "http://localhost:5000/api/auth/isloggedin",
-    }).then((res) => {
-      tempUserId = res.data.data.data;
-      console.log("tempUserId: ", tempUserId);
-      setUserId(tempUserId);
-    });
+    })
+      .then((res) => {
+        tempUserId = res.data.data.data;
+        console.log("tempUserId: ", tempUserId);
+        setUserId(tempUserId);
+      })
+      .catch((error) => {
+        console.log(error);
+        setUserId(null);
+      });
 
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: `http://localhost:5000/api/user/${tempUserId}`,
-    }).then((res) => {
-      tempHiddenData = res.data.data;
-      console.log("tempHiddenData: ", tempHiddenData);
-      setHiddenData(tempHiddenData);
-    });
+    if (tempUserId) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/user/${tempUserId}`,
+      })
+        .then((res) => {
+          tempHiddenData = res.data.data;
+          console.log("tempHiddenData: ", tempHiddenData);
+          setHiddenData(tempHiddenData);
+        })
+        .catch((error) => {
+          console.log(error);
+          setHiddenData(null);
+        });
+    }
+
+    if (tempHiddenData && tempHiddenData.usertype !== "Receiver") {
+      // Get loans and donations
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: "http://localhost:5000/api/loans?type=loan&sort=review",
+      })
+        .then((res) => {
+          tempLoans = res.data;
+          console.log("Received Loans: ", tempLoans, tempLoans.length);
+          setLoans(tempLoans);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoans(null);
+        });
+
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: "http://localhost:5000/api/loans?type=donation&sort=review",
+      })
+        .then((res) => {
+          tempDonations = res.data;
+          console.log(
+            "Received Donations: ",
+            tempDonations,
+            tempDonations.length
+          );
+          setDonations(tempDonations);
+        })
+        .catch((error) => {
+          console.log(error);
+          setDonations(null);
+        });
+    }
 
     // Get form booleans (collateral and hiddenDetails)
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: `http://localhost:5000/api/auth/${tempUserId}`,
-    }).then((res) => {
-      tempFormBooleans = res.data.data;
-      console.log("form Booleans: ", tempFormBooleans);
-      setFormBooleans(tempFormBooleans);
-    });
+    if (tempUserId) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/auth/${tempUserId}`,
+      })
+        .then((res) => {
+          tempFormBooleans = res.data.data;
+          console.log("form Booleans: ", tempFormBooleans);
+          setFormBooleans(tempFormBooleans);
+        })
+        .catch((error) => {
+          console.log(error);
+          setFormBooleans(null);
+        });
+    }
 
     setLoadingData(false);
   };
@@ -92,8 +127,9 @@ export default function HomePage() {
 
   const showBanner = () => {
     if (
-      formBooleans.hiddenDetails ||
-      (hiddenData.usertype === "Receiver" && formBooleans.collateral)
+      formBooleans &&
+      (formBooleans.hiddenDetails ||
+        (hiddenData.usertype === "Receiver" && formBooleans.collateral))
     ) {
       return <div></div>;
     } else {
@@ -137,6 +173,7 @@ export default function HomePage() {
           <ul class="category-type">
             <li class="category">
               <a
+                href="#"
                 onClick={switchToLoans}
                 class="btn-category btn-category-left btn-dark"
               >
@@ -145,6 +182,7 @@ export default function HomePage() {
             </li>
             <li class="category">
               <a
+                href="#"
                 onClick={switchToDonations}
                 class="btn-category btn-category-right btn-light"
               >

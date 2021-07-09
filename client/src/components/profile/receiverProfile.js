@@ -14,7 +14,7 @@ import ContractRequestCard from "./contractRequestCard";
 import PostRequestForm from "./PostRequestForm";
 
 function ReceiverProfile({ userId, hiddenData }) {
-  const [activeRequest, setActiveRequest] = useState([]);
+  const [activeRequest, setActiveRequest] = useState(null);
   const [history, setHistory] = useState(null);
   const [loanInfo, setLoanInfo] = useState(null);
   const [lenders, setLenders] = useState(null);
@@ -44,6 +44,7 @@ function ReceiverProfile({ userId, hiddenData }) {
       })
       .catch((error) => {
         console.log(error);
+        setActiveRequest(null);
       });
 
     // check user's past history

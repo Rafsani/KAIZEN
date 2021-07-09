@@ -118,10 +118,10 @@ function OfferContractForm({ interestRate, onCancel, onSubmit }) {
 
         {/* <!-- Buttons --> */}
         <div class="buttons inputs-div">
-          <a class="btn-form btn-light" onClick={onCancel}>
+          <a href="#" class="btn-form btn-light" onClick={onCancel}>
             Cancel
           </a>
-          <a class="btn-form btn-dark" onClick={handleSubmit}>
+          <a href="#" class="btn-form btn-dark" onClick={handleSubmit}>
             Post
           </a>
         </div>

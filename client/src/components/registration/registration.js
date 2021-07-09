@@ -188,12 +188,7 @@ function Registration() {
               </div>
             </div>
             <div class="buttons inputs-div">
-              <a
-                onClick={() => {
-                  pageHistory.push("/");
-                }}
-                class="btn-form btn-light"
-              >
+              <a href="/" class="btn-form btn-light">
                 Go Back
               </a>
               <a href="#" onClick={sendData} class="btn-form btn-dark">

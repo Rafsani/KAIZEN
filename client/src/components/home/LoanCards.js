@@ -12,55 +12,56 @@ import { Link } from "react-router-dom";
 function LoanCards({ requests, userId }) {
   return (
     <div class="receiver-list">
-      {requests.map((value, index) => {
-        // console.log(value);
-        return (
-          <div class="user-item">
-            <div class="user-card">
-              <Link
-                to={{
-                  pathname: "/lenderViewsReceiver",
-                  lenderViewsReceiver: true,
-                  lenderId: userId,
-                  receiverId: value.Receiver._id,
-                }}
-              >
-                <div class="photo-space"></div>
-              </Link>
-              <div class="user-info content-box">
-                <div class="name-rating">
-                  <p>{value.Receiver.username}</p>
-                  <div class="review">
-                    <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
-                    4.5/5
+      {requests &&
+        requests.map((value, index) => {
+          // console.log(value);
+          return (
+            <div class="user-item">
+              <div class="user-card">
+                <Link
+                  to={{
+                    pathname: "/lenderViewsReceiver",
+                    lenderViewsReceiver: true,
+                    lenderId: userId,
+                    receiverId: value.Receiver._id,
+                  }}
+                >
+                  <div class="photo-space"></div>
+                </Link>
+                <div class="user-info content-box">
+                  <div class="name-rating">
+                    <p>{value.Receiver.username}</p>
+                    <div class="review">
+                      <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
+                      4.5/5
+                    </div>
                   </div>
-                </div>
-                <div class="loan-info">
-                  <div class="amount">
-                    <span class="field">Loan Amount </span>
-                    <span class="highlight"> {value.Amount}</span>
+                  <div class="loan-info">
+                    <div class="amount">
+                      <span class="field">Loan Amount </span>
+                      <span class="highlight"> {value.Amount}</span>
+                    </div>
+                    <div class="date">
+                      <span class="field">Issued Date </span>
+                      <span class="highlight"> {value.issueDate} </span>
+                    </div>
                   </div>
-                  <div class="date">
-                    <span class="field">Issued Date </span>
-                    <span class="highlight"> {value.issueDate} </span>
+                  <div class="progress">
+                    Progress :{" "}
+                    <div class="bar">
+                      <div class="fillup-bar"></div>
+                    </div>
                   </div>
-                </div>
-                <div class="progress">
-                  Progress :{" "}
-                  <div class="bar">
-                    <div class="fillup-bar"></div>
+                  <div class="buttons">
+                    <a href="" class="btn-card btn-dark">
+                      Offer Contract
+                    </a>
                   </div>
-                </div>
-                <div class="buttons">
-                  <a href="" class="btn-card btn-dark">
-                    Offer Contract
-                  </a>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 }

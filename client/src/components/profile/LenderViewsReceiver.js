@@ -263,6 +263,7 @@ function LenderViewsReceiver(props) {
             {/* <!-- thses buttons will only show when the lender is viewing the receiver profile --> */}
             <div class="buttons">
               <a
+                href="#"
                 onClick={handleOpenContractOfferPopUp}
                 class="btn-profile btn-dark"
               >

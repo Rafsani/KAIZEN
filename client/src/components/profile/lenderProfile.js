@@ -16,21 +16,23 @@ function LenderProfile({ userId, hiddenData }) {
   const fetchdata = async () => {
     let tempLenderHistory;
 
-    // Get lender history
-    await Axios({
-      method: "GET",
-      withCredentials: true,
-      url: `http://localhost:5000/api/user/${userId}/history`,
-    })
-      .then((res) => {
-        tempLenderHistory = res.data.data;
-        console.log("tempLenderHistory:", tempLenderHistory);
-        setLenderHistory(tempLenderHistory);
+    if (userId) {
+      // Get lender history
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/user/${userId}/history`,
       })
-      .catch((error) => {
-        console.log(error);
-        setLenderHistory(null);
-      });
+        .then((res) => {
+          tempLenderHistory = res.data.data;
+          console.log("tempLenderHistory:", tempLenderHistory);
+          setLenderHistory(tempLenderHistory);
+        })
+        .catch((error) => {
+          console.log(error);
+          setLenderHistory(null);
+        });
+    }
   };
 
   useEffect(() => {
