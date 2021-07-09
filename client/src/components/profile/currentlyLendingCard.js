@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Axios from "axios";
 
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 
-function ContractCard({ contractDetails }) {
+function CurrentlyLendingCard({
+  contractDetails,
+  userId,
+  targetId,
+  viewAsLender,
+  viewButtons,
+}) {
   return (
     <div>
       <div class="card-profile">
-        <div class="photo-space"></div>
+        <Link
+          to={{
+            pathname: "/lenderViewsReceiver",
+            lenderViewsReceiver: viewAsLender,
+            lenderId: userId,
+            receiverId: targetId,
+          }}
+        >
+          <div class="photo-space"></div>
+        </Link>
         <div class="user-info">
           <div class="name">{contractDetails.receiverName}</div>
           <div class="loan-contract-details">
@@ -66,21 +82,23 @@ function ContractCard({ contractDetails }) {
             </div>
           </div>
         </div>
-        <div class="small-buttons-list">
-          <div class="buttons ">
-            <a href="#" class="small-btn-profile btn-dark">
-              End Contract
-            </a>
+        {viewButtons && (
+          <div class="small-buttons-list">
+            <div class="buttons ">
+              <a href="#" class="small-btn-profile btn-dark">
+                End Contract
+              </a>
+            </div>
+            <div class="buttons">
+              <a href="#" class="small-btn-profile btn-light">
+                Report Issue
+              </a>
+            </div>
           </div>
-          <div class="buttons">
-            <a href="#" class="small-btn-profile btn-light">
-              Report Issue
-            </a>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
 }
 
-export default ContractCard;
+export default CurrentlyLendingCard;

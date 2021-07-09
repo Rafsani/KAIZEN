@@ -7,7 +7,6 @@ import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-import ContractCard from "./contractCard";
 import formatDate from "../../utils/formatDate";
 import BasicInfo from "./basicInfo";
 import LenderCard from "./lenderCard";

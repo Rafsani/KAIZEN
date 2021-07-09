@@ -20,9 +20,9 @@ function LenderCard({
             ? "/receiverViewsLender"
             : "/lenderViewsLender",
           receiverViewsLender: viewAsReceiver,
-          receiverId: viewAsReceiver && userId,
+          receiverId: viewAsReceiver ? userId : null,
           lenderId: viewAsReceiver ? targetId : userId,
-          lender2Id: !viewAsReceiver && targetId,
+          lender2Id: !viewAsReceiver ? targetId : null,
         }}
       >
         <div class="photo-space"></div>
