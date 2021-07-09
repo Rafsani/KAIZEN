@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { Redirect, useHistory } from "react-router-dom";
+
 import "./home.css";
 import "./navbar.css";
-import AppNavBar from "../navbar/navbar";
-import Axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import BASE_URL from "../Base_url";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import LoanCards from "./LoanCards";
 import { config } from "@fortawesome/fontawesome-svg-core";
-import { Redirect, useHistory } from "react-router-dom";
-import LoadingScreen from "../loadingScreen/loadingScreen";
 
-function getdate(dt) {
-  return dt.getFullYear() + "/" + (dt.getMonth() + 1) + "/" + dt.getDate();
-}
+import AppNavBar from "../navbar/navbar";
+import Axios from "axios";
+import BASE_URL from "../Base_url";
+import LoanCard from "./loanCard";
+import LoadingScreen from "../loadingScreen/loadingScreen";
 
 export default function HomePage() {
   const [showDonations, setShowDonations] = useState(false);
@@ -154,6 +152,20 @@ export default function HomePage() {
     if (!showDonations) setShowDonations(true);
   };
 
+  const showLoanCards = () => {
+    const requests = showDonations ? donations : loans;
+    return (
+      <div class="receiver-list">
+        {requests &&
+          requests.map((loanRequest, index) => {
+            return (
+              <LoanCard key={index} loanRequest={loanRequest} userId={userId} />
+            );
+          })}
+      </div>
+    );
+  };
+
   if (hiddenData.usertype === "Receiver") {
     return <Redirect to="/profile" />;
   }
@@ -193,7 +205,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      <LoanCards requests={showDonations ? donations : loans} userId={userId} />
+      {/* <LoanCards requests={showDonations ? donations : loans} userId={userId} /> */}
+      {showLoanCards()}
 
       <div class="footer">
         <p>You can find the project link here:</p>
