@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const urlRegex = require('url-regex-safe');
+//const urlRegex = require('url-regex-safe');
 
 const moment = require('moment');
 moment().format();
@@ -7,13 +7,14 @@ moment().format();
 const {isEmail, isMobilePhone} = require('validator');
 
 const validateURL = (url) => {
-    if (!urlRegex({exact: true}).test(url)) {
+    /*if (!urlRegex({exact: true}).test(url)) {
         throw new mongoose.Error('Invalid Image Url');
-    }
+    }*/
 }
 
 const validateEmail = (email) => {
     if (!isEmail(email)) {
+        console.log(email);
         throw new mongoose.Error('Invalid Email');
     }
 }

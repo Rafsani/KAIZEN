@@ -20,7 +20,7 @@ function App() {
     <div className="App">
       <Router>
         <Route name="login" path="/login" component={Login} exact />
-        <PrivateRoute name="home" path="/home" component={TestComp} exact />
+        <Route name="home" path="/home" component={TestComp} exact />
         <PrivateRoute name="landing" path="/" component={HomePage} exact />
         <PrivateRoute
           name="landing"

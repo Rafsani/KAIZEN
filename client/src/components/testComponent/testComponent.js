@@ -27,8 +27,8 @@ function TestComp() {
     Axios({
       method: "POST",
       data: {
-        username: registerUsername,
-        password: registerPassword,
+        email: registerUsername,
+        password: registerPassword, 
       },
       withCredentials: true,
       url: "http://localhost:5000/api/auth/register",

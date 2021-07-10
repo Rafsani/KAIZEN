@@ -7,8 +7,8 @@ const Users = require('../models/userModel');
  */
 const registerUser = async( body )=> {
     try {
-        const oldUser = await Users.findOne({ username: body.username })
-        
+        const oldUser = await Users.findOne({ email: body.email })
+        console.log(body);
         if( oldUser ){
             return {
                 data: null,
@@ -18,7 +18,7 @@ const registerUser = async( body )=> {
         }
 
         const newUser = new Users({
-            username : body.username,
+            email : body.email,
             password: body.password
         });
 
