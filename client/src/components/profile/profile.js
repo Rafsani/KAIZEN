@@ -13,10 +13,12 @@ import LoadingScreen from "../loadingScreen/loadingScreen";
 function Profile() {
   const [userId, setUserId] = useState([]);
   const [hiddenData, setHiddenData] = useState([]);
+  const [formBooleans, setFormBooleans] = useState(null);
   const [loadingData, setLoadingData] = useState(true);
 
   const fetchdata = async () => {
     let tempUserId, tempHiddenData;
+    let tempFormBooleans;
 
     // Get userId
     await Axios({
@@ -52,6 +54,24 @@ function Profile() {
         });
     }
 
+    // Get form booleans (collateral and hiddenDetails)
+    if (tempUserId) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/auth/${tempUserId}`,
+      })
+        .then((res) => {
+          tempFormBooleans = res.data.data;
+          console.log("form Booleans: ", tempFormBooleans);
+          setFormBooleans(tempFormBooleans);
+        })
+        .catch((error) => {
+          console.log(error);
+          setFormBooleans(null);
+        });
+    }
+
     setLoadingData(false);
   };
 
@@ -70,6 +90,32 @@ function Profile() {
 
   if (loadingData) {
     return <LoadingScreen />;
+  }
+
+  if (!formBooleans || !formBooleans.hiddenDetails) {
+    return (
+      <div class="Profile">
+        <div class="user-info">
+          <div class="description">
+            <h1 style={{ flexDirection: "column" }}>Heads Up!</h1>
+            <p style={{ paddingTop: "30px", textAlign: "left" }}>
+              You are a new user, and you haven't provided your necessary info
+              yet. Thus, you can't see your profile or others'. You may do any
+              of the following:
+              <ul style={{ padding: "20px 10px 10px 50px" }}>
+                <li>
+                  Provide your info in <a href="/registration">/registration</a>
+                  . <i style={{ color: "green" }}>(Recommended)</i>
+                </li>
+                <li>
+                  Hover over the loan requests in <a href="/">/home</a>.
+                </li>
+              </ul>
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

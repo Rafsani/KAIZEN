@@ -159,7 +159,12 @@ export default function HomePage() {
         {requests &&
           requests.map((loanRequest, index) => {
             return (
-              <LoanCard key={index} loanRequest={loanRequest} userId={userId} />
+              <LoanCard
+                key={index}
+                loanRequest={loanRequest}
+                userId={userId}
+                showButtons={formBooleans && formBooleans.hiddenDetails}
+              />
             );
           })}
       </div>

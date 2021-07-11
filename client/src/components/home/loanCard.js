@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-function LoanCard({ loanRequest, userId }) {
+function LoanCard({ loanRequest, userId, showButtons }) {
   console.log("I am here!");
   console.log("LoanCard loan request: ", loanRequest);
   return (
@@ -16,16 +16,20 @@ function LoanCard({ loanRequest, userId }) {
     userId && (
       <div class="user-item">
         <div class="user-card">
-          <Link
-            to={{
-              pathname: "/lenderViewsReceiver",
-              lenderViewsReceiver: true,
-              lenderId: userId,
-              receiverId: loanRequest.Receiver._id,
-            }}
-          >
+          {showButtons ? (
+            <Link
+              to={{
+                pathname: "/lenderViewsReceiver",
+                lenderViewsReceiver: true,
+                lenderId: userId,
+                receiverId: loanRequest.Receiver._id,
+              }}
+            >
+              <div class="photo-space"></div>
+            </Link>
+          ) : (
             <div class="photo-space"></div>
-          </Link>
+          )}
           <div class="user-info content-box">
             <div class="name-rating">
               <p>{loanRequest.Receiver.username}</p>
@@ -50,20 +54,22 @@ function LoanCard({ loanRequest, userId }) {
                 <div class="fillup-bar"></div>
               </div>
             </div>
-            <div class="buttons">
-              <Link
-                to={{
-                  pathname: "/lenderViewsReceiver",
-                  lenderViewsReceiver: true,
-                  lenderId: userId,
-                  receiverId: loanRequest.Receiver._id,
-                }}
-              >
-                <a href="" class="btn-card btn-dark">
-                  View Profile
-                </a>
-              </Link>
-            </div>
+            {showButtons && (
+              <div class="buttons">
+                <Link
+                  to={{
+                    pathname: "/lenderViewsReceiver",
+                    lenderViewsReceiver: true,
+                    lenderId: userId,
+                    receiverId: loanRequest.Receiver._id,
+                  }}
+                >
+                  <a href="" class="btn-card btn-dark">
+                    View Profile
+                  </a>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
