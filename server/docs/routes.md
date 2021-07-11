@@ -103,17 +103,21 @@
   - **GET** : &nbsp; `{{URL}}/api/user/6076cfa408541e2ba057e335`
 
     - ```x
-        {
+       {
             "data": {
                 "usertype": "Receiver",
-                "_id": "6076cfa408541e2ba057e335",
-                "username": "Shoummo",
-                "password": "$2a$10$kWGdqy62nFIV07gtUxcIO.yvOGaIYEFzLG6fqOlZJS1btF1wLvBuq",
-                "email": "shoummo66@gmail.com",
-                "nid": "$2a$10$.lH2qDsusb2oZWiD4pjhWOAsQ6PFdYRQhV4s5PRGstiNDokd.1XjK",
-                "bkash": "01961145455",
-                "dob": "1997-01-10T00:00:00.000Z",
-                "joinedDate": "2021-07-05T20:24:21.347+00:00"
+                "loanDefaults": 0,
+                "rating": 5,
+                "_id": "6076cfa408541e2ba057e331",
+                "username": "Anik",
+                "password": "$2a$10$txjxVJIxsD//cioMTblMy..06YHGbSyJvb5SnHjQlYYG07uFkdShW",
+                "email": "anik65@gmail.com",
+                "nid": "$2a$10$T.26ert2gpOezcrDjQPRk.4btFg5Z591DQJoqbnaxnxZO5m2LfF6S",
+                "bkash": "01961145451",
+                "dob": "1992-02-10T00:00:00.000Z",
+                "collateral": "https://www.youtube.com/watch?v=u3D2jlCYyhY",
+                "verfiedStatus": true,
+                "joinedDate": "2021-07-11T16:47:16.969Z",
                 "__v": 0
             },
             "status": "OK",
@@ -226,13 +230,18 @@
         {
             "data": {
                 "usertype": "Receiver",
-                "_id": "6076cfa408541e2ba057e335",
-                "username": "Shoummo",
-                "password": "$2a$10$kWGdqy62nFIV07gtUxcIO.yvOGaIYEFzLG6fqOlZJS1btF1wLvBuq",
-                "email": "shoummo66@gmail.com",
-                "nid": "$2a$10$.lH2qDsusb2oZWiD4pjhWOAsQ6PFdYRQhV4s5PRGstiNDokd.1XjK",
-                "bkash": "01961145455",
-                "dob": "1997-01-10T00:00:00.000Z",
+                "loanDefaults": 0,
+                "rating": 3,
+                "_id": "6076cfa408541e2ba057e331",
+                "username": "Anik",
+                "password": "$2a$10$txjxVJIxsD//cioMTblMy..06YHGbSyJvb5SnHjQlYYG07uFkdShW",
+                "email": "anik65@gmail.com",
+                "nid": "$2a$10$T.26ert2gpOezcrDjQPRk.4btFg5Z591DQJoqbnaxnxZO5m2LfF6S",
+                "bkash": "01961145451",
+                "dob": "1992-02-10T00:00:00.000Z",
+                "collateral": "https://www.youtube.com/watch?v=u3D2jlCYyhY",
+                "verfiedStatus": true,
+                "joinedDate": "2021-07-11T16:47:16.969Z",
                 "__v": 0
             },
             "status": "OK",
