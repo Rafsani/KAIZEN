@@ -107,7 +107,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         default: 5,
         max: 5,
-        min: 1
+        min: 0.5
     }
 });
 

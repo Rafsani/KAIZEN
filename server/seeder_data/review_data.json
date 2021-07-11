@@ -1,0 +1,26 @@
+[
+    {
+        "_id" : "60a2288f788f921b543cd811",
+        "contract": "60a2288f788f921b543cd816",
+        "receiver" : "6076cfa408541e2ba057e331",
+        "lender" : "6076cfa408541e2ba057e336",
+        "ratingValue" : 4,
+        "details" : "Had a really easy contract"
+    },
+    {
+        "_id" : "60a2288f788f921b543cd812",
+        "contract": "60a2288f788f921b543cd815",
+        "receiver" : "6076cfa408541e2ba057e331",
+        "lender" : "6076cfa408541e2ba057e337",
+        "ratingValue" : 3,
+        "details" : "Had a medium easy contract"
+    },
+    {
+        "_id" : "60a2288f788f921b543cd813",
+        "contract": "60a2288f788f921b543cd817",
+        "receiver" : "6076cfa408541e2ba057e331",
+        "lender" : "6076cfa408541e2ba057e340",
+        "ratingValue" : 4,
+        "details" : "Had a fun contract"
+    }
+]

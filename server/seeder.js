@@ -6,6 +6,7 @@ dotenv.config({path: './config/config.env'})
 const Users = require('./db/models/userModel');
 const LoanRequest = require('./db/models/LoanRequestModel');
 const Contracts = require('./db/models/contractModel');
+const Review = require('./db/models/ReviewModel')
 
 //Connect DB
 mongoose.connect( process.env.MONGODB_URI , {
@@ -19,6 +20,7 @@ mongoose.connect( process.env.MONGODB_URI , {
 let loans = require('./seeder_data/loan_data.json')
 let users = require('./seeder_data/user_data.json')
 let contracts = require('./seeder_data/contract_data.json')
+let reviews = require('./seeder_data/review_data.json')
 
 
 //Import data to database
@@ -28,7 +30,9 @@ const importData = async () =>{
         await Users.create( users );
         await LoanRequest.create( loans );
         await Contracts.create( contracts );
-
+        await Review.create( reviews );
+        
+        
         console.log('Data Imported...');
         process.exit()
     }
