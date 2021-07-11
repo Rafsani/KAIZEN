@@ -52,6 +52,7 @@ const userSchema = new mongoose.Schema({
     nid: {
         type: String,
         unique: true,
+        sparse: true,
         validate: {
             validator: checkNID,
             msg: 'NID is not valid.'
@@ -61,6 +62,7 @@ const userSchema = new mongoose.Schema({
     bkash: {
         type: String,
         unique: true,
+        sparse: true,
         validate: {
             validator: validate.validatePhone,
             msg: 'Invalid phone number.'
