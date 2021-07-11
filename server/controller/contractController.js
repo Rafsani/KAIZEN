@@ -12,6 +12,17 @@ const checkInstallmentDate = require('../util/date');
  */
  const handlePOSTCreateContract = async ( req,res,next )=>{
     try {
+        // making sure that amount is less than needed
+        const loanQueryResult = await loanInterface.getLoanByID( req.body.loanId );
+        if( loanQueryResult.data.Amount - loanQueryResult.data.collectedAmount < req.body.amount  ){
+            return res.status(400).send({
+                status: 'ERROR',
+                data: null,
+                message: "Amount is more than needed for the loan request"
+            })
+        }
+
+
         const contractQueryResult = await contractInterface.createContract({
             loanId: req.body.loanId,
             lenderId: req.body.lenderId,
