@@ -184,6 +184,36 @@
 
 ---
 
+- **[Post Review](..\controller\contractController.js)** - Ends Contract and posts a review<br><br>
+  - **POST** : &nbsp; `{{URL}} /api/review`
+    - ```x 
+        {
+            "contract": "60a2288f788f921b543cd811",
+            "lender": "6076cfa408541e2ba057e337",
+            "receiver": "6076cfa408541e2ba057e331",
+            "ratingValue": "1",
+            "details": "Taka niye mere diyeche."
+        }
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "_id": "60eb20f48f385c1a70b7bfc8",
+                "contract": "60a2288f788f921b543cd811",
+                "lender": "6076cfa408541e2ba057e337",
+                "receiver": "6076cfa408541e2ba057e331",
+                "ratingValue": 1,
+                "details": "Taka niye mere diyeche.",
+                "__v": 0
+            },
+            "message": "Review has been posted."
+        }
+      ```
+---
+
+
+---
+
 ## Receiver Dashboard
 
 ---
@@ -440,6 +470,49 @@
             "message": "All offers for this loan request have been fetched"
         }
       ```
+---
+- **[Reviews For a user](..\controller\reviewController.js)** - Fetches reviews for user by user id.<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/review/:receiverId`
+
+    - ```x
+        {
+            "status": "OK",
+            "data": [
+                {
+                    "_id": "60a2288f788f921b543cd811",
+                    "receiver": "6076cfa408541e2ba057e331",
+                    "lender": "6076cfa408541e2ba057e336",
+                    "rating": 4,
+                    "details": "Had a really easy contract",
+                    "totalAmount": 1400,
+                    "issueDate": "2021-07-11T16:47:20.602Z",
+                    "contractId": "60a2288f788f921b543cd816"
+                },
+                {
+                    "_id": "60a2288f788f921b543cd813",
+                    "receiver": "6076cfa408541e2ba057e331",
+                    "lender": "6076cfa408541e2ba057e340",
+                    "rating": 4,
+                    "details": "Had a fun contract",
+                    "totalAmount": 1100,
+                    "issueDate": "2021-07-11T16:47:20.603Z",
+                    "contractId": "60a2288f788f921b543cd817"
+                },
+                {
+                    "_id": "60eb20f48f385c1a70b7bfc8",
+                    "receiver": "6076cfa408541e2ba057e331",
+                    "lender": "6076cfa408541e2ba057e337",
+                    "rating": 1,
+                    "details": "Taka niye mere diyeche.",
+                    "totalAmount": 1500,
+                    "issueDate": "2021-07-11T16:47:20.599Z",
+                    "contractId": "60a2288f788f921b543cd811"
+                }
+            ],
+            "message": "Reviews have been found."
+        }
+      ```
 
 ---
 
@@ -627,7 +700,7 @@
         }
       ```
 --- -->
-- **[Post Review](..\controller\contractController.js)** - Ends Contract and posts a review<br><br>
+- **[Post Review](..\controller\reviewController.js)** - Ends Contract and posts a review<br><br>
   - **POST** : &nbsp; `{{URL}} /api/review`
     - ```x 
         {
@@ -652,6 +725,51 @@
             "message": "Review has been posted."
         }
       ```
+---
+
+- **[Reviews For a user](..\controller\reviewController.js)** - Fetches reviews for user by user id.<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/review/:receiverId`
+
+    - ```x
+        {
+            "status": "OK",
+            "data": [
+                {
+                    "_id": "60a2288f788f921b543cd811",
+                    "receiver": "6076cfa408541e2ba057e331",
+                    "lender": "6076cfa408541e2ba057e336",
+                    "rating": 4,
+                    "details": "Had a really easy contract",
+                    "totalAmount": 1400,
+                    "issueDate": "2021-07-11T16:47:20.602Z",
+                    "contractId": "60a2288f788f921b543cd816"
+                },
+                {
+                    "_id": "60a2288f788f921b543cd813",
+                    "receiver": "6076cfa408541e2ba057e331",
+                    "lender": "6076cfa408541e2ba057e340",
+                    "rating": 4,
+                    "details": "Had a fun contract",
+                    "totalAmount": 1100,
+                    "issueDate": "2021-07-11T16:47:20.603Z",
+                    "contractId": "60a2288f788f921b543cd817"
+                },
+                {
+                    "_id": "60eb20f48f385c1a70b7bfc8",
+                    "receiver": "6076cfa408541e2ba057e331",
+                    "lender": "6076cfa408541e2ba057e337",
+                    "rating": 1,
+                    "details": "Taka niye mere diyeche.",
+                    "totalAmount": 1500,
+                    "issueDate": "2021-07-11T16:47:20.599Z",
+                    "contractId": "60a2288f788f921b543cd811"
+                }
+            ],
+            "message": "Reviews have been found."
+        }
+      ```
+
 ---
 
 ## Receiver Views Lender Dashboard

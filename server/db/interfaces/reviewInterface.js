@@ -34,6 +34,42 @@ const postReview = async (body) => {
     }
 }
 
+
+const findReviewForUser = async (userId)=>{
+    try{
+        const review = await Reviews.find({
+            receiver : userId
+        })
+        .populate({
+            path: 'contract',
+            select: '_id amount installmentDates'
+        })
+        ;
+
+        if( review ){
+            return {
+                data: review, 
+                status: 'OK',
+                message: 'Reviews have been found.'
+            }
+        }
+
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Reviews not found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
-    postReview
+    postReview,
+    findReviewForUser
 }

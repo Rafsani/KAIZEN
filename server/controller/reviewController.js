@@ -1,5 +1,6 @@
 const reviewInterface = require('../db/interfaces/reviewInterface');
 const contractInterface = require('../db/interfaces/contractInterface');
+const date = require('../util/date');
 
 
 /**
@@ -38,7 +39,58 @@ const handlePOSTReview = async (req,res,next)=>{
     }
 }
 
+/**
+ * @description - this method will return reviews for a user
+ * @route - GET /api/review/:receiverId
+ * @param {*} req -
+ * @param {*} res - Response for the api call
+ * @returns 
+ */
+
+const handleGETReview = async (req,res,next)=>{
+    try {
+        const reviewQueryResult = await reviewInterface.findReviewForUser( req.params.receiverId );
+
+        let output = []
+        
+        if( reviewQueryResult.status == 'OK' ){
+            
+            reviewQueryResult.data.forEach( item => {
+                output.push({
+                    _id: item._id,
+                    receiver: item.receiver,
+                    lender: item.lender,
+                    rating: item.ratingValue,
+                    details: item.details,
+                    totalAmount: item.contract.amount,
+                    issueDate: date.contractSigningDate( item.contract.installmentDates ),
+                    contractId: item.contract._id
+                })
+            })
+
+            return res.status(200).send( {
+                status: 'OK',
+                data: output,
+                message: reviewQueryResult.message
+            } );
+        }
+        
+
+        return res.status(400).send({
+            status: 'ERROR',
+            data: null,
+            message: "Could not post the review"
+        })
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
 
 module.exports = {
-    handlePOSTReview
+    handlePOSTReview,
+    handleGETReview
 }
