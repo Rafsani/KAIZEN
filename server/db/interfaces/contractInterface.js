@@ -261,7 +261,39 @@ const viewLenderContracts = async (userId)=>{
     }
 }
 
+
+/**
+ * @param contractId
+ * @returns contract information
+ */
+
+const findContract = async(contractId) =>{
+    try{
+        const contract = await Contracts.findById(contractId);
+        if( contract ){
+            return {
+                data: contract, 
+                status: 'OK',
+                message: 'All contracts for this lender have been found.'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contract not found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
+    findContract,
     endContract,
     findContractHistory,
     createContract,

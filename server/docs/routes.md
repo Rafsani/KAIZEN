@@ -595,7 +595,7 @@
         }
         ```
 ---
-- **[End Contract](..\controller\contractController.js)** - Ends Contract<br><br>
+<!-- - **[End Contract](..\controller\contractController.js)** - Ends Contract<br><br>
   - **PUT** : &nbsp; `{{URL}} /api/contract`
     - ```x 
         {
@@ -624,6 +624,32 @@
                 "operationTime": "6981945595686551553"
             },
             "message": "The contract has been ended."
+        }
+      ```
+--- -->
+- **[Post Review](..\controller\contractController.js)** - Ends Contract and posts a review<br><br>
+  - **POST** : &nbsp; `{{URL}} /api/review`
+    - ```x 
+        {
+            "contract": "60a2288f788f921b543cd811",
+            "lender": "6076cfa408541e2ba057e337",
+            "receiver": "6076cfa408541e2ba057e331",
+            "ratingValue": "1",
+            "details": "Taka niye mere diyeche."
+        }
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "_id": "60eb20f48f385c1a70b7bfc8",
+                "contract": "60a2288f788f921b543cd811",
+                "lender": "6076cfa408541e2ba057e337",
+                "receiver": "6076cfa408541e2ba057e331",
+                "ratingValue": 1,
+                "details": "Taka niye mere diyeche.",
+                "__v": 0
+            },
+            "message": "Review has been posted."
         }
       ```
 ---
