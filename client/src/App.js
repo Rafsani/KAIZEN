@@ -14,12 +14,15 @@ import Profile from "./components/profile/profile";
 import LenderViewsReceiver from "./components/profile/LenderViewsReceiver";
 import ReceiverViewsLender from "./components/profile/receiverViewsLender";
 import LenderViewsLender from "./components/profile/lenderViewsLender";
+import CoolLoginPage from "./components/coolSignUp/coolLoginPage";
 
 function App() {
   return (
     <div className="App">
       <Router>
-        <Route name="login" path="/login" component={Login} exact />
+        <Route name="Log In" path="/login" component={CoolLoginPage} exact />
+        <Route name="Sign Up" path="/signup" component={CoolLoginPage} exact />
+
         <Route name="home" path="/home" component={TestComp} exact />
         <PrivateRoute name="landing" path="/" component={HomePage} exact />
         <PrivateRoute
@@ -28,6 +31,7 @@ function App() {
           component={Loanrequest}
           exact
         />
+
         <PrivateRoute
           name="profile"
           path="/profile"
@@ -52,7 +56,7 @@ function App() {
           component={ReceiverViewsLender}
           exact
         />
-        <Route name="signup" path="/signup" component={Signup} exact />
+
         <PrivateRoute
           name="reg"
           path="/registration"
