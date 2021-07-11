@@ -299,7 +299,8 @@ function LenderViewsReceiver(props) {
 
   const showReceiverReviews = () => {
     return (
-      receiverReviews && (
+      receiverReviews &&
+      receiverReviews.length > 0 && (
         <div class="review-section content-box " id="review-section">
           <div class="title">
             <h1>Reviews</h1>
