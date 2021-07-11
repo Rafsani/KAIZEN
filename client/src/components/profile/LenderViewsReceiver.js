@@ -3,6 +3,7 @@ import Axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
@@ -14,12 +15,14 @@ import OfferContractForm from "./OfferContractForm";
 import { useRadioGroup } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
 import LoadingScreen from "../loadingScreen/loadingScreen";
+import ReviewCard from "./reviewCard";
 
 function LenderViewsReceiver(props) {
   const [lenderViewsReceiver, setLenderViewsReceiver] = useState(false);
   const [lenderId, setLenderId] = useState(null);
   const [receiverId, setReceiverId] = useState(null);
   const [receiverData, setReceiverData] = useState(null);
+  const [receiverReviews, setReceiverReviews] = useState(null);
   const [loanInfo, setLoanInfo] = useState(null);
   const [lenders, setLenders] = useState(null);
   const [lenderLimit, setLenderLimit] = useState(5);
@@ -36,6 +39,7 @@ function LenderViewsReceiver(props) {
     let tempReceiverData;
     let tempLoanInfo;
     let tempLenders;
+    let tempReceiverReviews;
 
     console.log("From props.location: ", props.location);
 
@@ -95,6 +99,23 @@ function LenderViewsReceiver(props) {
         .catch((error) => {
           console.log(error);
           setLenders(null);
+        });
+    }
+
+    // Get reviews for a receiver
+    if (tempReceiverId) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/review/${tempReceiverId}`,
+      })
+        .then((res) => {
+          tempReceiverReviews = res.data.data;
+          console.log("Receiver Reviews: ", tempReceiverReviews);
+          setReceiverReviews(tempReceiverReviews);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
 
@@ -276,6 +297,29 @@ function LenderViewsReceiver(props) {
     }
   };
 
+  const showReceiverReviews = () => {
+    return (
+      receiverReviews && (
+        <div class="review-section content-box " id="review-section">
+          <div class="title">
+            <h1>Reviews</h1>
+            <p>
+              <i class="fas fa-star" data-tooltip="Current-Rating">
+                <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
+              </i>
+              4.5/5
+            </p>
+          </div>
+          <div class="reviews scroller">
+            {receiverReviews.map((review) => (
+              <ReviewCard review={review} />
+            ))}
+          </div>
+        </div>
+      )
+    );
+  };
+
   if (loadingData) {
     return <LoadingScreen />;
   }
@@ -297,6 +341,7 @@ function LenderViewsReceiver(props) {
             {showContractOfferButton()}
           </div>
           {showLenders()}
+          {showReceiverReviews()}
         </main>
         {showContractOfferForm()}
       </div>
