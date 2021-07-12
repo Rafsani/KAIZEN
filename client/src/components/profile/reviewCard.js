@@ -10,7 +10,7 @@ function ReviewCard({ review }) {
   return (
     <div class="review-card">
       <div class="review-title">
-        <h2>Placeholder: Dummy Username</h2>
+        <h2>{review.lender}</h2>
         <p>
           <i class="fas fa-star">
             <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
