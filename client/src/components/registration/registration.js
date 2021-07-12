@@ -6,6 +6,7 @@ import BASE_URL from "../Base_url";
 import { faKickstarterK } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useHistory } from "react-router-dom";
+import CollateralPage from "./collateralPage";
 
 function Registration() {
   const [FirstName, setFirstName] = useState("");
@@ -15,10 +16,13 @@ function Registration() {
   const [AccountType, setAccountType] = useState("Lender");
   const [Dob, setDob] = useState(null);
   const [About, setAbout] = useState("");
-  const [Collateral, setCollateral] = useState("");
+  const [collateral, setCollateral] = useState("");
+  const [willShowCollateralPage, setWillShowCollateralPage] = useState(false);
+  const imgFileInput = React.createRef();
+  const [imgSrc, setImgSrc] = useState("#");
   let pageHistory = useHistory();
 
-  const sendData = (e) => {
+  const sendData = async (e) => {
     console.log(
       FirstName +
         " " +
@@ -34,12 +38,12 @@ function Registration() {
         " " +
         About +
         " " +
-        Collateral
+        collateral
     );
 
     e.preventDefault();
 
-    Axios({
+    await Axios({
       method: "POST",
       data: {
         fullname: FirstName + " " + LastName,
@@ -48,20 +52,40 @@ function Registration() {
         usertype: AccountType,
         dob: Dob,
         about: About,
-        collateral: Collateral,
+        collateral: collateral,
       },
       withCredentials: true,
-      // url: "http://localhost:5000/api/auth/login",
       url: "http://localhost:5000/api/auth/registerdata",
     }).then((res) => {
-      console.log(res);
+      console.log("Registration POST response: ", res);
     });
 
     pageHistory.push("/");
   };
 
+  const handleFileUpload = () => {
+    let file = imgFileInput.current.files[0];
+    let reader = new FileReader();
+    let url = reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      setImgSrc(reader.result);
+    };
+  };
+
+  if (willShowCollateralPage) {
+    return (
+      <CollateralPage
+        collateral={collateral}
+        setCollateral={setCollateral}
+        onBack={() => setWillShowCollateralPage(false)}
+        onSubmit={sendData}
+      />
+    );
+  }
+
   return (
-    <>
+    <div className="Registration">
       <div class="main content-box">
         <div class="icon">
           <FontAwesomeIcon icon={faKickstarterK} size="6x"></FontAwesomeIcon>
@@ -88,6 +112,7 @@ function Registration() {
                   class="name-input"
                   placeholder="First Name"
                   pattern="[A-Za-z]+"
+                  value={FirstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   required
                 />
@@ -96,6 +121,7 @@ function Registration() {
                   class="name-input"
                   placeholder="Last Name"
                   pattern="[A-Za-z]+"
+                  value={LastName}
                   onChange={(e) => setLastName(e.target.value)}
                   required
                 />
@@ -110,6 +136,7 @@ function Registration() {
                   type="tel"
                   class="small-input"
                   pattern="(?:\+88|01)?(?:\d{11}|\d{13})"
+                  value={Bkash}
                   onChange={(e) => setBkash(e.target.value)}
                   required
                 />
@@ -123,6 +150,7 @@ function Registration() {
                 <input
                   type="date"
                   class="small-input"
+                  value={Dob}
                   onChange={(e) => setDob(e.target.value)}
                   required
                 />
@@ -137,23 +165,8 @@ function Registration() {
                   type="number"
                   class="small-input"
                   pattern="[0-9]{10}"
+                  value={Nid}
                   onChange={(e) => setNid(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div class="small-input-field inputs-div">
-              <aside>
-                <h3>Collateral URL.</h3>
-              </aside>
-              <div class="input-field">
-                <input
-                  type="text"
-                  class="small-input"
-                  pattern="((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?"
-                  placeholder="Url for the youtube link"
-                  value={Collateral}
-                  onChange={(e) => setCollateral(e.target.value)}
                   required
                 />
               </div>
@@ -169,9 +182,27 @@ function Registration() {
                   rows="5"
                   // maxlength="140"
                   minlength="1"
+                  value={About}
                   onChange={(e) => setAbout(e.target.value)}
                   required
                 ></textarea>
+              </div>
+            </div>
+            <div class="small-input-field inputs-div">
+              <aside>
+                <h3>Profile Image</h3>
+              </aside>
+              <div class="input-field">
+                <input
+                  type="file"
+                  class="small-input"
+                  accept="image/*"
+                  name="image"
+                  id="file"
+                  ref={imgFileInput}
+                  onChange={handleFileUpload}
+                />
+                <img src={imgSrc} id="output" alt="your image" srcSet="" />
               </div>
             </div>
             <div class="account-type inputs-div">
@@ -180,7 +211,10 @@ function Registration() {
               </aside>
               <div class="input-field">
                 <div class="custom-select">
-                  <select onChange={(e) => setAccountType(e.target.value)}>
+                  <select
+                    value={AccountType}
+                    onChange={(e) => setAccountType(e.target.value)}
+                  >
                     <option value="Lender">Lender</option>
                     <option value="Receiver">Receiver</option>
                   </select>
@@ -191,14 +225,18 @@ function Registration() {
               <a href="/" class="btn-form btn-light">
                 Go Back
               </a>
-              <a href="#" onClick={sendData} class="btn-form btn-dark">
-                Submit
+              <a
+                href="#"
+                onClick={() => setWillShowCollateralPage(true)}
+                class="btn-form btn-dark"
+              >
+                Next
               </a>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
