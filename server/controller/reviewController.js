@@ -59,7 +59,7 @@ const handleGETReview = async (req,res,next)=>{
                 output.push({
                     _id: item._id,
                     receiver: item.receiver,
-                    lender: item.lender,
+                    lender: item.lender.username,
                     rating: item.ratingValue,
                     details: item.details,
                     totalAmount: item.contract.amount,

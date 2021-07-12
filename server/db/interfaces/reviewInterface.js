@@ -44,6 +44,10 @@ const findReviewForUser = async (userId)=>{
             path: 'contract',
             select: '_id amount installmentDates'
         })
+        .populate({
+            path: 'lender',
+            select: 'username'
+        })
         ;
 
         if( review ){

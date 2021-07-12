@@ -491,7 +491,7 @@
                 {
                     "_id": "60a2288f788f921b543cd811",
                     "receiver": "6076cfa408541e2ba057e331",
-                    "lender": "6076cfa408541e2ba057e336",
+                    "lender": "Rafid",
                     "rating": 4,
                     "details": "Had a really easy contract",
                     "totalAmount": 1400,
@@ -501,7 +501,7 @@
                 {
                     "_id": "60a2288f788f921b543cd813",
                     "receiver": "6076cfa408541e2ba057e331",
-                    "lender": "6076cfa408541e2ba057e340",
+                    "lender": "Rafid",
                     "rating": 4,
                     "details": "Had a fun contract",
                     "totalAmount": 1100,
