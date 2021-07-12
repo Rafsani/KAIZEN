@@ -12,6 +12,7 @@ import BasicInfo from "./basicInfo";
 import LenderCard from "./lenderCard";
 import ContractRequestCard from "./contractRequestCard";
 import PostRequestForm from "./PostRequestForm";
+import ReviewCard from "./reviewCard";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState(null);
@@ -20,6 +21,7 @@ function ReceiverProfile({ userId, hiddenData }) {
   const [lenders, setLenders] = useState(null);
   const [lenderLimit, setLenderLimit] = useState(5);
   const [contractRequests, setContractRequests] = useState(null);
+  const [reviews, setReviews] = useState(null);
   const [
     postRequestPopUpFormVisible,
     setPostRequestPopUpFormVisible,
@@ -30,6 +32,7 @@ function ReceiverProfile({ userId, hiddenData }) {
     let tempHistory;
     let tempLoanInfo;
     let tempLenders, tempContractRequests;
+    let tempReviews;
 
     // check if receiver has active loan request
     await Axios({
@@ -110,6 +113,23 @@ function ReceiverProfile({ userId, hiddenData }) {
         .catch((error) => {
           console.log(error);
           setContractRequests(null);
+        });
+    }
+
+    // Get reviews for a receiver
+    if (userId) {
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/review/${userId}`,
+      })
+        .then((res) => {
+          tempReviews = res.data.data;
+          console.log("Receiver Reviews: ", tempReviews);
+          setReviews(tempReviews);
+        })
+        .catch((error) => {
+          console.log(error);
         });
     }
   };
@@ -385,6 +405,30 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+  const showReviews = () => {
+    return (
+      reviews &&
+      reviews.length > 0 && (
+        <div class="review-section content-box " id="review-section">
+          <div class="title">
+            <h1>Reviews</h1>
+            <p>
+              <i class="fas fa-star" data-tooltip="Current-Rating">
+                <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
+              </i>
+              4.5/5
+            </p>
+          </div>
+          <div class="reviews scroller">
+            {reviews.map((review) => (
+              <ReviewCard review={review} />
+            ))}
+          </div>
+        </div>
+      )
+    );
+  };
+
   return (
     <div>
       <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
@@ -399,6 +443,7 @@ function ReceiverProfile({ userId, hiddenData }) {
         {showReceiverHistory()}
         {showLenders()}
         {showContractRequests()}
+        {showReviews()}
       </main>
       {showPostRequestForm()}
     </div>
