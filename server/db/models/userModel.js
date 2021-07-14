@@ -113,8 +113,14 @@ const userSchema = new mongoose.Schema({
     },
     
     image: {
-        data: Buffer,
-        contentType: String
+        path: {
+            type: String,
+            default: 'uploads/user.png'
+        },
+        contentType: {
+            type: String,
+            default: 'image/jpeg'
+        }
     }
 });
 

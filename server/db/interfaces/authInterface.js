@@ -70,7 +70,7 @@ const registerUserFormData = async ( body , userInfo , filename, mimetype)=> {
             verfiedStatus: userVerifiedStatus,
             collateral: body.collateral,
             image: {
-                data: fs.readFileSync( path.join(__dirname + '../../../uploads/' + filename) ),
+                path: 'uploads/' + filename,
                 contentType: mimetype
             }
         },

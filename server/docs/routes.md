@@ -48,6 +48,10 @@
               _id: 60a2288f788f921b543cd8cc,
               collectedAmount: 0,
               Receiver: {
+              "image": {
+                "path": "uploads/user.png",
+                "contentType": "image/jpeg"
+              },
               usertype: 'Receiver',
               _id: 6076cfa408541e2ba057e333,
               username: 'Shwarup',
@@ -72,6 +76,10 @@
               _id: 60a2288f788f921b543cd8cd,
               collectedAmount: 0,
               Receiver: {
+              "image": {
+                "path": "uploads/user.png",
+                "contentType": "image/jpeg"
+              },                 
               usertype: 'Receiver',
               _id: 6076cfa408541e2ba057e334,
               username: 'Syed',
@@ -105,6 +113,10 @@
     - ```x
        {
             "data": {
+                "image": {
+                    "path": "uploads/user.png",
+                    "contentType": "image/jpeg"
+                },
                 "usertype": "Receiver",
                 "loanDefaults": 0,
                 "rating": 5,
@@ -149,7 +161,11 @@
                         "nextInstallmentDate": "2021-08-05T16:25:47.606Z",
                         "interestRate": 5,
                         "contractDefaults": 0,
-                        "installmentsCompleted": 0
+                        "installmentsCompleted": 0,
+                        "image": {
+                            "path": "uploads/user.png",
+                            "contentType": "image/jpeg"
+                        }
                     },
                     {
                         "contractId": "60a2288f788f921b543cd814",
@@ -161,7 +177,11 @@
                         "nextInstallmentDate": "2021-08-05T16:25:47.612Z",
                         "interestRate": 8,
                         "contractDefaults": 0,
-                        "installmentsCompleted": 0
+                        "installmentsCompleted": 0,
+                        "image": {
+                            "path": "uploads/user.png",
+                            "contentType": "image/jpeg"
+                        }
                     }
                 ]
             },
@@ -190,7 +210,7 @@
 
 - **[Post Review](..\controller\contractController.js)** - Ends Contract and posts a review<br><br>
   - **POST** : &nbsp; `{{URL}} /api/review`
-    - ```x 
+    - ```x
         {
             "contract": "60a2288f788f921b543cd811",
             "lender": "6076cfa408541e2ba057e337",
@@ -198,6 +218,7 @@
             "ratingValue": "1",
             "details": "Taka niye mere diyeche."
         }
+      ```
     - ```x
         {
             "status": "OK",
@@ -213,8 +234,8 @@
             "message": "Review has been posted."
         }
       ```
----
 
+---
 
 ---
 
@@ -229,6 +250,10 @@
     - ```x
         {
             "data": {
+                "image": {
+                    "path": "uploads/user.png",
+                    "contentType": "image/jpeg"
+                },
                 "usertype": "Receiver",
                 "loanDefaults": 0,
                 "rating": 3,
@@ -283,7 +308,7 @@
             "message": "Found pending loan in the database"
         }
       ```
-    - ```x 
+    - ```x
         {
             "data": {
                 "lastIssuedLoan": "60a2288f788f921b543cd8ca"
@@ -291,7 +316,7 @@
             "status": "OK",
             "message": "Found pending loan in the database"
         }
-        ```
+      ```
 
 ---
 
@@ -348,6 +373,10 @@
                     "contractId": "60a2288f788f921b543cd814",
                     "lenderId": "6076cfa408541e2ba057e337",
                     "lenderName": "Akid",
+                    "lenderImage": {
+                        "path": "uploads/user.png",
+                        "contentType": "image/jpeg"
+                    },
                     "totalAmount": 1000,
                     "expirationDate": "2021-09-04T16:25:47.612Z",
                     "installments": 2,
@@ -356,6 +385,10 @@
                 {
                     "contractId": "60a2288f788f921b543cd813",
                     "lenderId": "6076cfa408541e2ba057e336",
+                    "lenderImage": {
+                        "path": "uploads/user.png",
+                        "contentType": "image/jpeg"
+                    },
                     "lenderName": "Rafid",
                     "totalAmount": 500,
                     "expirationDate": "2021-08-05T16:25:47.612Z",
@@ -378,7 +411,7 @@
         {
             "issuerId": "6076cfa408541e2ba057e335" // receiverId
         }
-        ```
+      ```
     - ```x
         {
             "status": "OK",
@@ -404,6 +437,7 @@
             "message": "The contract offer has been denied."
         }
       ```
+
 ---
 
 - **[Accept Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
@@ -414,7 +448,7 @@
         {
             "issuerId": "6076cfa408541e2ba057e335" // receiverId
         }
-        ```
+      ```
     - ```x
         {
             "status": "OK",
@@ -440,7 +474,9 @@
             "message": "The contract offer has been accepted."
         }
       ```
+
 ---
+
 - **[Current Lenders for a loan request](..\controller\loanController.js)** - Fetches current lenders for a loan request by loan id.<br><br>
 
   - **GET** : &nbsp; `{{URL}}/api/loans/lenders/:loanId`
@@ -452,6 +488,10 @@
                     "contractId": "60a2288f788f921b543cd812",
                     "lenderId": "6076cfa408541e2ba057e336",
                     "lenderName": "Rafid",
+                    "lenderImage": {
+                        "path": "uploads/user.png",
+                        "contentType": "image/jpeg"
+                    },
                     "totalAmount": 500,
                     "collectedAmount": 0,
                     "nextInstallmentDate": "2021-08-05T16:25:47.611Z",
@@ -465,6 +505,10 @@
                     "contractId": "60a2288f788f921b543cd811",
                     "lenderId": "6076cfa408541e2ba057e337",
                     "lenderName": "Akid",
+                    "lenderImage": {
+                        "path": "uploads/user.png",
+                        "contentType": "image/jpeg"
+                    },
                     "totalAmount": 200,
                     "collectedAmount": 0,
                     "nextInstallmentDate": "2021-08-05T16:25:47.606Z",
@@ -479,7 +523,9 @@
             "message": "All offers for this loan request have been fetched"
         }
       ```
+
 ---
+
 - **[Reviews For a user](..\controller\reviewController.js)** - Fetches reviews for user by user id.<br><br>
 
   - **GET** : &nbsp; `{{URL}}/api/review/:receiverId`
@@ -548,7 +594,6 @@
 
 ---
 
-
 - **[Fetch Pending Loan For User](..\controller\loanController.js)** - Fetches the pending loan for the receiver. Can be only one at a time<br><br>
   - **GET** : &nbsp; `{{URL}}/api/loans/user/:receiverId`
     - ```x
@@ -581,6 +626,10 @@
                     "contractId": "60a2288f788f921b543cd812",
                     "lenderId": "6076cfa408541e2ba057e336",
                     "lenderName": "Rafid",
+                    "lenderImage": {
+                        "path": "uploads/user.png",
+                        "contentType": "image/jpeg"
+                    },
                     "totalAmount": 500,
                     "collectedAmount": 0,
                     "nextInstallmentDate": "2021-08-05T16:25:47.611Z",
@@ -593,6 +642,10 @@
                 {
                     "contractId": "60a2288f788f921b543cd811",
                     "lenderId": "6076cfa408541e2ba057e337",
+                    "lenderImage": {
+                        "path": "uploads/user.png",
+                        "contentType": "image/jpeg"
+                    },
                     "lenderName": "Akid",
                     "totalAmount": 200,
                     "collectedAmount": 0,
@@ -614,7 +667,7 @@
 - **[Post A Contract Offer/Request](..\controller\contractController.js)** - Creates a new Contract. Sends a request to the receiver<br><br>
   - **POST** : &nbsp; `{{URL}}/api/contract`
     - ```
-        req.body 
+        req.body
         {
             "loanId": "60a2288f788f921b543cd8ce",
             "lenderId": "6076cfa408541e2ba057e336",
@@ -622,6 +675,7 @@
             "amount": "1200",
             "installments": "3"
         }
+      ```
     - ```x
         {
             "status": "OK",
@@ -675,11 +729,13 @@
             "data": null,
             "message": "No active request at this moment."
         }
-        ```
+      ```
+
 ---
+
 <!-- - **[End Contract](..\controller\contractController.js)** - Ends Contract<br><br>
   - **PUT** : &nbsp; `{{URL}} /api/contract`
-    - ```x 
+    - ```x
         {
             "contractId": "60a2288f788f921b543cd811",
             "issuerId": "6076cfa408541e2ba057e337"
@@ -709,9 +765,10 @@
         }
       ```
 --- -->
+
 - **[Post Review](..\controller\reviewController.js)** - Ends Contract and posts a review<br><br>
   - **POST** : &nbsp; `{{URL}} /api/review`
-    - ```x 
+    - ```x
         {
             "contract": "60a2288f788f921b543cd811",
             "lender": "6076cfa408541e2ba057e337",
@@ -719,6 +776,7 @@
             "ratingValue": "1",
             "details": "Taka niye mere diyeche."
         }
+      ```
     - ```x
         {
             "status": "OK",
@@ -734,6 +792,7 @@
             "message": "Review has been posted."
         }
       ```
+
 ---
 
 - **[Reviews For a user](..\controller\reviewController.js)** - Fetches reviews for user by user id.<br><br>
@@ -810,9 +869,9 @@
             "data": null,
             "message": "No active request at this moment."
         }
-        ```
----
+      ```
 
+---
 
 - **[ Get Contract Offer ](..\controller\contractController.js)** - Fetches a contract offer if there are any( only happens if there are no active request)<br><br>
   - **GET** : &nbsp; `{{URL}}/api/contract/:lenderId`
@@ -839,8 +898,10 @@
             "data": null,
             "message": "No active request at this moment."
         }
-        ```
+      ```
+
 ---
+
 - **[ Get Lender Info For Receiver ](..\controller\userController.js)** - Fetches aggregated Lender info<br><br>
   - **GET** : &nbsp; `{{URL}}/api/user/view/:lenderId`
     - ```x
@@ -848,6 +909,10 @@
             "data": {
                 "name": "Akid",
                 "details": "Habijaaosndcosndcnacnosdnzi",
+                "image": {
+                    "path": "uploads/user.png",
+                    "contentType": "image/jpeg"
+                },
                 "maxAmountLent": 200,
                 "totalAmountLent": 200,
                 "defaults": 0,
@@ -863,7 +928,8 @@
                status: 'ERROR',
                message: 'Lender Details could not be fetched'
         }
-        ```
+      ```
+
 ---
 
 - **[Deny Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
@@ -874,7 +940,7 @@
         {
             "issuerId": "6076cfa408541e2ba057e335" // receiverId
         }
-        ```
+      ```
     - ```x
         {
             "status": "OK",
@@ -900,6 +966,7 @@
             "message": "The contract offer has been denied."
         }
       ```
+
 ---
 
 - **[Accept Contract Offer/Request](..\controller\contractController.js)** - Denies a contract offer.<br><br>
@@ -910,7 +977,7 @@
         {
             "issuerId": "6076cfa408541e2ba057e335" // receiverId
         }
-        ```
+      ```
     - ```x
         {
             "status": "OK",
@@ -936,4 +1003,5 @@
             "message": "The contract offer has been accepted."
         }
       ```
+
 ---

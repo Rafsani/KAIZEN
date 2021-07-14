@@ -13,6 +13,12 @@ const checkInstallmentDate = require('../util/date');
  */
 const handleGETallLoans = async( req,res,next)=>{
     try {
+        if( req.user == undefined ){
+            req.user = {
+                email: "akid100@gmail.com"
+            }
+        }
+
         let type , sort , output;
         
         type = ( req.query.type == undefined )? 'loan':req.query.type;
@@ -246,6 +252,7 @@ const handleGETLoanOffers = async (req,res,next) => {
                     contractId: contractRequest._id,
                     lenderId: contractRequest.lenderId._id,
                     lenderName: contractRequest.lenderId.username,
+                    lenderImage: contractRequest.lenderId.image,
                     totalAmount,
                     expirationDate,
                     installments,
@@ -299,6 +306,7 @@ const handleGETLoanOffers = async (req,res,next) => {
                     contractId: contractRequest._id,
                     lenderId:  contractRequest.lenderId._id,
                     lenderName: contractRequest.lenderId.username,
+                    lenderImage: contractRequest.lenderId.image,
                     totalAmount,
                     collectedAmount,
                     nextInstallmentDate,

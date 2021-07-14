@@ -71,7 +71,8 @@ const loanInterface = require('../db/interfaces/loanInterface');
                             nextInstallmentDate: item.installmentDates[ tempDate ], 
                             interestRate : item.interestRate,
                             contractDefaults: item.defaults,
-                            installmentsCompleted:  item.installments - item.installmentDates.length
+                            installmentsCompleted:  item.installments - item.installmentDates.length,
+                            image: item.receiverId.image
                         } );
     
                         if( item.amount > maxAmountLent ){
@@ -248,6 +249,7 @@ const handleGETLenderInfo = async (req,res,next)=>{
                 output = {
                     name: userInfo.data.username,
                     details: userInfo.data.details,
+                    image: userInfo.data.image,
                     maxAmountLent,
                     totalAmountLent,
                     defaults,
