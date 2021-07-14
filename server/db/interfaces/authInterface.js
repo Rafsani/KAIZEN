@@ -1,4 +1,7 @@
 const Users = require('../models/userModel');
+const fs = require('fs');
+const path = require('path');
+
 
 /**
  * @description registers new users
@@ -8,7 +11,6 @@ const Users = require('../models/userModel');
 const registerUser = async( body )=> {
     try {
         const oldUser = await Users.findOne({ email: body.email })
-        console.log(body);
         if( oldUser ){
             return {
                 data: null,
@@ -48,7 +50,7 @@ const registerUser = async( body )=> {
 
 
 
-const registerUserFormData = async ( body , userInfo )=> {
+const registerUserFormData = async ( body , userInfo , filename, mimetype)=> {
     try {
         let userVerifiedStatus = false;
 
@@ -66,7 +68,11 @@ const registerUserFormData = async ( body , userInfo )=> {
             dob: body.dob,
             details: body.about,
             verfiedStatus: userVerifiedStatus,
-            collateral: body.collateral
+            collateral: body.collateral,
+            image: {
+                data: fs.readFileSync( path.join(__dirname + '../../../uploads/' + filename) ),
+                contentType: mimetype
+            }
         },
         {
             returnOriginal: false

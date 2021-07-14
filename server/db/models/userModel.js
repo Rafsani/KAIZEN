@@ -110,6 +110,11 @@ const userSchema = new mongoose.Schema({
         default: 5,
         max: 5,
         min: 0.5
+    },
+    
+    image: {
+        data: Buffer,
+        contentType: String
     }
 });
 

@@ -1,4 +1,5 @@
 const logoutMiddleware = require('../middleware/logout'); 
+const imageMiddleware = require('../middleware/uploadImage'); 
 var express = require('express');
 var router = express.Router();
 
@@ -8,7 +9,7 @@ router.route('/register')
     .post( authController.handlePOSTregisterUser );
 
 router.route('/registerdata')
-    .post( authController.handlePOSTregisterUserFormData );
+    .post( imageMiddleware.imageUpload , authController.handlePOSTregisterUserFormData );
 
 router.route('/login')
     .post( authController.handlePOSTloginUser );

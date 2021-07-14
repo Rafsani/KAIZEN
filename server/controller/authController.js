@@ -154,16 +154,20 @@ const getLoggedInUser = async (req,res) => {
 
 const handlePOSTregisterUserFormData = async ( req,res,next )=>{
     try {
+
         let authQueryResult;
         let userInfo ;
+
         await getLoggedInUser(req,res).then(json => {
             userInfo = json;
             return;
-        });;
+        });
 
+        
         if( userInfo ){
-            authQueryResult = await authInterface.registerUserFormData( req.body , userInfo );
+            authQueryResult = await authInterface.registerUserFormData( req.body , userInfo, req.file.filename , req.file.mimetype );
         }
+
 
         if( authQueryResult.status == 'OK' ){
             return res.status(201).send({
