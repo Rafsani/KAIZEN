@@ -1,11 +1,12 @@
 const paymentInterface = require('../db/interfaces/paymentInterface');
 const SSLCommerzPayment = require('sslcommerz');
+const axios = require('axios');
 
 
 /**
  * @description this method initializes a ssl commerce page
  * 
- * @route - /api/payment/ssl-request
+ * @route - /api/payment/ssl-transaction
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -13,12 +14,12 @@ const SSLCommerzPayment = require('sslcommerz');
  * 
  */
 
-const handleGETInitSSLCommerzPage = async( req, res, next )=>{
+const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
     try {
-        const data = {
-            total_amount: 100,
+        const initialData = {
+            total_amount: req.body.total_amount,
             currency: 'BDT',
-            tran_id: 'REF123',
+            tran_id: `L${req.body.lenderId}R${req.body.receiverId}`,
             success_url: 'http://localhost:5000/api/payment/ssl-payment-success',
             fail_url: 'http://localhost:5000/api/payment/ssl-payment-failure',
             cancel_url: 'http://localhost:5000/api/payment/ssl-payment-cancel',
@@ -35,8 +36,8 @@ const handleGETInitSSLCommerzPage = async( req, res, next )=>{
             cus_state: 'Dhaka',
             cus_postcode: '1000',
             cus_country: 'Bangladesh',
-            cus_phone: '01711111111',
-            cus_fax: '01711111111',
+            cus_phone: req.body.bkash,
+            cus_fax: req.body.bkash,
             ship_name: 'Customer Name',
             ship_add1: 'Dhaka',
             ship_add2: 'Dhaka',
@@ -51,12 +52,21 @@ const handleGETInitSSLCommerzPage = async( req, res, next )=>{
             value_d: 'ref004_D'
         };
         const sslcommer = await new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD,false) //true for live default false for sandbox
-        await sslcommer.init(data).then(data => {
+        await sslcommer.init(initialData).then(data => {
             //process the response that got from sslcommerz 
             //https://developer.sslcommerz.com/doc/v4/#returned-parameters
             if( data?.GatewayPageURL )
             {
-                return res.status(200).redirect(data?.GatewayPageURL);
+                // console.log("In init: " + data.redirectGatewayURL.split('?')[1] + "bkash");
+
+                // https://sandbox.sslcommerz.com/gwprocess/v4/gw.php?Q=REDIRECT&cardname=bkash&SESSIONKEY=EF7A337B05C4C871A4C70A40FC06043F&tran_type=success
+
+                const redirectedURL = `https://sandbox.sslcommerz.com/gwprocess/v4/bankgw/indexhtmlOTP.php?` + data.redirectGatewayURL.split('?')[1] + "bkash"
+                return res.status(200).send({
+                    redirectedURL,
+                    message: "Transaction has been made, need to be confirmed",
+                    status: "OK"
+                });
             }
             else {
                 return res.status(400).send({
@@ -71,7 +81,6 @@ const handleGETInitSSLCommerzPage = async( req, res, next )=>{
         });
     }
 }
-
 
 
 /**
@@ -148,8 +157,63 @@ const handlePOSTIPNSSLCommerzPage = async (req,res,next)=>{
     })
 }
 
+
+/**
+ * @description this method returns the information for the transaction 
+ * 
+ * @route - POST /api/payment/ssl-transaction?tran_id=59C2A4F6432F8
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns
+ * 
+ */
+
+const handleGETTransactionInfo = async (req,res,next)=>{
+    // console.log(req.query.tran_id);
+
+    
+    try {
+        const redirectedURL = `https://sandbox.sslcommerz.com/validator/api/merchantTransIDvalidationAPI.php?tran_id=${req.query.tran_id}&store_id=${process.env.STORE_ID}&store_passwd=${process.env.STORE_PASSWORD}&format=json`
+
+        let data;
+
+        await axios.get(redirectedURL)
+        .then(response => {
+            // console.log(response.data.url);
+            data = response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+        if( data.no_of_trans_found == 0 ){
+            return res.status(400).send({
+                data: null,
+                status: "ERROR",
+                message: "Information could not be found"
+            })
+        }
+        
+        return res.status(200).send({
+            data,
+            message: "Transaction Info has been found",
+            status: "OK"
+        })  ;
+    } catch (e) {
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
+
+
 module.exports = {
-    handleGETInitSSLCommerzPage,
+    handleGETTransactionInfo,
+    handlePOSTInitSSLCommerzPage,
     handlePOSTFailedSSLCommerzPage,
     handlePOSTCanceledSSLCommerzPage,
     handlePOSTIPNSSLCommerzPage,

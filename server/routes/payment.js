@@ -4,8 +4,9 @@ var router = express.Router();
 
 const paymentController = require('../controller/paymentController');
 
-router.route('/ssl-request' )
-    .get( paymentController.handleGETInitSSLCommerzPage );
+router.route('/ssl-transaction')
+    .get( paymentController.handleGETTransactionInfo )
+    .post( paymentController.handlePOSTInitSSLCommerzPage );
 
 router.route('/ssl-payment-success')
     .post( paymentController.handlePOSTSuccessSSLCommerzPage)
@@ -18,7 +19,6 @@ router.route('/ssl-payment-cancel')
 
 router.route('/ssl-payment-ipn')
     .post( paymentController.handlePOSTIPNSSLCommerzPage)
-
 
 
 
