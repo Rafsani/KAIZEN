@@ -16,10 +16,15 @@ const axios = require('axios');
 
 const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
     try {
+        req.body['extra'] = {
+            contractId: req.body.contractId,
+            paymentType: req.body.paymentType
+        }
+        
         const initialData = {
             total_amount: req.body.total_amount,
             currency: 'BDT',
-            tran_id: `L${req.body.lenderId}R${req.body.receiverId}`,
+            tran_id: `C${req.body.contractId}`,
             success_url: 'http://localhost:5000/api/payment/ssl-payment-success',
             fail_url: 'http://localhost:5000/api/payment/ssl-payment-failure',
             cancel_url: 'http://localhost:5000/api/payment/ssl-payment-cancel',
@@ -46,8 +51,8 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
             ship_postcode: 1000,
             ship_country: 'Bangladesh',
             multi_card_name: 'mastercard',
-            value_a: 'ref001_A',
-            value_b: 'ref002_B',
+            value_a: req.body.contractId,
+            value_b: req.body.paymentType,
             value_c: 'ref003_C',
             value_d: 'ref004_D'
         };
@@ -95,10 +100,20 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
  */
 
 const handlePOSTSuccessSSLCommerzPage = async (req,res,next)=>{
+    // Here the payment request is being successful
+
+    const paymentQueryResult = await paymentInterface.makePayment({
+        contractId: req.body.value_a,
+        amount: req.body.amount,
+        type: req.body.value_b
+    });
+
+
+
     return res.status(200).send({
-        data: req.body,
+        data: paymentQueryResult.data,
         status: "OK",
-        message: "Payment has been made"
+        message: paymentQueryResult.message
     })
 }
 
