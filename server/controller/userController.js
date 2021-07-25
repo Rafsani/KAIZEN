@@ -72,7 +72,8 @@ const loanInterface = require('../db/interfaces/loanInterface');
                             interestRate : item.interestRate,
                             contractDefaults: item.defaults,
                             installmentsCompleted:  item.installments - item.installmentDates.length,
-                            image: item.receiverId.image
+                            image: item.receiverId.image,
+                            loanSanctioned: item.loanSanctioned
                         } );
     
                         if( item.amount > maxAmountLent ){

@@ -165,7 +165,8 @@
                         "image": {
                             "path": "uploads/user.png",
                             "contentType": "image/jpeg"
-                        }
+                        },
+                        "loanSanctioned": true
                     },
                     {
                         "contractId": "60a2288f788f921b543cd814",
@@ -181,7 +182,8 @@
                         "image": {
                             "path": "uploads/user.png",
                             "contentType": "image/jpeg"
-                        }
+                        },
+                        "loanSanctioned": true
                     }
                 ]
             },
