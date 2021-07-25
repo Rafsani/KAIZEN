@@ -19,6 +19,17 @@ const paymentSchema = new mongoose.Schema({
     }
 });
 
+paymentSchema.post('save' , async function(){
+    if( this.type === 'lenderToReceiver' ){
+        await this.model('contract').updateOne({ 
+            _id: this.contractId
+        },{
+            loanSanctioned: true
+        });
+
+    }
+});
+
 const Payment = mongoose.model("payment", paymentSchema );
 
 

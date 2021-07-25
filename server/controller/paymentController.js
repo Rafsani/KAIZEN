@@ -1,4 +1,5 @@
 const paymentInterface = require('../db/interfaces/paymentInterface');
+const contractInterface = require('../db/interfaces/contractInterface');
 const SSLCommerzPayment = require('sslcommerz');
 const axios = require('axios');
 
@@ -19,6 +20,13 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
         req.body['extra'] = {
             contractId: req.body.contractId,
             paymentType: req.body.paymentType
+        }
+
+        const contractQueryResult = await contractInterface.findContract( req.body.contractId );
+        if( contractQueryResult.data.loanSanctioned && req.body.paymentType == 'lenderToReceiver' ){
+            return res.status(400).send({
+                message:"Payment already made"
+            })
         }
         
         const initialData = {
