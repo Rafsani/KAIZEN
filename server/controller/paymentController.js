@@ -17,12 +17,9 @@ const axios = require('axios');
 
 const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
     try {
-        req.body['extra'] = {
-            contractId: req.body.contractId,
-            paymentType: req.body.paymentType
-        }
 
         const contractQueryResult = await contractInterface.findContract( req.body.contractId );
+        
         if( contractQueryResult.data.loanSanctioned && req.body.paymentType == 'lenderToReceiver' ){
             return res.status(400).send({
                 message:"Payment already made"
@@ -61,7 +58,7 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
             multi_card_name: 'mastercard',
             value_a: req.body.contractId,
             value_b: req.body.paymentType,
-            value_c: 'ref003_C',
+            value_c: req.body.bkash,
             value_d: 'ref004_D'
         };
         const sslcommer = await new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD,false) //true for live default false for sandbox
@@ -113,13 +110,16 @@ const handlePOSTSuccessSSLCommerzPage = async (req,res,next)=>{
     const paymentQueryResult = await paymentInterface.makePayment({
         contractId: req.body.value_a,
         amount: req.body.amount,
-        type: req.body.value_b
+        type: req.body.value_b,
+        bankTransactionId: req.body.bank_tran_id,
+        issueDate: req.body.tran_date,
+        bkash: req.body.value_c
     });
 
 
 
     return res.status(200).send({
-        data: paymentQueryResult.data,
+        data:  paymentQueryResult.data,
         status: "OK",
         message: paymentQueryResult.message
     })
@@ -217,9 +217,20 @@ const handleGETTransactionInfo = async (req,res,next)=>{
                 message: "Information could not be found"
             })
         }
+
+        let output = [];
+
+        data.element.forEach(item => {
+            output.push({
+                bankTransactionId: item.bank_tran_id,
+                amount: item.amount,
+                issueDate: item.tran_date,
+                type: item.value_b
+            });
+        });
         
         return res.status(200).send({
-            data,
+            data: output,
             message: "Transaction Info has been found",
             status: "OK"
         })  ;

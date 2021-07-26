@@ -2,6 +2,7 @@ const userInterface = require('../db/interfaces/userInterface');
 const contractInterface = require('../db/interfaces/contractInterface');
 const authInterface = require('../db/interfaces/authInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
+const paymentInterface = require('../db/interfaces/paymentInterface');
 
 /**
  * @description this method returns the user's private data
@@ -21,6 +22,55 @@ const loanInterface = require('../db/interfaces/loanInterface');
         }
 
         return res.status(400).send(userQueryResult);
+        
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+/**
+ * @description this method returns the user's transaction history
+ * @route - GET /api/user/transaction/:userId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETUserTransactionHistoryById = async( req,res,next)=>{
+    try {
+        // make sure the user making the request has the same id as the one's data we are fetching
+        /** not yet implemented */
+        const contractQueryResult = await contractInterface.findContractForUser( req.params.userId );
+        
+        if( contractQueryResult.status == 'OK' ){
+            let output = [];
+            
+            let paymentQueryResult;
+
+
+            for await ( element of contractQueryResult.data ){
+                paymentQueryResult = await paymentInterface.findPayment(element._id);
+
+                if( paymentQueryResult.status === 'OK' ){
+                    output.push( paymentQueryResult.data );
+                }
+            }            
+
+            if( output ){
+                return res.status(200).send({
+                    data: output,
+                    message: "All transactions for this user have been found",
+                    status: "OK"
+                });
+            }
+        }
+
+        return res.status(400).send({
+            data: null,
+            message: "Transaction History Not found",
+            status: "ERROR"
+        });
         
     }catch(e){
         return res.status(500).send({
@@ -282,5 +332,6 @@ module.exports = {
     handleGETUserById,
     handleGETUserHistory,
     handleGETCheckIfLoanRequestCanBeMade,
-    handleGETLenderInfo
+    handleGETLenderInfo,
+    handleGETUserTransactionHistoryById
 }

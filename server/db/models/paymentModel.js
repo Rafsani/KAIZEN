@@ -16,6 +16,18 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         enum: [ 'lenderToReceiver' , 'receiverToLender' ],
         required: true
+    },
+    issueDate: {
+        type: Date,
+        default: Date.now
+    },
+    bankTransactionId : {
+        type: String,
+        required: true
+    },
+    bkash: {
+        type: String,
+        required: true
     }
 });
 

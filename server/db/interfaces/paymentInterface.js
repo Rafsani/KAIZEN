@@ -9,7 +9,10 @@ const Payment = require('../models/paymentModel');
         const payment = await Payment.create({
             contractId: body.contractId,
             amount: body.amount,
-            type: body.type
+            type: body.type,
+            bankTransactionId: body.bankTransactionId,
+            issueDate: body.issueDate,
+            bkash: body.bkash
         });
 
         
@@ -36,7 +39,44 @@ const Payment = require('../models/paymentModel');
 }
 
 
+/**
+ * @description finds all payment for a contract id
+ * @returns 
+ */
+ const findPayment = async( id )=> {
+    try {
+        const payment = await Payment.find({
+            contractId: id
+        });
+
+        
+        if( payment.length != 0){
+            return {
+                data: payment, 
+                status: 'OK',
+                message: 'Payment has been found'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'No payment found'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+
+
 module.exports = {
-    makePayment
+    makePayment,
+    findPayment
 }
 
