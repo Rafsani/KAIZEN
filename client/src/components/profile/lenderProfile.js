@@ -93,6 +93,7 @@ function LenderProfile({ userId, hiddenData }) {
             <div class="user-cards scroller">
               {lenderHistory.currentlyActiveContacts &&
                 lenderHistory.currentlyActiveContacts.map((contract) => (
+                  
                   <CurrentlyLendingCard
                     key={contract.contractId}
                     contractDetails={contract}
@@ -100,6 +101,7 @@ function LenderProfile({ userId, hiddenData }) {
                     targetId={contract.receiverId}
                     viewAsLender={true}
                     viewButtons={true}
+                    loanSanctioned = {contract.loanSanctioned}
                   />
                 ))}
             </div>
@@ -127,6 +129,7 @@ const showAcceptedOffers = () => {
           <div class="user-cards scroller">
             {lenderHistory.currentlyActiveContacts &&
               lenderHistory.currentlyActiveContacts.map((contract) => (
+               
                 <AcceptedCOntractsCard
                   key={contract.contractId}
                   contractDetails={contract}
@@ -134,6 +137,7 @@ const showAcceptedOffers = () => {
                   targetId={contract.receiverId}
                   viewAsLender={true}
                   viewButtons={true}
+                  loanSanctioned = {contract.loanSanctioned}
                 />
               ))}
           </div>

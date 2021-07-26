@@ -12,7 +12,14 @@ function CurrentlyLendingCard({
   targetId,
   viewAsLender,
   viewButtons,
+  loanSanctioned,
 }) {
+
+
+  if(loanSanctioned === false) 
+  return (<> </>);
+
+
   return (
     <div>
       <div class="card-profile">

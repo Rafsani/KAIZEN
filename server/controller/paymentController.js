@@ -17,10 +17,7 @@ const axios = require('axios');
 
 const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
     try {
-        req.body['extra'] = {
-            contractId: req.body.contractId,
-            paymentType: req.body.paymentType
-        }
+      
 
         const contractQueryResult = await contractInterface.findContract( req.body.contractId );
         if( contractQueryResult.data.loanSanctioned && req.body.paymentType == 'lenderToReceiver' ){
@@ -34,6 +31,7 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
             currency: 'BDT',
             tran_id: `C${req.body.contractId}`,
             success_url: 'http://localhost:5000/api/payment/ssl-payment-success',
+            /*success_url: 'http://localhost:3000/profile',*/
             fail_url: 'http://localhost:5000/api/payment/ssl-payment-failure',
             cancel_url: 'http://localhost:5000/api/payment/ssl-payment-cancel',
             ipn_url: 'http://localhost:5000/api/payment/ssl-payment-ipn',
@@ -88,6 +86,7 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
             }
         });
     }catch(e){
+        console.log(e);
         return res.status(500).send({
             status: 'EXCEPTION',
             message: e.message
@@ -118,11 +117,13 @@ const handlePOSTSuccessSSLCommerzPage = async (req,res,next)=>{
 
 
 
-    return res.status(200).send({
+    return res.status(200).redirect(/*{
         data: paymentQueryResult.data,
         status: "OK",
         message: paymentQueryResult.message
-    })
+    }*/
+    'http://localhost:3000/profile'
+    )
 }
 
 /**

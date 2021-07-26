@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
+import Base_url from "../Base_url"
 import "./profile.css";
-
+import { useHistory } from "react-router-dom";
 import formatDate from "../../utils/formatDate";
+
+
+
+
 
 function AcceptedCOntractsCard({
   contractDetails,
@@ -12,7 +16,46 @@ function AcceptedCOntractsCard({
   targetId,
   viewAsLender,
   viewButtons,
+  loanSanctioned,
 }) {
+  let history = useHistory();
+  const [redirecturl,setredirecturl] = useState(null);
+  const fetchdata = async () => {
+    let tempLenderHistory;
+    
+    if (userId) {
+      // Get lender history
+      await Axios({
+        method: "POST",
+        data: {
+          total_amount: contractDetails.amount,
+          bkash: "01747783158",
+          contractId: contractDetails.contractId,
+          paymentType: "lenderToReceiver",
+
+          
+        },
+        withCredentials: true,
+        url: `${Base_url}/api/payment/ssl-transaction`,
+      })
+        .then((res) => {
+         console.log(res.data.redirectedURL);
+         //history.push(res.data.redirectedURL);
+         setredirecturl(res.data.redirectedURL);
+        })
+        .catch((error) => {
+          console.log(error);
+          
+        });
+    }
+  };
+
+
+if(loanSanctioned === true) 
+ return (<> </>);
+
+
+  
   return (
     <div>
       <div class="card-profile">
@@ -84,8 +127,8 @@ function AcceptedCOntractsCard({
         </div>
         {viewButtons && (
           <div class="small-buttons-list">
-            <div class="buttons ">
-              <a href="#" class="small-btn-profile btn-dark">  
+            <div class="buttons " onClick={fetchdata} >
+              <a href={redirecturl} class="small-btn-profile btn-dark">  
                 proceed To Payment
               </a>
             </div>
