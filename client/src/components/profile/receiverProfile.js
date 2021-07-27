@@ -29,7 +29,6 @@ function ReceiverProfile({ userId, hiddenData }) {
   ] = useState(false);
   const [showPopUp, setshowPopUp] = useState(false);
 
-
   const fetchData = async () => {
     let tempActiveRequest;
     let tempHistory;
@@ -385,16 +384,14 @@ function ReceiverProfile({ userId, hiddenData }) {
       });
   };
 
-
   const handleOpenPaymentPopupShow = () => {
-   
-      setshowPopUp(true);
-      console.log(showPopUp);
+    setshowPopUp(true);
+    console.log(showPopUp);
   };
 
   const handleClosePaymentPopupShow = () => {
     setshowPopUp(false);
-};
+  };
 
   const showContractRequests = () => {
     return (
@@ -444,21 +441,23 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
-
-const showPaymentPopup = () => {
-      if(showPopUp)
-      {
-        <PaymentPopupReceiver 
-        onCancel={handleClosePaymentPopupShow}
-        onSubmit={handleClosePaymentPopupShow}
+  const showPaymentPopup = () => {
+    if (showPopUp) {
+      return (
+        <PaymentPopupReceiver
+          onCancel={handleClosePaymentPopupShow}
+          onSubmit={handleClosePaymentPopupShow}
         />
-      }
-};
-
+      );
+    }
+  };
 
   return (
     <div>
-      <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
+      <main
+        class={(postRequestPopUpFormVisible || showPopUp) && "background-blur"}
+        id="main"
+      >
         <BasicInfo hiddenData={hiddenData} />
         <div class="loan-contract-info content-box" id="loan-contract-info">
           {showNoLoanRequest()}
