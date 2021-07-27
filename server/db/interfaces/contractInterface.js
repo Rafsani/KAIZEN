@@ -332,6 +332,46 @@ const findContract = async(contractId) =>{
     }
 }
 
+
+/**
+ * 
+ * @param - contractId ,  collectedAmount , installmentsCompleted
+ * @returns - completed contracts , maximum amount lent, next installment date & amount
+ */
+ const repayContract = async (body)=>{
+    try {
+        const contractQueryResult = await Contracts.findByIdAndUpdate( body.contractId , {
+            $inc : { 
+                collectedAmount : body.collectedAmount ,
+                installmentsCompleted : body.installmentsCompleted 
+            }
+        } , {
+            new: true
+        });
+                
+        if( contractQueryResult ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'Amount has been collected for the cotnract'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Amount could not be collected'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
     findContractForUser,
     findContract,
@@ -341,5 +381,6 @@ module.exports = {
     acceptContract,
     denyContract,
     activeContract,
-    viewLenderContracts
+    viewLenderContracts,
+    repayContract
 }
