@@ -13,6 +13,7 @@ import LenderCard from "./lenderCard";
 import ContractRequestCard from "./contractRequestCard";
 import PostRequestForm from "./PostRequestForm";
 import ReviewCard from "./reviewCard";
+import PaymentPopupReceiver from "./PaymentPopupReceiver";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState(null);
@@ -26,6 +27,8 @@ function ReceiverProfile({ userId, hiddenData }) {
     postRequestPopUpFormVisible,
     setPostRequestPopUpFormVisible,
   ] = useState(false);
+  const [showPopUp, setshowPopUp] = useState(false);
+
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -334,6 +337,7 @@ function ReceiverProfile({ userId, hiddenData }) {
                   targetId={lenderDetails.lenderId}
                   viewAsReceiver={true}
                   viewButtons={true}
+                  paymentPopup={handleOpenPaymentPopupShow}
                 />
               ))}
             </div>
@@ -380,6 +384,17 @@ function ReceiverProfile({ userId, hiddenData }) {
         console.log(error);
       });
   };
+
+
+  const handleOpenPaymentPopupShow = () => {
+   
+      setshowPopUp(true);
+      console.log(showPopUp);
+  };
+
+  const handleClosePaymentPopupShow = () => {
+    setshowPopUp(false);
+};
 
   const showContractRequests = () => {
     return (
@@ -429,6 +444,18 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+
+const showPaymentPopup = () => {
+      if(showPopUp)
+      {
+        <PaymentPopupReceiver 
+        onCancel={handleClosePaymentPopupShow}
+        onSubmit={handleClosePaymentPopupShow}
+        />
+      }
+};
+
+
   return (
     <div>
       <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
@@ -446,6 +473,7 @@ function ReceiverProfile({ userId, hiddenData }) {
         {showReviews()}
       </main>
       {showPostRequestForm()}
+      {showPaymentPopup()}
     </div>
   );
 }

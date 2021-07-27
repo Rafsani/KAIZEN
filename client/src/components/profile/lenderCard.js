@@ -4,6 +4,12 @@ import { Link } from "react-router-dom";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
+import { Button } from "@material-ui/core";
+
+
+
+
+
 
 function LenderCard({
   lenderDetails,
@@ -11,7 +17,13 @@ function LenderCard({
   targetId,
   viewAsReceiver,
   viewButtons,
+  paymentPopup,
 }) {
+
+
+
+
+
   return (
     <div class="card-profile">
       <Link
@@ -79,11 +91,11 @@ function LenderCard({
       </div>
       {viewButtons && (
         <div class="small-buttons-list" id="report-issue-1">
-          <div class="buttons">
-            <a href="#" class="small-btn-profile btn-dark">
+          <Button class="buttons" onClick={paymentPopup}>
+            <a href="#" class="small-btn-profile btn-dark" >
               Repay Loan
             </a>
-          </div>
+          </Button>
           <div class="buttons">
             <a href="#" class="small-btn-profile btn-light">
               Report Issue
