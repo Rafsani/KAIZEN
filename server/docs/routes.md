@@ -4,11 +4,96 @@
 
 ---
 
-- will not be shown for receiver
+- **[Find users search base](..\controller\userController.js)** - returns the search base for receiver ( from the contracts where lenders have requested or pending ) <br><br>
+
+* **GET** : &nbsp; `GET /api/user/search/:userId`
+
+  - ```x
+         {
+            "data": [
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e331",
+                    "username": "Anik"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e332",
+                    "username": "Rafsani"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e333",
+                    "username": "Shwarup"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e334",
+                    "username": "Syed"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e335",
+                    "username": "Shoummo"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e339",
+                    "username": "Shoummo"
+                }
+            ],
+            "status": "OK",
+            "message": "All Users found in the database"
+        }
+    ```
+
 
 ## For Lender
 
 ---
+
+- **[Find users search base](..\controller\userController.js)** - returns the search base for lender ( only receivers ) <br><br>
+
+* **GET** : &nbsp; `GET /api/user/search/:userId`
+
+  - ```x
+         {
+            "data": [
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e331",
+                    "username": "Anik"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e332",
+                    "username": "Rafsani"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e333",
+                    "username": "Shwarup"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e334",
+                    "username": "Syed"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e335",
+                    "username": "Shoummo"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e339",
+                    "username": "Shoummo"
+                }
+            ],
+            "status": "OK",
+            "message": "All Users found in the database"
+        }
+    ```
 
 - **[Check if user is verified](..\controller\authController.js)** - Basically returns if user has both NID and Collateral Present. Check if both values are true, otherwise show the button and redirect accordingly <br><br>
 

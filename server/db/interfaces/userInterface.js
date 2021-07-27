@@ -56,10 +56,15 @@ const findUserbyId = async( userId ) => {
 
 
 
-const findAllUsers = async()=>{
+const findAllUsers = async( filter , populate , select )=>{
     try{
-        const users = await Users.find();
-        if( users ){
+        const users = await Users
+                            .find( filter )
+                            .populate( populate )
+                            .select( select );
+
+                            
+        if( users.length !== 0 ){
             return {
                 data: users, 
                 status: 'OK',
@@ -73,6 +78,7 @@ const findAllUsers = async()=>{
             message: 'No user found'
         }
     }catch(e){
+        console.log("In here: "+ e);
         return {
             data: null,
             status: 'EXCEPTION',

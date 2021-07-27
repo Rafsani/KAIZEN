@@ -18,6 +18,9 @@ router.route('/view/:lenderId')
 
 router.route('/:userId/history')
     .get( userController.handleGETUserHistory );
+
+router.route('/search/:userId' )
+    .get( userController.handleGETUserSearchBase );
     
 
 module.exports = router;

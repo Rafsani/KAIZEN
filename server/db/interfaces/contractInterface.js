@@ -372,6 +372,50 @@ const findContract = async(contractId) =>{
     }
 }
 
+
+
+
+/**
+ * 
+ * @param userId 
+ * @returns - return all searchable contracts for this lender
+ */
+ const findSearchableContracts = async (userId , usertype , filter )=>{
+    try {
+        const contractQueryResult = await Contracts.find(filter)
+        .populate({
+            path: (usertype == 'Receiver')?'lenderId' : 'receiverId',
+            select: 'usertype username'
+        })
+        .select((usertype == 'Receiver')?'lenderId' : 'receiverId');
+
+
+                
+        if( contractQueryResult.length !== 0 ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'All contracts for this user have been found.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contracts not found.'
+        }
+    }catch(e){
+        console.log("In here: "+ e);
+
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
     findContractForUser,
     findContract,
@@ -382,5 +426,6 @@ module.exports = {
     denyContract,
     activeContract,
     viewLenderContracts,
-    repayContract
+    repayContract,
+    findSearchableContracts
 }
