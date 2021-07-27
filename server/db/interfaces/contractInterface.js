@@ -292,7 +292,48 @@ const findContract = async(contractId) =>{
     }
 }
 
+
+/**
+ * 
+ * @param userId 
+ * @returns - completed contracts , maximum amount lent, next installment date & amount
+ */
+ const findContractForUser = async (userId)=>{
+    try {
+        const contractQueryResult = await Contracts.find({
+            $or: [{
+                lenderId : userId
+            },{
+                receiverId: userId
+            }]
+        });
+
+                
+        if( contractQueryResult ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'User history of contracts has been found.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'history not found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
+    findContractForUser,
     findContract,
     endContract,
     findContractHistory,

@@ -9,6 +9,7 @@ import { faCheckSquare } from "@fortawesome/free-solid-svg-icons";
 import formatDate from "../../utils/formatDate";
 import BasicInfo from "./basicInfo";
 import CurrentlyLendingCard from "./currentlyLendingCard";
+import AcceptedCOntractsCard from "./AcceptedContractCard";
 
 function LenderProfile({ userId, hiddenData }) {
   const [lenderHistory, setLenderHistory] = useState(null);
@@ -92,6 +93,7 @@ function LenderProfile({ userId, hiddenData }) {
             <div class="user-cards scroller">
               {lenderHistory.currentlyActiveContacts &&
                 lenderHistory.currentlyActiveContacts.map((contract) => (
+                  
                   <CurrentlyLendingCard
                     key={contract.contractId}
                     contractDetails={contract}
@@ -99,6 +101,7 @@ function LenderProfile({ userId, hiddenData }) {
                     targetId={contract.receiverId}
                     viewAsLender={true}
                     viewButtons={true}
+                    loanSanctioned = {contract.loanSanctioned}
                   />
                 ))}
             </div>
@@ -108,12 +111,51 @@ function LenderProfile({ userId, hiddenData }) {
     );
   };
 
+
+const showAcceptedOffers = () => {
+  return (
+    lenderHistory &&
+    lenderHistory.currentlyActiveContacts &&
+    lenderHistory.currentlyActiveContacts.length > 0 && (
+      <div class="side-scroll-section content-box " id="side-scroll-section">
+        <div class="currently-lending " id="currently-lending">
+          <h1>
+            Accepted Contracts
+            <i
+              class="fas fa-flag-checkered "
+              data-tooltip="Reached Your Limit For Lenders"
+            ></i>
+          </h1>
+          <div class="user-cards scroller">
+            {lenderHistory.currentlyActiveContacts &&
+              lenderHistory.currentlyActiveContacts.map((contract) => (
+               
+                <AcceptedCOntractsCard
+                  key={contract.contractId}
+                  contractDetails={contract}
+                  userId={userId}
+                  targetId={contract.receiverId}
+                  viewAsLender={true}
+                  viewButtons={true}
+                  loanSanctioned = {contract.loanSanctioned}
+                />
+              ))}
+          </div>
+        </div>
+      </div>
+    )
+  );
+};
+
+
+
   return (
     <div>
       <main class="" id="main">
         <BasicInfo hiddenData={hiddenData} />
         {showLenderHistory()}
         {showCurrentlyLending()}
+        {showAcceptedOffers()}
       </main>
     </div>
   );

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
+import Base_url from "../Base_url"
 import "./profile.css";
-
+import { useHistory } from "react-router-dom";
 import formatDate from "../../utils/formatDate";
 
-function CurrentlyLendingCard({
+
+
+
+
+function AcceptedCOntractsCard({
   contractDetails,
   userId,
   targetId,
@@ -14,10 +18,44 @@ function CurrentlyLendingCard({
   viewButtons,
   loanSanctioned,
 }) {
-  console.log("Currently Lending Card: ", contractDetails);
+  let history = useHistory();
+  const [redirecturl,setredirecturl] = useState(null);
+  const fetchdata = async () => {
+    let tempLenderHistory;
+    
+    if (userId) {
+      // Get lender history
+      await Axios({
+        method: "POST",
+        data: {
+          total_amount: contractDetails.amount,
+          bkash: "01747783158",
+          contractId: contractDetails.contractId,
+          paymentType: "lenderToReceiver",
 
-  if (loanSanctioned === false) return <> </>;
+          
+        },
+        withCredentials: true,
+        url: `${Base_url}/api/payment/ssl-transaction`,
+      })
+        .then((res) => {
+         console.log(res.data.redirectedURL);
+         //history.push(res.data.redirectedURL);
+         setredirecturl(res.data.redirectedURL);
+        })
+        .catch((error) => {
+          console.log(error);
+          
+        });
+    }
+  };
 
+
+if(loanSanctioned === true) 
+ return (<> </>);
+
+
+  
   return (
     <div>
       <div class="card-profile">
@@ -36,7 +74,7 @@ function CurrentlyLendingCard({
           <div class="loan-contract-details">
             <div class="item">
               <div class="total">
-                <span class="field">Lent Amount:</span>{" "}
+                <span class="field">Amount:</span>{" "}
                 <span class="value">
                   {Math.round(contractDetails.amount)} BDT
                 </span>
@@ -89,16 +127,12 @@ function CurrentlyLendingCard({
         </div>
         {viewButtons && (
           <div class="small-buttons-list">
-            <div class="buttons ">
-              <a href="#" class="small-btn-profile btn-dark">
-                End Contract
+            <div class="buttons " onClick={fetchdata} >
+              <a href={redirecturl} class="small-btn-profile btn-dark">  
+                proceed To Payment
               </a>
             </div>
-            <div class="buttons">
-              <a href="#" class="small-btn-profile btn-light">
-                Report Issue
-              </a>
-            </div>
+           
           </div>
         )}
       </div>
@@ -106,4 +140,4 @@ function CurrentlyLendingCard({
   );
 }
 
-export default CurrentlyLendingCard;
+export default AcceptedCOntractsCard;

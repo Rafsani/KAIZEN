@@ -15,6 +15,7 @@ import LenderViewsReceiver from "./components/profile/LenderViewsReceiver";
 import ReceiverViewsLender from "./components/profile/receiverViewsLender";
 import LenderViewsLender from "./components/profile/lenderViewsLender";
 import CoolLoginPage from "./components/coolSignUp/coolLoginPage";
+import Transaction from "./components/transaction/transaction";
 
 function App() {
   return (
@@ -61,6 +62,12 @@ function App() {
           name="reg"
           path="/registration"
           component={Registration}
+          exact
+        />
+         <PrivateRoute
+          name="transaction"
+          path="/transactions"
+          component={Transaction}
           exact
         />
       </Router>

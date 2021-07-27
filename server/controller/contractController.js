@@ -120,7 +120,7 @@ const checkInstallmentDate = require('../util/date');
                             signingDate : checkInstallmentDate.contractSigningDate( outputData.installmentDates ),
                             collectedAmount: outputData.collectedAmount,
                             nextInstallment: checkInstallmentDate.returnNextInstallmentDate( outputData.installmentDates ),
-                            nextInstallmentAmount: outputData.amount / outputData.installments,
+                            nextInstallmentAmount: (outputData.amount / outputData.installments) * ( 1 + outputData.interestRate / 100 ),
                             installmentsCompleted: outputData.installmentsCompleted,
                             interestRate: outputData.interestRate,
                             defaultedInstallments: outputData.defaultedInstallments

@@ -165,7 +165,8 @@
                         "image": {
                             "path": "uploads/user.png",
                             "contentType": "image/jpeg"
-                        }
+                        },
+                        "loanSanctioned": true
                     },
                     {
                         "contractId": "60a2288f788f921b543cd814",
@@ -181,7 +182,8 @@
                         "image": {
                             "path": "uploads/user.png",
                             "contentType": "image/jpeg"
-                        }
+                        },
+                        "loanSanctioned": true
                     }
                 ]
             },
@@ -1004,4 +1006,54 @@
         }
       ```
 
+---
+
+---
+
+## Extra
+
+---
+
+- **[Get user transaction history](..\user\userController.js)** - Fetches transaction history if there are any<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/user/transaction/:userId`
+    - {
+        "data": [
+            [
+                {
+                    "_id": "60ff1b09b72d73354cb590e1",
+                    "contractId": "60a2288f788f921b543cd811",
+                    "amount": 500,
+                    "type": "lenderToReceiver",
+                    "bankTransactionId": "21072722859DiBz89BiQXpQJaF",
+                    "issueDate": "2021-07-26T20:28:56.000Z",
+                    "bkash": "01961229150",
+                    "__v": 0
+                }
+            ],
+            [
+                {
+                    "_id": "60ff2e9c75e3fd15f8975423",
+                    "contractId": "60a2288f788f921b543cd814",
+                    "amount": 1500,
+                    "type": "receiverToLender",
+                    "bankTransactionId": "210727352290SX9V6V7UriHGS4",
+                    "issueDate": "2021-07-26T21:52:25.000Z",
+                    "bkash": "01961229150",
+                    "__v": 0
+                },
+                {
+                    "_id": "60ff2eea75e3fd15f8975429",
+                    "contractId": "60a2288f788f921b543cd814",
+                    "amount": 3000,
+                    "type": "lenderToReceiver",
+                    "bankTransactionId": "210727353481xqFfROcOlaCI9N",
+                    "issueDate": "2021-07-26T21:53:44.000Z",
+                    "bkash": "01961229150",
+                    "__v": 0
+                }
+            ]
+        ],
+        "message": "All transactions for this user have been found",
+        "status": "OK"
+    }
 ---
