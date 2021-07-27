@@ -5,6 +5,7 @@ import Axios from "axios";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
+import fetchImage from "../../utils/fetchImage";
 
 function CurrentlyLendingCard({
   contractDetails,
@@ -29,7 +30,12 @@ function CurrentlyLendingCard({
             receiverId: targetId,
           }}
         >
-          <div class="photo-space"></div>
+          <div
+            class="photo-space"
+            style={{
+              backgroundImage: `url(${fetchImage(contractDetails.image.path)})`,
+            }}
+          ></div>
         </Link>
         <div class="user-info">
           <div class="name">{contractDetails.receiverName}</div>

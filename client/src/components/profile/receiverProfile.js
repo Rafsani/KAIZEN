@@ -416,7 +416,7 @@ function ReceiverProfile({ userId, hiddenData }) {
               <i class="fas fa-star" data-tooltip="Current-Rating">
                 <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
               </i>
-              4.5/5
+              {hiddenData.rating}/5
             </p>
           </div>
           <div class="reviews scroller">

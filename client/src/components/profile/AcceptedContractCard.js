@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import Base_url from "../Base_url"
+import Base_url from "../Base_url";
 import "./profile.css";
 import { useHistory } from "react-router-dom";
 import formatDate from "../../utils/formatDate";
-
-
-
-
+import fetchImage from "../../utils/fetchImage";
 
 function AcceptedCOntractsCard({
   contractDetails,
@@ -19,10 +16,10 @@ function AcceptedCOntractsCard({
   loanSanctioned,
 }) {
   let history = useHistory();
-  const [redirecturl,setredirecturl] = useState(null);
+  const [redirecturl, setredirecturl] = useState(null);
   const fetchdata = async () => {
     let tempLenderHistory;
-    
+
     if (userId) {
       // Get lender history
       await Axios({
@@ -32,30 +29,23 @@ function AcceptedCOntractsCard({
           bkash: "01747783158",
           contractId: contractDetails.contractId,
           paymentType: "lenderToReceiver",
-
-          
         },
         withCredentials: true,
         url: `${Base_url}/api/payment/ssl-transaction`,
       })
         .then((res) => {
-         console.log(res.data.redirectedURL);
-         //history.push(res.data.redirectedURL);
-         setredirecturl(res.data.redirectedURL);
+          console.log(res.data.redirectedURL);
+          //history.push(res.data.redirectedURL);
+          setredirecturl(res.data.redirectedURL);
         })
         .catch((error) => {
           console.log(error);
-          
         });
     }
   };
 
+  if (loanSanctioned === true) return <> </>;
 
-if(loanSanctioned === true) 
- return (<> </>);
-
-
-  
   return (
     <div>
       <div class="card-profile">
@@ -67,7 +57,12 @@ if(loanSanctioned === true)
             receiverId: targetId,
           }}
         >
-          <div class="photo-space"></div>
+          <div
+            class="photo-space"
+            style={{
+              backgroundImage: `url(${fetchImage(contractDetails.image.path)})`,
+            }}
+          ></div>
         </Link>
         <div class="user-info">
           <div class="name">{contractDetails.receiverName}</div>
@@ -127,12 +122,11 @@ if(loanSanctioned === true)
         </div>
         {viewButtons && (
           <div class="small-buttons-list">
-            <div class="buttons " onClick={fetchdata} >
-              <a href={redirecturl} class="small-btn-profile btn-dark">  
+            <div class="buttons " onClick={fetchdata}>
+              <a href={redirecturl} class="small-btn-profile btn-dark">
                 proceed To Payment
               </a>
             </div>
-           
           </div>
         )}
       </div>

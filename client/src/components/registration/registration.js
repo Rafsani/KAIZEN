@@ -59,9 +59,13 @@ function Registration() {
       data: data,
       withCredentials: true,
       url: "http://localhost:5000/api/auth/registerdata",
-    }).then((res) => {
-      console.log("Registration POST response: ", res);
-    });
+    })
+      .then((res) => {
+        console.log("Registration POST response: ", res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     pageHistory.push("/");
   };

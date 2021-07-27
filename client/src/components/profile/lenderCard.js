@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
+import fetchImage from "../../utils/fetchImage";
 
 function LenderCard({
   lenderDetails,
@@ -12,6 +13,7 @@ function LenderCard({
   viewAsReceiver,
   viewButtons,
 }) {
+  console.log("Lender Card: ", lenderDetails);
   return (
     <div class="card-profile">
       <Link
@@ -25,7 +27,14 @@ function LenderCard({
           lender2Id: !viewAsReceiver ? targetId : null,
         }}
       >
-        <div class="photo-space"></div>
+        <div
+          class="photo-space"
+          style={{
+            backgroundImage: `url(${fetchImage(
+              lenderDetails.lenderImage.path
+            )})`,
+          }}
+        ></div>
       </Link>
       <div class="user-info">
         <div class="name">{lenderDetails.lenderName}</div>
