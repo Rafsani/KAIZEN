@@ -8,7 +8,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import PaymentIcon from '@material-ui/icons/Payment';
+import PaymentIcon from "@material-ui/icons/Payment";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -301,10 +301,15 @@ export default function AppNavBar() {
               <MenuIcon />
             </IconButton>
             <Typography className={classes.title} variant="h6" noWrap>
-              <FontAwesomeIcon
-                icon={faKickstarterK}
-                size="2x"
-              ></FontAwesomeIcon>
+              <Link
+                style={{ textDecoration: "inherit", color: "inherit" }}
+                to="/"
+              >
+                <FontAwesomeIcon
+                  icon={faKickstarterK}
+                  size="2x"
+                ></FontAwesomeIcon>
+              </Link>
             </Typography>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -377,10 +382,10 @@ export default function AppNavBar() {
               )}
             </IconButton>
           </div>
-          
+
           <Divider />
           <List>
-          <Link
+            <Link
               style={{ textDecoration: "none", color: "black" }}
               to="/transactions"
             >

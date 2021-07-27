@@ -493,7 +493,7 @@ function LenderViewsReceiver(props) {
           </div>
           <div class="reviews scroller">
             {receiverReviews.map((review) => (
-              <ReviewCard review={review} />
+              <ReviewCard review={review} showButtons={false} />
             ))}
           </div>
         </div>
@@ -517,7 +517,9 @@ function LenderViewsReceiver(props) {
           }
           id="main"
         >
-          {receiverData && <BasicInfo hiddenData={receiverData} />}
+          {receiverData && (
+            <BasicInfo hiddenData={receiverData} showBkash={false} />
+          )}
           <div class="loan-contract-info content-box" id="loan-contract-info">
             {showLoanInfo()}
             {showActiveContract()}

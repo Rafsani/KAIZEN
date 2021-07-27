@@ -421,7 +421,7 @@ function ReceiverProfile({ userId, hiddenData }) {
           </div>
           <div class="reviews scroller">
             {reviews.map((review) => (
-              <ReviewCard review={review} />
+              <ReviewCard review={review} showButtons={true} />
             ))}
           </div>
         </div>

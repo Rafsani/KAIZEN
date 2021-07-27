@@ -6,7 +6,7 @@ import { faChevronCircleDown, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import formatDate from "../../utils/formatDate";
 
-function ReviewCard({ review }) {
+function ReviewCard({ review, showButtons }) {
   return (
     <div class="review-card">
       <div class="review-title">
@@ -33,11 +33,13 @@ function ReviewCard({ review }) {
               <span class="value">{formatDate(review.issueDate)}</span>
             </div>
           </div>
-          <div class="buttons">
-            <a href="#" class="btn btn-dark">
-              View Contract
-            </a>
-          </div>
+          {showButtons && (
+            <div class="buttons">
+              <a href="#" class="btn btn-dark">
+                View Contract
+              </a>
+            </div>
+          )}
         </div>
 
         <div class="down-arrow">

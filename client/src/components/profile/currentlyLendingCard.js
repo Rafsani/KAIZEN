@@ -90,13 +90,18 @@ function CurrentlyLendingCard({
         {viewButtons && (
           <div class="small-buttons-list">
             <div class="buttons ">
-              <a href="#" class="small-btn-profile btn-dark">
-                End Contract
-              </a>
-            </div>
-            <div class="buttons">
-              <a href="#" class="small-btn-profile btn-light">
-                Report Issue
+              <a class="small-btn-profile btn-dark">
+                <Link
+                  style={{ color: "inherit", textDecoration: "inherit" }}
+                  to={{
+                    pathname: "/lenderViewsReceiver",
+                    lenderViewsReceiver: viewAsLender,
+                    lenderId: userId,
+                    receiverId: targetId,
+                  }}
+                >
+                  View Profile
+                </Link>
               </a>
             </div>
           </div>
