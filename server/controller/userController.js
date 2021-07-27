@@ -361,7 +361,7 @@ const handleGETLenderInfo = async (req,res,next)=>{
         else {
             searchQueryResult = await userInterface.findAllUsers( {
                 usertype: 'Receiver'
-            } , '' , 'username usertype' );
+            } , '' , 'username usertype image' );
 
             output = searchQueryResult.data;
         }

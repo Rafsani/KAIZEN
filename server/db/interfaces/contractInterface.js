@@ -385,7 +385,7 @@ const findContract = async(contractId) =>{
         const contractQueryResult = await Contracts.find(filter)
         .populate({
             path: (usertype == 'Receiver')?'lenderId' : 'receiverId',
-            select: 'usertype username'
+            select: 'usertype username image'
         })
         .select((usertype == 'Receiver')?'lenderId' : 'receiverId');
 
