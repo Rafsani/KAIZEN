@@ -7,6 +7,7 @@ import "./navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import fetchImage from "../../utils/fetchImage";
 
 function LoanCard({ loanRequest, userId, showButtons }) {
   console.log("I am here!");
@@ -25,17 +26,31 @@ function LoanCard({ loanRequest, userId, showButtons }) {
                 receiverId: loanRequest.Receiver._id,
               }}
             >
-              <div class="photo-space"></div>
+              <div
+                class="photo-space"
+                style={{
+                  backgroundImage: `url(${fetchImage(
+                    loanRequest.Receiver.image.path
+                  )})`,
+                }}
+              ></div>
             </Link>
           ) : (
-            <div class="photo-space"></div>
+            <div
+              class="photo-space"
+              style={{
+                backgroundImage: `url(${fetchImage(
+                  loanRequest.Receiver.image.path
+                )})`,
+              }}
+            ></div>
           )}
           <div class="user-info content-box">
             <div class="name-rating">
               <p>{loanRequest.Receiver.username}</p>
               <div class="review">
                 <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
-                4.5/5
+                {loanRequest.Receiver.rating}/5
               </div>
             </div>
             <div class="loan-info">

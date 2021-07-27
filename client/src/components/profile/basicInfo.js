@@ -4,13 +4,22 @@ import Axios from "axios";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
+import fetchImage from "../../utils/fetchImage";
 
 function BasicInfo({ hiddenData, showBkash = true }) {
   return (
     <div>
-      <div class="banner"></div>
+      <div
+        class="banner"
+        style={{ backgroundImage: `url(${fetchImage(hiddenData.image.path)})` }}
+      ></div>
       <div class="user-info">
-        <div class="profile-circle"></div>
+        <div
+          class="profile-circle"
+          style={{
+            backgroundImage: `url(${fetchImage(hiddenData.image.path)})`,
+          }}
+        ></div>
         {showBkash && (
           <p class="bkash " id="bkash" data-tooltip="Bkash number for the user">
             <svg
