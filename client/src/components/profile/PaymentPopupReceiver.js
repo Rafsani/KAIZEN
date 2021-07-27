@@ -4,7 +4,7 @@ import "./profile.css";
 import Axios from "axios";
 import formatDate from "../../utils/formatDate";
 
-function PaymentPopupReceiver({  onCancel, onSubmit }) {
+function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
   const [amount, setAmount] = useState([]);
   const [minAmount, setMinAmount] = useState(1000);
   const [maxAmount, setMaxAmount] = useState(10000);
@@ -13,9 +13,11 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
   const [NextPayDate, setNextPayDate] = useState("01/2/2012");
   const [LeftAmount, setLeftAmount] = useState(1200);
   const [NextInstallmentAmount, setNextInstallmentAmount] = useState(1200);
-  const [redirecturl,setredirecturl] = useState(null);
-  
-/*{
+  const [redirecturl, setredirecturl] = useState(null);
+
+  console.log("Data well received by Pay Pop up: ", lenderDetails);
+
+  /*{
     "total_amount": 2160,
     "bkash": "01961145456",
     "contractId" : "60a2288f788f921b543cd814",
@@ -24,36 +26,29 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
 } */
   const fetchdata = async () => {
     let tempLenderHistory;
-    
-    
-      // Get lender history
-      await Axios({
-        method: "POST",
-        data: {
-          total_amount: "1500",
-          bkash: "01747783158",
-          contractId: "8485105",
-          paymentType: "receiverToLender",
-          installments: installments
-          
-        },
-        withCredentials: true,
-        url: `${BASE_URL}/api/payment/ssl-transaction`,
+
+    // Get lender history
+    await Axios({
+      method: "POST",
+      data: {
+        total_amount: "1500",
+        bkash: "01747783158",
+        contractId: "8485105",
+        paymentType: "receiverToLender",
+        installments: installments,
+      },
+      withCredentials: true,
+      url: `${BASE_URL}/api/payment/ssl-transaction`,
+    })
+      .then((res) => {
+        console.log(res.data.redirectedURL);
+        //history.push(res.data.redirectedURL);
+        setredirecturl(res.data.redirectedURL);
       })
-        .then((res) => {
-         console.log(res.data.redirectedURL);
-         //history.push(res.data.redirectedURL);
-         setredirecturl(res.data.redirectedURL);
-        })
-        .catch((error) => {
-          console.log(error);
-          
-        });
-    
+      .catch((error) => {
+        console.log(error);
+      });
   };
-
-
-
 
   const handleAmountChange = (event) => {
     console.log(event.target.name, event.target.value);
@@ -88,12 +83,6 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
         <h1>Pay Back The Loan</h1>
       </div>
       <div class="contract-form">
-        
-
-            
-        
-    
-
         <div class="inputs-div">
           <aside>
             <h3>Installments</h3>
@@ -128,13 +117,22 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
             <label for="three">3</label>
           </div>
         </div>
-        
+
         <div class="repay-loan-details">
-                <div class="amount">Repay Loan Amount : <span class="value">{repayAmount}</span> BDT</div>
-                <div class="date">Next Installment Date : <span class="value">{NextPayDate}</span></div>
-                <div class="next-amount">Next Installment Amount : <span class="value">{NextInstallmentAmount}</span> BDT</div>
-                <div class="amount">Total Amount Left : <span class="value">{LeftAmount}</span> BDT</div>
-            </div>
+          <div class="amount">
+            Repay Loan Amount : <span class="value">{repayAmount}</span> BDT
+          </div>
+          <div class="date">
+            Next Installment Date : <span class="value">{NextPayDate}</span>
+          </div>
+          <div class="next-amount">
+            Next Installment Amount :{" "}
+            <span class="value">{NextInstallmentAmount}</span> BDT
+          </div>
+          <div class="amount">
+            Total Amount Left : <span class="value">{LeftAmount}</span> BDT
+          </div>
+        </div>
 
         {/* <!-- Buttons --> */}
         <div class="buttons inputs-div">

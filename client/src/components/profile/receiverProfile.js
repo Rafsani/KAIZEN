@@ -312,12 +312,11 @@ function ReceiverProfile({ userId, hiddenData }) {
     }
   };
 
-
-  const setlender = (arg) => 
-  {
-      setlenderDataForpayment(arg);
-      console.log("arg = " + arg);
-  }
+  const setLenderData = (data) => {
+    console.log("Data for Payment: ", data);
+    setlenderDataForpayment(data);
+  };
+  console.log("Lender Data for Payment Set to = ", lenderDataForpayment);
 
   const showLenders = () => {
     return (
@@ -345,7 +344,7 @@ function ReceiverProfile({ userId, hiddenData }) {
                   viewAsReceiver={true}
                   viewButtons={true}
                   paymentPopup={handleOpenPaymentPopupShow}
-                  setlender={(arg)=>setlender(arg)}
+                  setLenderData={setLenderData}
                 />
               ))}
             </div>
@@ -396,7 +395,6 @@ function ReceiverProfile({ userId, hiddenData }) {
   const handleOpenPaymentPopupShow = () => {
     setshowPopUp(true);
     console.log("Payment to lender: " + lenderDataForpayment);
-    
   };
 
   const handleClosePaymentPopupShow = () => {
@@ -455,6 +453,7 @@ function ReceiverProfile({ userId, hiddenData }) {
     if (showPopUp) {
       return (
         <PaymentPopupReceiver
+          lenderDetails={lenderDataForpayment}
           onCancel={handleClosePaymentPopupShow}
           onSubmit={handleClosePaymentPopupShow}
         />

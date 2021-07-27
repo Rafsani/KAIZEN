@@ -6,11 +6,6 @@ import "./profile.css";
 import formatDate from "../../utils/formatDate";
 import { Button } from "@material-ui/core";
 
-
-
-
-
-
 function LenderCard({
   lenderDetails,
   userId,
@@ -18,13 +13,8 @@ function LenderCard({
   viewAsReceiver,
   viewButtons,
   paymentPopup,
-  setlender,
+  setLenderData,
 }) {
-
-
-
-
-
   return (
     <div class="card-profile">
       <Link
@@ -92,8 +82,14 @@ function LenderCard({
       </div>
       {viewButtons && (
         <div class="small-buttons-list" id="report-issue-1">
-          <Button class="buttons" onClick={()=>{paymentPopup();setlender(lenderDetails);}}>
-            <a href="#" class="small-btn-profile btn-dark" >
+          <Button
+            class="buttons"
+            onClick={() => {
+              paymentPopup();
+              setLenderData(lenderDetails);
+            }}
+          >
+            <a href="#" class="small-btn-profile btn-dark">
               Repay Loan
             </a>
           </Button>
