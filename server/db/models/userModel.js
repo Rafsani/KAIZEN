@@ -115,7 +115,7 @@ const userSchema = new mongoose.Schema({
     image: {
         path: {
             type: String,
-            default: 'uploads/user.png'
+            default: '../client/public/uploads/user.png'
         },
         contentType: {
             type: String,

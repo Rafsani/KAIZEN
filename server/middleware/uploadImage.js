@@ -9,7 +9,7 @@ const imageUpload = async (req,res,next)=>{
     
     var storage = await multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, './uploads');
+            cb(null, '../client/public/uploads');
         },
         filename: function (req, file, cb) {
             imageName = req.user.email + "." + file.mimetype.split('/')[1];
