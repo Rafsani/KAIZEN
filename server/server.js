@@ -24,6 +24,7 @@ const contractRouter = require('./routes/contract')
 const userRouter = require('./routes/user');
 const reviewRouter = require('./routes/review');
 const paymentRouter = require('./routes/payment');
+const adminRouter = require('./routes/admin');
 
 
 // Conncet to the database
@@ -60,6 +61,7 @@ app.use('/api/contract', contractRouter);
 app.use('/api/user', userRouter);
 app.use('/api/review', reviewRouter);
 app.use('/api/payment', paymentRouter);
+app.use('/api/admin', adminRouter);
 
 
 // app.get("/user", (req, res) => {

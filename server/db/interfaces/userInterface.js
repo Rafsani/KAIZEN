@@ -55,6 +55,38 @@ const findUserbyId = async( userId ) => {
 }
 
 
+const findUserbyIdAndUpdate = async( userId , update) => {
+    try {
+        console.log(update)
+        const user = await Users.findByIdAndUpdate(userId, update , {
+            new: true
+        });
+
+        if( user ){
+            return {
+                data: user, 
+                status: 'OK',
+                message: 'User found in the database'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'No user found with this name'
+        }
+        
+    }
+    catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
 
 const findAllUsers = async( filter , populate , select )=>{
     try{
@@ -118,5 +150,6 @@ module.exports = {
     findUserByName,
     findAllUsers,
     findUserbyId,
+    findUserbyIdAndUpdate,
     fetchBkashNumber
 }
