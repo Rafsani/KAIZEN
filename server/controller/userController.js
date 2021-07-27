@@ -328,10 +328,73 @@ const handleGETLenderInfo = async (req,res,next)=>{
         });
     }
 }
+
+
+/**
+ * @description this method returns the user's search base
+ * @route - GET /api/user/search/:userId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETUserSearchBase = async( req,res,next)=>{
+    try {
+        
+        const userQueryResult = await userInterface.findUserbyId( req.params.userId );
+        let searchQueryResult ;
+        let output = [];
+        
+        if( userQueryResult.data.usertype == 'Receiver' ){
+            // will return all the requested and pending contract offers
+            searchQueryResult = await contractInterface.findSearchableContracts(req.params.userId , userQueryResult.data.usertype , {
+                receiverId : req.params.userId,
+                status: { 
+                    $ne : 'Resolved'
+                }
+
+            });
+    
+            searchQueryResult.data.forEach(item => {
+                output.push(item.lenderId)
+            });
+        }
+        else {
+            searchQueryResult = await userInterface.findAllUsers( {
+                usertype: 'Receiver'
+            } , '' , 'username usertype' );
+
+            output = searchQueryResult.data;
+        }
+        
+        if( searchQueryResult.status == 'OK' ){
+            
+            return res.status(200).send({
+                data: output,
+                status: 'OK',
+                message: searchQueryResult.message
+            });
+        }
+        return res.status(400).send({
+            data:null,
+            status: 'ERROR',
+            message: 'No search result found'
+        })
+        
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
+
 module.exports = {
     handleGETUserById,
     handleGETUserHistory,
     handleGETCheckIfLoanRequestCanBeMade,
     handleGETLenderInfo,
-    handleGETUserTransactionHistoryById
+    handleGETUserTransactionHistoryById,
+    handleGETUserSearchBase
 }
