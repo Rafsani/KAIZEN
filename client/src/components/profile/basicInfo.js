@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 import fetchImage from "../../utils/fetchImage";
 
-function BasicInfo({ hiddenData, showBkash = true }) {
+function BasicInfo({
+  hiddenData,
+  showBkash = true,
+  showCollateralButton = false,
+  setCollateralVisible,
+}) {
   return (
     <div>
       <div
@@ -79,6 +85,17 @@ function BasicInfo({ hiddenData, showBkash = true }) {
               </div>
             </div>
           </div>
+          {showCollateralButton && (
+            <div class="collateral buttons" id="collateral">
+              <a
+                href="#"
+                class="btn-collateral btn-transparent"
+                onClick={() => setCollateralVisible(true)}
+              >
+                View Collateral
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>

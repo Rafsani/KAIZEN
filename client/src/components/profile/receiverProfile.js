@@ -13,6 +13,7 @@ import LenderCard from "./lenderCard";
 import ContractRequestCard from "./contractRequestCard";
 import PostRequestForm from "./PostRequestForm";
 import ReviewCard from "./reviewCard";
+import ViewCollateral from "../registration/viewCollateral";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState(null);
@@ -26,6 +27,7 @@ function ReceiverProfile({ userId, hiddenData }) {
     postRequestPopUpFormVisible,
     setPostRequestPopUpFormVisible,
   ] = useState(false);
+  const [collateralVisible, setCollateralVisible] = useState(false);
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -429,10 +431,31 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+  const showCollateralPage = () => {
+    return (
+      collateralVisible && (
+        <ViewCollateral
+          collateral={hiddenData.collateral}
+          onBack={() => {
+            setCollateralVisible(false);
+          }}
+        />
+      )
+    );
+  };
+
+  if (collateralVisible) {
+    return <div>{showCollateralPage()}</div>;
+  }
+
   return (
     <div>
       <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
-        <BasicInfo hiddenData={hiddenData} />
+        <BasicInfo
+          hiddenData={hiddenData}
+          showCollateralButton={true}
+          setCollateralVisible={setCollateralVisible}
+        />
         <div class="loan-contract-info content-box" id="loan-contract-info">
           {showNoLoanRequest()}
           {showLoanInfo()}

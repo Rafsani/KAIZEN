@@ -20,6 +20,7 @@ import { Redirect, useHistory } from "react-router-dom";
 import LoadingScreen from "../loadingScreen/loadingScreen";
 import ReviewCard from "./reviewCard";
 import PostReviewForm from "./PostReviewForm";
+import ViewCollateral from "../registration/viewCollateral";
 
 function LenderViewsReceiver(props) {
   const [lenderViewsReceiver, setLenderViewsReceiver] = useState(false);
@@ -36,6 +37,7 @@ function LenderViewsReceiver(props) {
     setContractOfferPopUpFormVisible,
   ] = useState(false);
   const [reviewPopUpFormVisible, setReviewPopUpFormVisible] = useState(false);
+  const [collateralVisible, setCollateralVisible] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   let pageHistory = useHistory();
 
@@ -501,6 +503,23 @@ function LenderViewsReceiver(props) {
     );
   };
 
+  const showCollateralPage = () => {
+    return (
+      collateralVisible && (
+        <ViewCollateral
+          collateral={receiverData.collateral}
+          onBack={() => {
+            setCollateralVisible(false);
+          }}
+        />
+      )
+    );
+  };
+
+  if (collateralVisible) {
+    return <div>{showCollateralPage()}</div>;
+  }
+
   if (loadingData) {
     return <LoadingScreen />;
   }
@@ -518,7 +537,12 @@ function LenderViewsReceiver(props) {
           id="main"
         >
           {receiverData && (
-            <BasicInfo hiddenData={receiverData} showBkash={false} />
+            <BasicInfo
+              hiddenData={receiverData}
+              showBkash={false}
+              showCollateralButton={true}
+              setCollateralVisible={setCollateralVisible}
+            />
           )}
           <div class="loan-contract-info content-box" id="loan-contract-info">
             {showLoanInfo()}
