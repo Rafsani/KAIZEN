@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-
+import BASE_URL from "../Base_url";
 import "./profile.css";
-
+import Axios from "axios";
 import formatDate from "../../utils/formatDate";
 
 function PaymentPopupReceiver({  onCancel, onSubmit }) {
@@ -9,6 +9,51 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
   const [minAmount, setMinAmount] = useState(1000);
   const [maxAmount, setMaxAmount] = useState(10000);
   const [installments, setInstallments] = useState(null);
+  const [repayAmount, setrepayAmount] = useState(1200);
+  const [NextPayDate, setNextPayDate] = useState("01/2/2012");
+  const [LeftAmount, setLeftAmount] = useState(1200);
+  const [NextInstallmentAmount, setNextInstallmentAmount] = useState(1200);
+  const [redirecturl,setredirecturl] = useState(null);
+  
+/*{
+    "total_amount": 2160,
+    "bkash": "01961145456",
+    "contractId" : "60a2288f788f921b543cd814",
+    "paymentType": "receiverToLender",
+    "installments": "2"
+} */
+  const fetchdata = async () => {
+    let tempLenderHistory;
+    
+    
+      // Get lender history
+      await Axios({
+        method: "POST",
+        data: {
+          total_amount: "1500",
+          bkash: "01747783158",
+          contractId: "8485105",
+          paymentType: "receiverToLender",
+          installments: installments
+          
+        },
+        withCredentials: true,
+        url: `${BASE_URL}/api/payment/ssl-transaction`,
+      })
+        .then((res) => {
+         console.log(res.data.redirectedURL);
+         //history.push(res.data.redirectedURL);
+         setredirecturl(res.data.redirectedURL);
+        })
+        .catch((error) => {
+          console.log(error);
+          
+        });
+    
+  };
+
+
+
 
   const handleAmountChange = (event) => {
     console.log(event.target.name, event.target.value);
@@ -40,46 +85,14 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
   return (
     <div class="contract-offer-card content-box " id="popup-contract">
       <div class="title-card">
-        <h1>Contract Offer</h1>
+        <h1>Pay Back The Loan</h1>
       </div>
       <div class="contract-form">
-        {/* <!-- Amount --> */}
-        <div class="small-input-field inputs-div">
-          <aside>
-            <h3>Loan Amount</h3>
-            <p>
-              Between ({minAmount} - {maxAmount} BDT)
-            </p>
-            <p>
-              Interest Rate will be{" "}
-              <span class="value" style={{ color: "red" }}>
-                5%
-              </span>
-            </p>
-          </aside>
-          <div class="input-field">
-            <input
-              type="number"
-              class="small-input"
-              max={maxAmount}
-              min={minAmount}
-              value={amount}
-              onChange={handleAmountChange}
-              required
-            />
-            <span> BDT</span>
-          </div>
-        </div>
-        {/* <!-- <div class="small-input-field inputs-div">
-                <aside>
-                    <h3>Interest Rate</h3>
-                    <p>Between <span class="interest-min">5%</span> to <span class="interest-max">8%</soan></p>
-                </aside>
-                <div class="input-field">
-                    <input type="number" class="small-input" max="8" min="5" required>
-                    <span> %</span>
-                </div>
-            </div> --> */}
+        
+
+            
+        
+    
 
         <div class="inputs-div">
           <aside>
@@ -115,14 +128,21 @@ function PaymentPopupReceiver({  onCancel, onSubmit }) {
             <label for="three">3</label>
           </div>
         </div>
+        
+        <div class="repay-loan-details">
+                <div class="amount">Repay Loan Amount : <span class="value">{repayAmount}</span> BDT</div>
+                <div class="date">Next Installment Date : <span class="value">{NextPayDate}</span></div>
+                <div class="next-amount">Next Installment Amount : <span class="value">{NextInstallmentAmount}</span> BDT</div>
+                <div class="amount">Total Amount Left : <span class="value">{LeftAmount}</span> BDT</div>
+            </div>
 
         {/* <!-- Buttons --> */}
         <div class="buttons inputs-div">
           <a href="#" class="btn-form btn-light" onClick={onCancel}>
             Cancel
           </a>
-          <a href="#" class="btn-form btn-dark" onClick={handleSubmit}>
-            Post
+          <a href={redirecturl} class="btn-form btn-dark" onClick={fetchdata}>
+            Proceed to Pay
           </a>
         </div>
       </div>

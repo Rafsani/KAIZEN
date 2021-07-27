@@ -18,6 +18,7 @@ function LenderCard({
   viewAsReceiver,
   viewButtons,
   paymentPopup,
+  setlender,
 }) {
 
 
@@ -91,7 +92,7 @@ function LenderCard({
       </div>
       {viewButtons && (
         <div class="small-buttons-list" id="report-issue-1">
-          <Button class="buttons" onClick={paymentPopup}>
+          <Button class="buttons" onClick={()=>{paymentPopup();setlender(lenderDetails);}}>
             <a href="#" class="small-btn-profile btn-dark" >
               Repay Loan
             </a>

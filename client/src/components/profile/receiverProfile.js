@@ -28,6 +28,7 @@ function ReceiverProfile({ userId, hiddenData }) {
     setPostRequestPopUpFormVisible,
   ] = useState(false);
   const [showPopUp, setshowPopUp] = useState(false);
+  const [lenderDataForpayment, setlenderDataForpayment] = useState(null);
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -311,6 +312,13 @@ function ReceiverProfile({ userId, hiddenData }) {
     }
   };
 
+
+  const setlender = (arg) => 
+  {
+      setlenderDataForpayment(arg);
+      console.log("arg = " + arg);
+  }
+
   const showLenders = () => {
     return (
       lenders && (
@@ -337,6 +345,7 @@ function ReceiverProfile({ userId, hiddenData }) {
                   viewAsReceiver={true}
                   viewButtons={true}
                   paymentPopup={handleOpenPaymentPopupShow}
+                  setlender={(arg)=>setlender(arg)}
                 />
               ))}
             </div>
@@ -386,7 +395,8 @@ function ReceiverProfile({ userId, hiddenData }) {
 
   const handleOpenPaymentPopupShow = () => {
     setshowPopUp(true);
-    console.log(showPopUp);
+    console.log("Payment to lender: " + lenderDataForpayment);
+    
   };
 
   const handleClosePaymentPopupShow = () => {
