@@ -20,6 +20,7 @@ function Registration() {
   const [willShowCollateralPage, setWillShowCollateralPage] = useState(false);
   const imgFileInput = React.createRef();
   const [imgSrc, setImgSrc] = useState("#");
+  const [imgFile, setImgFile] = useState(null);
   let pageHistory = useHistory();
 
   const sendData = async (e) => {
@@ -41,19 +42,21 @@ function Registration() {
         collateral
     );
 
+    const data = new FormData();
+    data.append("fullname", FirstName + " " + LastName);
+    data.append("bkash", Bkash);
+    data.append("nid", Nid);
+    data.append("usertype", AccountType);
+    data.append("dob", Dob);
+    data.append("about", About);
+    data.append("collateral", collateral);
+    data.append("image", imgFile);
+
     e.preventDefault();
 
     await Axios({
       method: "POST",
-      data: {
-        fullname: FirstName + " " + LastName,
-        bkash: Bkash,
-        nid: Nid,
-        usertype: AccountType,
-        dob: Dob,
-        about: About,
-        collateral: collateral,
-      },
+      data: data,
       withCredentials: true,
       url: "http://localhost:5000/api/auth/registerdata",
     }).then((res) => {
@@ -63,14 +66,10 @@ function Registration() {
     pageHistory.push("/");
   };
 
-  const handleFileUpload = () => {
+  const handleFileInput = () => {
     let file = imgFileInput.current.files[0];
-    let reader = new FileReader();
-    let url = reader.readAsDataURL(file);
-
-    reader.onloadend = () => {
-      setImgSrc(reader.result);
-    };
+    setImgFile(file);
+    setImgSrc(URL.createObjectURL(file));
   };
 
   if (willShowCollateralPage) {
@@ -200,7 +199,7 @@ function Registration() {
                   name="image"
                   id="file"
                   ref={imgFileInput}
-                  onChange={handleFileUpload}
+                  onChange={handleFileInput}
                 />
                 <img src={imgSrc} id="output" alt="your image" srcSet="" />
               </div>
