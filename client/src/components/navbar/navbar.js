@@ -8,6 +8,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import PaymentIcon from '@material-ui/icons/Payment';
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -376,27 +377,20 @@ export default function AppNavBar() {
               )}
             </IconButton>
           </div>
+          
           <Divider />
           <List>
-            {["My Loan requests", "Messages"].map((text, index) => (
-              <ListItem button key={text}>
+          <Link
+              style={{ textDecoration: "none", color: "black" }}
+              to="/transactions"
+            >
+              <ListItem button key="transactions">
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <PaymentIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="All transactions" />
               </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All Contracts", "Transaction History"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            </Link>
             <Link
               style={{ textDecoration: "none", color: "black" }}
               to="/profile"
