@@ -18,19 +18,48 @@ const axios = require('axios');
 const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
     try {
         const contractQueryResult = await contractInterface.findContract( req.body.contractId );
+
         
-        if( contractQueryResult.data.loanSanctioned && req.body.paymentType == 'lenderToReceiver' ){
+        let temp = 'ref004_D';
+        // this stops the lender from paying twice
+        if( req.body.paymentType == 'lenderToReceiver' && ( contractQueryResult.data.loanSanctioned || contractQueryResult.data.amount >  req.body.total_amount ) ){
             return res.status(400).send({
-                message:"Payment already made"
+                data: null,
+                status: "ERROR",
+                message:"Payment already made or amount is less than mentioned in the contract"
             })
         }
+        else if( contractQueryResult.data.loanSanctioned && req.body.paymentType == 'receiverToLender' 
+            && (
+                    // this makes sure that installments dont go beyond
+                    ( parseInt(req.body.installments) + parseInt(contractQueryResult.data.installmentsCompleted) > contractQueryResult.data.installments )
+
+                    // this makes sure that the amount matches with the required installment amount
+                
+                || ( req.body.total_amount !== Math.floor( ( contractQueryResult.data.amount / contractQueryResult.data.installments) * ( 1 + contractQueryResult.data.interestRate / 100 ) ) * req.body.installments  ) 
+
+            )
+        ){
+            return res.status(400).send({
+                data: null,
+                status: "ERROR",
+                message:"Payment doesn't match the criteria"
+            })
+            
+        }
+        else if( contractQueryResult.data.loanSanctioned &&  req.body.paymentType == 'receiverToLender'  ){
+            // adding the collected amount to be added
+
+            temp = req.body.installments;
+        }
+        
         
         const initialData = {
             total_amount: req.body.total_amount,
             currency: 'BDT',
             tran_id: `C${req.body.contractId}`,
             success_url: 'http://localhost:5000/api/payment/ssl-payment-success',
-            /*success_url: 'http://localhost:3000/profile',*/
+            // success_url: 'http://localhost:3000/profile',
             fail_url: 'http://localhost:5000/api/payment/ssl-payment-failure',
             cancel_url: 'http://localhost:5000/api/payment/ssl-payment-cancel',
             ipn_url: 'http://localhost:5000/api/payment/ssl-payment-ipn',
@@ -59,7 +88,7 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
             value_a: req.body.contractId,
             value_b: req.body.paymentType,
             value_c: req.body.bkash,
-            value_d: 'ref004_D'
+            value_d: temp
         };
         const sslcommer = await new SSLCommerzPayment(process.env.STORE_ID, process.env.STORE_PASSWORD,false) //true for live default false for sandbox
         await sslcommer.init(initialData).then(data => {
@@ -107,6 +136,7 @@ const handlePOSTInitSSLCommerzPage = async( req, res, next )=>{
 
 const handlePOSTSuccessSSLCommerzPage = async (req,res,next)=>{
     // Here the payment request is being successful
+    
 
     const paymentQueryResult = await paymentInterface.makePayment({
         contractId: req.body.value_a,
@@ -116,6 +146,19 @@ const handlePOSTSuccessSSLCommerzPage = async (req,res,next)=>{
         issueDate: req.body.tran_date,
         bkash: req.body.value_c
     });
+
+
+    if( paymentQueryResult.status == 'OK' && req.body.value_b == 'receiverToLender' ){
+
+        const contractQueryResult = await contractInterface.findContract( req.body.value_a );
+
+        await contractInterface.repayContract({
+            contractId: req.body.value_a,
+            collectedAmount: req.body.amount,
+            installmentsCompleted: req.body.value_d,
+            interestRate: contractQueryResult.data.interestRate
+        });
+    }
 
 
 
