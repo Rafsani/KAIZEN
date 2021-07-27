@@ -13,6 +13,7 @@ function CurrentlyLendingCard({
   viewAsLender,
   viewButtons,
 }) {
+  console.log("Currently Lending Card: ", contractDetails);
   return (
     <div>
       <div class="card-profile">

@@ -2256,6 +2256,45 @@
   visibility: visible;
 }
 
+.Profile .post-review-card {
+  background-color: white;
+  position: fixed;
+  top: 10%;
+  left: 32%;
+  width: 615px;
+  height: 580px;
+  border-radius: 10px;
+  box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.5), -1px -1px 15px 2px rgba(0, 0, 0, 0.5);
+  padding-top: 20px;
+}
+
+.Profile .post-review-card .form {
+  font-size: 1.6rem;
+  font-family: "Dosis", sans-serif;
+}
+
+.Profile .post-review-card .form>*>aside>p {
+  visibility: hidden;
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.Profile .post-review-card .form:hover>*>aside>p {
+  visibility: visible;
+}
+
+.Profile .post-review-card .form .rating-value {
+  flex-grow: 1;
+  position: relative;
+  right: 1.2rem;
+  margin-bottom: 0.6rem;
+  outline-offset: 5px;
+  outline-width: 2px;
+  outline-style: dashed;
+  outline-color: #c3073f;
+  text-align: center;
+}
+
 .Profile .contract-offer-card {
   background-color: white;
   position: fixed;
@@ -2382,6 +2421,85 @@
 .Profile .footer a {
   text-decoration: none;
   color: white;
+}
+
+/** Stars */
+
+.Profile #half-stars-example {
+  flex-grow: 1;
+  width: 40%;
+  margin-left: -1.2rem;
+  /* use display:inline-flex to prevent whitespace issues. alternatively, you can put all the children of .rating-group on a single line */
+  /* make hover effect work properly in IE */
+  /* hide radio inputs */
+  /* set icon padding and size */
+  /* add padding and positioning to half star labels */
+  /* set default star color */
+  /* set color of none icon when unchecked */
+  /* if none icon is checked, make it red */
+  /* if any input is checked, make its following siblings grey */
+  /* make all stars orange on rating group hover */
+  /* make hovered input's following siblings grey on hover */
+  /* make none icon grey on rating group hover */
+  /* make none icon red on hover */
+}
+
+.Profile #half-stars-example .rating-group {
+  display: inline-flex;
+}
+
+.Profile #half-stars-example .rating__icon {
+  pointer-events: none;
+}
+
+.Profile #half-stars-example .rating__input {
+  position: absolute !important;
+  left: -9999px !important;
+}
+
+.Profile #half-stars-example .rating__label {
+  cursor: pointer;
+  /* if you change the left/right padding, update the margin-right property of .rating__label--half as well. */
+  padding: 0 0.1em;
+  font-size: 2rem;
+}
+
+.Profile #half-stars-example .rating__label--half {
+  padding-right: 0;
+  margin-right: -1.2em;
+  z-index: 2;
+}
+
+.Profile #half-stars-example .rating__icon--star {
+  color: #c3073f;
+}
+
+.Profile #half-stars-example .rating__icon--none {
+  color: #eee;
+}
+
+.Profile #half-stars-example .rating__input--none:checked+.rating__label .rating__icon--none {
+  color: red;
+}
+
+.Profile #half-stars-example .rating__input:checked~.rating__label .rating__icon--star {
+  color: #ddd;
+}
+
+.Profile #half-stars-example .rating-group:hover .rating__label .rating__icon--star, .Profile #half-stars-example .rating-group:hover .rating__label--half .rating__icon--star {
+  color: #c3073f;
+}
+
+.Profile #half-stars-example .rating__input:hover~.rating__label .rating__icon--star, .Profile #half-stars-example .rating__input:hover~.rating__label--half .rating__icon--star {
+  color: #ddd;
+}
+
+.Profile #half-stars-example .rating-group:hover .rating__input--none:not(:hover)+.rating__label .rating__icon--none {
+  color: #eee;
+}
+
+.Profile #half-stars-example .rating__input--none:hover+.rating__label .rating__icon--none {
+  color: red;
 }
 
 /*# sourceMappingURL=profile.css.map */

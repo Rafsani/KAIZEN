@@ -3,7 +3,10 @@ import Axios from "axios";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStar,
+  faExclamationTriangle,
+} from "@fortawesome/free-solid-svg-icons";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
@@ -16,6 +19,7 @@ import { useRadioGroup } from "@material-ui/core";
 import { Redirect, useHistory } from "react-router-dom";
 import LoadingScreen from "../loadingScreen/loadingScreen";
 import ReviewCard from "./reviewCard";
+import PostReviewForm from "./PostReviewForm";
 
 function LenderViewsReceiver(props) {
   const [lenderViewsReceiver, setLenderViewsReceiver] = useState(false);
@@ -25,11 +29,13 @@ function LenderViewsReceiver(props) {
   const [receiverReviews, setReceiverReviews] = useState(null);
   const [loanInfo, setLoanInfo] = useState(null);
   const [lenders, setLenders] = useState(null);
+  const [activeContract, setActiveContract] = useState(null);
   const [lenderLimit, setLenderLimit] = useState(5);
   const [
     contractOfferPopUpFormVisible,
     setContractOfferPopUpFormVisible,
   ] = useState(false);
+  const [reviewPopUpFormVisible, setReviewPopUpFormVisible] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
   let pageHistory = useHistory();
 
@@ -40,6 +46,7 @@ function LenderViewsReceiver(props) {
     let tempLoanInfo;
     let tempLenders;
     let tempReceiverReviews;
+    let tempActiveContract;
 
     console.log("From props.location: ", props.location);
 
@@ -80,6 +87,22 @@ function LenderViewsReceiver(props) {
         .catch((error) => {
           console.log(error);
           setLoanInfo(null);
+        });
+
+      await Axios({
+        method: "GET",
+        withCredentials: true,
+        url: `http://localhost:5000/api/contract/${tempReceiverId}`,
+      })
+        .then((res) => {
+          console.log("Contract: ", res);
+          tempActiveContract = res.data.data;
+          console.log("Active Contract: ", tempActiveContract);
+          setActiveContract(tempActiveContract);
+        })
+        .catch((error) => {
+          console.log(error);
+          setActiveContract(null);
         });
     }
 
@@ -131,10 +154,12 @@ function LenderViewsReceiver(props) {
   console.log("receiverData: ", receiverData);
   console.log("loanInfo: ", loanInfo);
   console.log("lenders: ", lenders);
+  console.log("Active Contract: ", activeContract);
 
   const showLoanInfo = () => {
     return (
       lenderViewsReceiver &&
+      (!activeContract || !activeContract.activeContract) &&
       loanInfo && (
         <div class="loan-info " id="loan-info">
           <h1>Loan Information</h1>
@@ -185,6 +210,84 @@ function LenderViewsReceiver(props) {
               <div class="total-request">
                 <span class="field">Total Requests: </span>{" "}
                 <span class="value">{loanInfo.totalRequest}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    );
+  };
+
+  const showActiveContract = () => {
+    return (
+      lenderViewsReceiver &&
+      activeContract &&
+      activeContract.activeContract && (
+        <div class="contract-info " id="contract-info">
+          <h1>
+            Contract Information{" "}
+            <i
+              class="fas fa-exclamation-triangle "
+              data-tooltip="Installment Not Paid"
+            >
+              {" "}
+              <FontAwesomeIcon
+                icon={faExclamationTriangle}
+              ></FontAwesomeIcon>{" "}
+            </i>
+          </h1>
+
+          <p>
+            I, hereby, agree to the terms & conditions set upon by this contract
+            agreement.{" "}
+          </p>
+          <cite>
+            - {formatDate(activeContract.signingDate)} <br />{" "}
+          </cite>
+          <div class="contract-data">
+            <div class="item">
+              <div class="total">
+                <span class="field">Total Amount:</span>{" "}
+                <span class="value">{activeContract.totalAmount} BDT</span>
+              </div>
+              <div class="collected">
+                <span class="field">Collected Amount:</span>{" "}
+                <span class="value">{activeContract.collectedAmount} BDT</span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="next-installment">
+                <span class="field">Next Installment:</span>{" "}
+                <span class="value">
+                  {formatDate(activeContract.nextInstallment)}
+                </span>
+              </div>
+              <div class="amount">
+                <span class="field">Installment Amount: </span>{" "}
+                <span class="value">
+                  {Math.round(activeContract.nextInstallmentAmount)} BDT
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="installment-values">
+                <div class="centering">
+                  <span class="field">Installments Completed: </span>{" "}
+                  <span class="value">
+                    {" "}
+                    {activeContract.installmentsCompleted}{" "}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="item">
+              <div class="interest-rate">
+                <span class="field">Interest Rate:</span>{" "}
+                <span class="value"> {activeContract.interestRate}% </span>
+              </div>
+              <div class="default">
+                <span class="field">Defaulted Installments: </span>{" "}
+                <span class="value">{"ToDo: Placeholder"} times</span>
               </div>
             </div>
           </div>
@@ -277,7 +380,11 @@ function LenderViewsReceiver(props) {
   };
 
   const showContractOfferButton = () => {
-    if (lenderViewsReceiver && loanInfo) {
+    if (
+      lenderViewsReceiver &&
+      (!activeContract || !activeContract.activeContract) &&
+      loanInfo
+    ) {
       if (!contractOfferPopUpFormVisible) {
         return (
           <div class="loan-buttons " id="loan-buttons">
@@ -294,6 +401,79 @@ function LenderViewsReceiver(props) {
           </div>
         );
       }
+    }
+  };
+
+  const handleSubmitReview = async (review) => {
+    const data = {
+      contract: activeContract.contractId,
+      lender: lenderId,
+      receiver: receiverId,
+      ratingValue: review.ratingValue,
+      details: review.details,
+    };
+    console.log("Review data to send: ", data);
+    await Axios({
+      method: "POST",
+      withCredentials: true,
+      url: `http://localhost:5000/api/review`,
+      data: data,
+    })
+      .then((res) => {
+        console.log("Review POST response: ", res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setReviewPopUpFormVisible(false);
+    pageHistory.push("/");
+  };
+
+  const showReviewForm = () => {
+    if (
+      lenderViewsReceiver &&
+      activeContract &&
+      activeContract.activeContract &&
+      reviewPopUpFormVisible
+    ) {
+      return (
+        <PostReviewForm
+          onCancel={() => setReviewPopUpFormVisible(false)}
+          onSubmit={handleSubmitReview}
+        />
+      );
+    }
+  };
+  console.log("review pop up: ", reviewPopUpFormVisible);
+
+  const showActiveContractButtons = () => {
+    if (
+      lenderViewsReceiver &&
+      activeContract &&
+      activeContract.activeContract &&
+      !reviewPopUpFormVisible
+    ) {
+      return (
+        <div class="contract-buttons " id="contract-buttons">
+          <div class="buttons " id="end-contract-button">
+            <a
+              href="#!"
+              class="btn-profile btn-dark"
+              onClick={() => setReviewPopUpFormVisible(true)}
+            >
+              End Contract
+            </a>
+          </div>
+          <div class="buttons">
+            <a href="#!" class="btn-profile btn-light">
+              Report Issue
+            </a>
+          </div>
+          {/* <!-- <div class="buttons">
+                    <a href="#" class="btn-profile btn-dark">Extend Contract</a>
+                </div> --> */}
+        </div>
+      );
     }
   };
 
@@ -331,20 +511,26 @@ function LenderViewsReceiver(props) {
         <AppNavBar />
 
         <main
-          class={contractOfferPopUpFormVisible && "background-blur"}
+          class={
+            (contractOfferPopUpFormVisible || reviewPopUpFormVisible) &&
+            "background-blur"
+          }
           id="main"
         >
           {receiverData && <BasicInfo hiddenData={receiverData} />}
           <div class="loan-contract-info content-box" id="loan-contract-info">
             {showLoanInfo()}
+            {showActiveContract()}
           </div>
           <div class="buttons-list content-box" id="buttons-list">
             {showContractOfferButton()}
+            {showActiveContractButtons()}
           </div>
           {showLenders()}
           {showReceiverReviews()}
         </main>
         {showContractOfferForm()}
+        {showReviewForm()}
       </div>
     )
   );
