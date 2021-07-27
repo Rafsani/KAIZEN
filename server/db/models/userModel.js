@@ -121,6 +121,11 @@ const userSchema = new mongoose.Schema({
             type: String,
             default: 'image/jpeg'
         }
+    },
+
+    adminPrivilege: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -137,10 +142,22 @@ function checkNID( NID ) {
     }
 }
 
+function getId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11)
+      ? match[2]
+      : null;
+}
+
 
 userSchema.pre('save' , async function(next){
     this.password = await bcrypt.hash( this.password, 10);
     if( this.nid != undefined ) this.nid = await bcrypt.hash( this.nid , 10);
+
+    // embed url
+    this.collateral = (this.collateral != undefined) ? `https://www.youtube.com/embed/${getId(this.collateral)}`: this.collateral;
+
     next();
 })
 
