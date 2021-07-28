@@ -257,7 +257,9 @@ const date = require('../util/date');
                     fullName: user.username,
                     details: user.details,
                     bkash: user.bkash,
-                    collateral: user.collateral
+                    collateral: user.collateral,
+					email: user.email,
+					details: user.details
                 })
             })
 
