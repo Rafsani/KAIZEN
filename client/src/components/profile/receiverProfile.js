@@ -14,6 +14,7 @@ import ContractRequestCard from "./contractRequestCard";
 import PostRequestForm from "./PostRequestForm";
 import ReviewCard from "./reviewCard";
 import ViewCollateral from "../registration/viewCollateral";
+import PaymentPopupReceiver from "./PaymentPopupReceiver";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState(null);
@@ -28,6 +29,8 @@ function ReceiverProfile({ userId, hiddenData }) {
     setPostRequestPopUpFormVisible,
   ] = useState(false);
   const [collateralVisible, setCollateralVisible] = useState(false);
+  const [showPopUp, setshowPopUp] = useState(false);
+  const [lenderDataForpayment, setlenderDataForpayment] = useState(null);
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -311,6 +314,12 @@ function ReceiverProfile({ userId, hiddenData }) {
     }
   };
 
+  const setLenderData = (data) => {
+    console.log("Data for Payment: ", data);
+    setlenderDataForpayment(data);
+  };
+  console.log("Lender Data for Payment Set to = ", lenderDataForpayment);
+
   const showLenders = () => {
     return (
       lenders && (
@@ -336,6 +345,8 @@ function ReceiverProfile({ userId, hiddenData }) {
                   targetId={lenderDetails.lenderId}
                   viewAsReceiver={true}
                   viewButtons={true}
+                  paymentPopup={handleOpenPaymentPopupShow}
+                  setLenderData={setLenderData}
                 />
               ))}
             </div>
@@ -381,6 +392,15 @@ function ReceiverProfile({ userId, hiddenData }) {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleOpenPaymentPopupShow = () => {
+    setshowPopUp(true);
+    console.log("Payment to lender: " + lenderDataForpayment);
+  };
+
+  const handleClosePaymentPopupShow = () => {
+    setshowPopUp(false);
   };
 
   const showContractRequests = () => {
@@ -448,9 +468,23 @@ function ReceiverProfile({ userId, hiddenData }) {
     return <div>{showCollateralPage()}</div>;
   }
 
+  const showPaymentPopup = () => {
+    if (showPopUp) {
+      return (
+        <PaymentPopupReceiver
+          lenderDetails={lenderDataForpayment}
+          onCancel={handleClosePaymentPopupShow}
+          onSubmit={handleClosePaymentPopupShow}
+        />
+      );
+    }
+  };
   return (
     <div>
-      <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
+      <main
+        class={(postRequestPopUpFormVisible || showPopUp) && "background-blur"}
+        id="main"
+      >
         <BasicInfo
           hiddenData={hiddenData}
           showCollateralButton={true}
@@ -469,6 +503,7 @@ function ReceiverProfile({ userId, hiddenData }) {
         {showReviews()}
       </main>
       {showPostRequestForm()}
+      {showPaymentPopup()}
     </div>
   );
 }

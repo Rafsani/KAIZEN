@@ -5,6 +5,7 @@ import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 import fetchImage from "../../utils/fetchImage";
+import { Button } from "@material-ui/core";
 
 function LenderCard({
   lenderDetails,
@@ -12,8 +13,14 @@ function LenderCard({
   targetId,
   viewAsReceiver,
   viewButtons,
+  paymentPopup,
+  setLenderData,
 }) {
   console.log("Lender Card: ", lenderDetails);
+  if (lenderDetails.collectedAmount >= lenderDetails.totalAmount) {
+    return <div></div>;
+  }
+
   return (
     <div class="card-profile">
       <Link
@@ -88,11 +95,18 @@ function LenderCard({
       </div>
       {viewButtons && (
         <div class="small-buttons-list" id="report-issue-1">
-          <div class="buttons">
+          <Button
+            class="buttons"
+            disabled={!lenderDetails.loanSanctioned}
+            onClick={() => {
+              paymentPopup();
+              setLenderData(lenderDetails);
+            }}
+          >
             <a href="#" class="small-btn-profile btn-dark">
               Repay Loan
             </a>
-          </div>
+          </Button>
           <div class="buttons">
             <a href="#" class="small-btn-profile btn-light">
               Report Issue

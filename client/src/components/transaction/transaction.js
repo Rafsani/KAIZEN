@@ -78,15 +78,15 @@ useEffect(() => {
                 {transactions.map((array1) => (
                     <div className="transaction-history" >
                         <h1>
-                                <div className="header">Contract ID  <span className="value">#60a2288f788f921b543cd808</span></div>
+                                <div className="header">Contract ID  <span className="value">{array1[0].contractId}</span></div>
                                 <div className="buttons contract-button">
                                     <a href="#!" className="btn-form btn-transparent">View Contract</a>
                                 </div>
                         </h1>
                         <div className="user-cards scroller">
-                        {array1.map((transaction_data) => (
+                        {array1.map((transaction_data,idx) => (
                             <div className="transaction-card">
-                                <h2>Transaction Statement #<span className="statement"> 1</span></h2>
+                                <h2>Transaction Statement #<span className="statement"> {idx+1}</span></h2>
                                 <div className="details">
                                     <div className="type">{transaction_data.type}</div>
                                     <div className="issue-date">{formatDate(transaction_data.issueDate)}</div>
