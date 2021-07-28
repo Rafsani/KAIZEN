@@ -102,5 +102,17 @@
     "dob": "1997-01-10",
     "collateral": "https://youtu.be/CggXSu_P2GQ",
     "usertype": "Lender"
+  },
+  {
+    "_id": "6076cfa408541e2ba057e100",
+    "password": "admin",
+    "email": "admin@gmail.com",
+    "username": "admin",
+    "nid": 1020020,
+    "bkash": "01961123422",
+    "dob": "1997-01-10",
+    "collateral": "https://youtu.be/CggXSu_P2GQ",
+    "usertype": "Lender",
+    "adminPrivilege": true
   }
 ]
