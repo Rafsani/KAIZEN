@@ -19,6 +19,9 @@ router.route('/view/:lenderId')
 router.route('/:userId/history')
     .get( userController.handleGETUserHistory );
 
+router.route('/:userId/report')
+    .get( userController.handleGETUserReportsById );
+
 router.route('/search/:userId' )
     .get( userController.handleGETUserSearchBase );
 

@@ -431,6 +431,37 @@ const handleGETLenderInfo = async (req,res,next)=>{
 
 
 
+
+/**
+ * @description this method returns the user's report history
+ * @route - GET /api/user/:userId/report
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETUserReportsById = async( req,res,next)=>{
+    try {
+        // make sure the user making the request has the same id as the one's data we are fetching
+        /** not yet implemented */
+        const reportQueryResult = await reportInterface.findAllReport({
+            issuerId: req.params.userId
+        }, 'all');
+
+        if( reportQueryResult.status == 'OK' ){
+            return res.status(200).send(reportQueryResult);
+        }
+
+        return res.status(400).send(reportQueryResult);
+        
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
 module.exports = {
     handleGETUserById,
     handleGETUserHistory,
@@ -438,5 +469,6 @@ module.exports = {
     handleGETLenderInfo,
     handleGETUserTransactionHistoryById,
     handleGETUserSearchBase,
-    handlePOSTReport
+    handlePOSTReport,
+    handleGETUserReportsById
 }
