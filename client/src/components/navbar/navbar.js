@@ -286,6 +286,14 @@ export default function AppNavBar() {
     </Menu>
   );
 
+  const handleSubmitSearch = (e) => {
+    console.log("Key Pressed: ", e.keyCode);
+    console.log("Value: ", e.target.value);
+    if (e.keyCode === 13) {
+      history.push(`/search/${e.target.value}`);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.grow}>
@@ -322,6 +330,8 @@ export default function AppNavBar() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
+                style={{ color: "red" }}
+                onKeyDown={handleSubmitSearch}
               />
             </div>
             <div className={classes.grow} />

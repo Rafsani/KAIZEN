@@ -16,6 +16,7 @@ import ReceiverViewsLender from "./components/profile/receiverViewsLender";
 import LenderViewsLender from "./components/profile/lenderViewsLender";
 import CoolLoginPage from "./components/coolSignUp/coolLoginPage";
 import Transaction from "./components/transaction/transaction";
+import Search from "./components/search/search";
 
 function App() {
   return (
@@ -32,6 +33,8 @@ function App() {
           component={Loanrequest}
           exact
         />
+
+        <PrivateRoute name="search" path="/search/:id" component={Search} />
 
         <PrivateRoute
           name="profile"
@@ -64,7 +67,7 @@ function App() {
           component={Registration}
           exact
         />
-         <PrivateRoute
+        <PrivateRoute
           name="transaction"
           path="/transactions"
           component={Transaction}
