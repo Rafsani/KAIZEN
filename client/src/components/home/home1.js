@@ -22,11 +22,13 @@ export default function HomePage() {
   const [hiddenData, setHiddenData] = useState([]);
   const [formBooleans, setFormBooleans] = useState([]);
   const [loadingData, setLoadingData] = useState(true);
+  let pageHistory = useHistory();
 
   const fetchdata = async () => {
     let tempUserId, tempHiddenData;
     let tempLoans, tempDonations;
     let tempFormBooleans;
+    let tempIsAdmin;
 
     // Get userId and hiddenData
     await Axios({
@@ -36,6 +38,11 @@ export default function HomePage() {
     })
       .then((res) => {
         tempUserId = res.data.data.data;
+        tempIsAdmin = res.data.isAdmin;
+        if (tempIsAdmin) {
+          pageHistory.push("/admin/reports");
+          return;
+        }
         console.log("tempUserId: ", tempUserId);
         setUserId(tempUserId);
       })
