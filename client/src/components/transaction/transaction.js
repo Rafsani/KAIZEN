@@ -79,9 +79,7 @@ useEffect(() => {
                     <div className="transaction-history" >
                         <h1>
                                 <div className="header">Contract ID  <span className="value">{array1[0].contractId}</span></div>
-                                <div className="buttons contract-button">
-                                    <a href="#!" className="btn-form btn-transparent">View Contract</a>
-                                </div>
+                                
                         </h1>
                         <div className="user-cards scroller">
                         {array1.map((transaction_data,idx) => (

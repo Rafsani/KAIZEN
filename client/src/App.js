@@ -19,6 +19,7 @@ import Transaction from "./components/transaction/transaction";
 import Search from "./components/search/search";
 import AdminReports from "./components/admin/adminReports";
 import AdminVerifications from "./components/admin/adminVerifications";
+import Reports from "./components/transaction/reports";
 
 function App() {
   return (
@@ -91,6 +92,12 @@ function App() {
           name="transaction"
           path="/transactions"
           component={Transaction}
+          exact
+        />
+         <PrivateRoute
+          name="transaction"
+          path="/user_reports"
+          component={Reports}
           exact
         />
       </Router>

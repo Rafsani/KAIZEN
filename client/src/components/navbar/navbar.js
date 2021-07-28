@@ -58,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: "flex",
+    paddingTop: "10px",
+    padding: "10px",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -336,19 +338,26 @@ export default function AppNavBar() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/*<IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
+              
+              <Typography className={classes.title} variant="h7" noWrap>
+              <Link
+                style={{ textDecoration: "inherit", color: "inherit"  }}
+                to="/user_reports"
               >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-              </Badge>
-              </IconButton>*/}
+                Report History
+              </Link>
+            </Typography>
+
+            <Typography className={classes.title} variant="h7" noWrap>
+              <Link
+                style={{ textDecoration: "inherit", color: "inherit"  }}
+                to="/"
+              >
+                Loan History
+              </Link>
+            </Typography>
+
+
               <IconButton
                 edge="end"
                 aria-label="account of current user"
