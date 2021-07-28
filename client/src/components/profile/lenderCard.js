@@ -102,6 +102,7 @@ function LenderCard({
               paymentPopup();
               setLenderData(lenderDetails);
             }}
+            
           >
             <a href="#" class="small-btn-profile btn-dark">
               Repay Loan
