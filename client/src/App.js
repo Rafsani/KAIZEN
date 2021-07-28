@@ -17,6 +17,8 @@ import LenderViewsLender from "./components/profile/lenderViewsLender";
 import CoolLoginPage from "./components/coolSignUp/coolLoginPage";
 import Transaction from "./components/transaction/transaction";
 import Search from "./components/search/search";
+import AdminReports from "./components/admin/adminReports";
+import AdminVerifications from "./components/admin/adminVerifications";
 
 function App() {
   return (
@@ -34,7 +36,25 @@ function App() {
           exact
         />
 
-        <PrivateRoute name="search" path="/search/:id" component={Search} />
+        <PrivateRoute
+          name="search"
+          path="/search/:id"
+          component={Search}
+          exact
+        />
+
+        <PrivateRoute
+          name="admin-reports"
+          path="/admin/reports"
+          component={AdminReports}
+          exact
+        />
+        <PrivateRoute
+          name="admin-verifications"
+          path="/admin/verifications"
+          component={AdminVerifications}
+          exact
+        />
 
         <PrivateRoute
           name="profile"

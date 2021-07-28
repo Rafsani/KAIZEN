@@ -111,11 +111,11 @@ const handlePOSTloginUser = async ( req,res,next )=>{
  */
  const handleGETloggedinUser = async ( req,res,next )=>{
     try {
-        if( req.user == undefined ){
-            req.user = {
-                email : 'admin@gmail.com'
-            }
-        }
+        /* if( req.user == undefined ){ */
+        /*     req.user = { */
+        /*         email : 'admin@gmail.com' */
+        /*     } */
+        /* } */
 
         if(req.user) {
             const userQueryResult = await authInterface.loggedInUser( req.user.email );

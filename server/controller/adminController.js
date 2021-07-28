@@ -35,10 +35,13 @@ const date = require('../util/date');
                 let paymentQueryResult = await paymentInterface.findPayment(report.contractId._id);
 
                 output.push({
+					reportId: report._id,
                     contractId: report.contractId._id,
                     userType: report.issuerId.usertype,
                     fullName: report.issuerId.username,
-                    complaintAgainst: ( report.issuerId.userType == 'Lender' )? report.contractId.receiverId.username:report.contractId.lenderId.username,
+					issuerId: report.issuerId._id,
+                    complaintAgainst: ( report.issuerId.usertype == 'Lender' )? report.contractId.receiverId.username:report.contractId.lenderId.username,
+					complaintAgainstId: ( report.issuerId.usertype == 'Lender' )? report.contractId.receiverId._id:null,
                     description: report.description,
                     issuedDate: report.issuedDate,
                     //contract details
@@ -199,7 +202,7 @@ const date = require('../util/date');
         }
 
         const reportQueryResult = await reportInterface.changeReportStatus({
-            contractId: req.body.contractId,
+            _id: req.body.reportId,
             status: 'pending'
         }, update);
 
