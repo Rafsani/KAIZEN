@@ -22,6 +22,9 @@ router.route('/:userId/history')
 router.route('/:userId/report')
     .get( userController.handleGETUserReportsById );
 
+router.route('/:userId/loan')
+    .get( userController.handleGETUserLoanHistory );
+
 router.route('/search/:userId' )
     .get( userController.handleGETUserSearchBase );
 
