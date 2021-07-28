@@ -19,9 +19,10 @@ const date = require('../util/date');
 
         const reportQueryResult = await reportInterface.findAllReport(
             {
-                status: {
-                    $ne: 'ignored'
-                }
+                status: 'pending'
+                // {
+                //     $ne: 'ignored'
+                // }
             },
             'all'
         )
