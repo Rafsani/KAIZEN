@@ -45,10 +45,16 @@ const activeContract = async (body)=>{
  */
 const endContract = async (body)=>{
     try {
-        const finishedContract = await Contracts.findOneAndUpdate( {
-            _id: body.contractId,
-            lenderId: body.issuerId
-        } , {
+        let query = {};
+        let { contractId , lenderId } = body;
+        
+        query._id = contractId;
+
+        if( lenderId) {
+            query.lenderId = lenderId
+        }
+        
+        const finishedContract = await Contracts.findOneAndUpdate( query , {
             status: 'Resolved'
         });
                 
@@ -385,7 +391,7 @@ const findContract = async(contractId) =>{
         const contractQueryResult = await Contracts.find(filter)
         .populate({
             path: (usertype == 'Receiver')?'lenderId' : 'receiverId',
-            select: 'usertype username'
+            select: 'usertype username image'
         })
         .select((usertype == 'Receiver')?'lenderId' : 'receiverId');
 

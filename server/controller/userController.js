@@ -3,6 +3,8 @@ const contractInterface = require('../db/interfaces/contractInterface');
 const authInterface = require('../db/interfaces/authInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
 const paymentInterface = require('../db/interfaces/paymentInterface');
+const reportInterface = require('../db/interfaces/reportInterface');
+
 
 /**
  * @description this method returns the user's private data
@@ -361,7 +363,7 @@ const handleGETLenderInfo = async (req,res,next)=>{
         else {
             searchQueryResult = await userInterface.findAllUsers( {
                 usertype: 'Receiver'
-            } , '' , 'username usertype' );
+            } , '' , 'username usertype image' );
 
             output = searchQueryResult.data;
         }
@@ -389,6 +391,45 @@ const handleGETLenderInfo = async (req,res,next)=>{
 }
 
 
+/**
+ * @description this method issues a report
+ * @route - GET /api/user/report/:userId
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handlePOSTReport = async( req,res,next)=>{
+    try {
+        
+        const reportQueryResult = await reportInterface.createReport( {
+            contractId: req.body.contractId,
+            issuerId: req.params.userId,
+            description: req.body.description
+        } );
+        
+        if( reportQueryResult.status == 'OK' ){
+            return res.status(201).send({
+                data: reportQueryResult.data,
+                status: 'OK',
+                message: reportQueryResult.message
+            })
+        }
+
+        return res.status(400).send({
+            data:null,
+            status: 'ERROR',
+            message: reportQueryResult.message
+        })
+        
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
 
 module.exports = {
     handleGETUserById,
@@ -396,5 +437,6 @@ module.exports = {
     handleGETCheckIfLoanRequestCanBeMade,
     handleGETLenderInfo,
     handleGETUserTransactionHistoryById,
-    handleGETUserSearchBase
+    handleGETUserSearchBase,
+    handlePOSTReport
 }

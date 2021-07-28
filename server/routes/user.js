@@ -21,6 +21,9 @@ router.route('/:userId/history')
 
 router.route('/search/:userId' )
     .get( userController.handleGETUserSearchBase );
+
+router.route('/report/:userId')
+    .post(userController.handlePOSTReport );
     
 
 module.exports = router;
