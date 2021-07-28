@@ -1273,3 +1273,45 @@
       ```
 
 ---
+- **[Get All Unverified User](..\controller\adminController.js)** - Returns all unverified Users<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/admin/verify`
+
+    - ```x
+        {
+            "data": [
+                {
+                    "userId": "6076cfa408541e2ba057e332",
+                    "userType": "Receiver",
+                    "fullName": "Rafsani",
+                    "bkash": "01961145452",
+                    "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ"
+                },
+                {
+                    "userId": "6076cfa408541e2ba057e333",
+                    "userType": "Receiver",
+                    "fullName": "Shwarup",
+                    "bkash": "01961145453",
+                    "collateral": "https://www.youtube.com/embed/fKNdoxRld34"
+                },
+                {
+                    "userId": "6076cfa408541e2ba057e335",
+                    "userType": "Receiver",
+                    "fullName": "Shoummo",
+                    "bkash": "01961145455",
+                    "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ"
+                },
+                {
+                    "userId": "6076cfa408541e2ba057e339",
+                    "userType": "Receiver",
+                    "fullName": "Shoummo",
+                    "bkash": "01961145459",
+                    "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ"
+                }
+            ],
+            "status": "OK",
+            "message": "All Users found in the database"
+        }
+      ```
+
+---

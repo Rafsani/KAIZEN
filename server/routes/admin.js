@@ -14,6 +14,7 @@ router.route('/contract')
 router.route('/:userId')
     .put(adminController.handlePUTUpdateUserStatus);
 
-
+router.route('/verify')
+    .get(adminController.handleGETAllUnverifiedUsers);
 
 module.exports = router;

@@ -227,9 +227,61 @@ const date = require('../util/date');
 }
 
 
+/**
+ * @description this method issues a report
+ * @route - GET /api/admin/verify
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETAllUnverifiedUsers = async( req,res,next)=>{
+    try {
+        const userQueryResult = await userInterface.findAllUsers({
+            usertype: 'Receiver',
+            verfiedStatus: false,
+            collateral: {
+                $ne: null
+            }
+        });
+
+        let output = [];
+        if( userQueryResult.status == 'OK' ){
+            userQueryResult.data.forEach( user => {
+                output.push({
+                    userId: user._id,
+                    userType: user.usertype,
+                    fullName: user.username,
+                    details: user.details,
+                    bkash: user.bkash,
+                    collateral: user.collateral
+                })
+            })
+
+            return res.status(200).send({
+                data: output,
+                status: 'OK',
+                message: userQueryResult.message
+            })
+        }
+
+        return res.status(400).send({
+            data:null,
+            status: 'ERROR',
+            message: userQueryResult.message
+        })
+        
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
 module.exports = {
    handleGETAllUnresolvedReports,
    handlePUTEndContract,
    handlePUTUpdateUserStatus,
-   handlePUTChangeReportStatus
+   handlePUTChangeReportStatus,
+   handleGETAllUnverifiedUsers
 }
