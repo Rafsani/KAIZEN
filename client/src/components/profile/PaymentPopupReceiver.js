@@ -59,7 +59,7 @@ useEffect(() => {
   const fetchdata = async () => {
     let tempLenderHistory;
 
-    // Get lender history
+    // send payment request 
     await Axios({
       method: "POST",
       data: {

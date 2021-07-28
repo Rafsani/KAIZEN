@@ -15,6 +15,7 @@ import PostRequestForm from "./PostRequestForm";
 import ReviewCard from "./reviewCard";
 import ViewCollateral from "../registration/viewCollateral";
 import PaymentPopupReceiver from "./PaymentPopupReceiver";
+import ReportPopup from "./ReportPopup";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState(null);
@@ -31,6 +32,7 @@ function ReceiverProfile({ userId, hiddenData }) {
   const [collateralVisible, setCollateralVisible] = useState(false);
   const [showPopUp, setshowPopUp] = useState(false);
   const [lenderDataForpayment, setlenderDataForpayment] = useState(null);
+  const [showReportPopUp, setshowReportPopUp] = useState(false);
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -314,11 +316,23 @@ function ReceiverProfile({ userId, hiddenData }) {
     }
   };
 
+
+
+
+
+
+
   const setLenderData = (data) => {
     console.log("Data for Payment: ", data);
     setlenderDataForpayment(data);
   };
   console.log("Lender Data for Payment Set to = ", lenderDataForpayment);
+
+
+
+
+
+
 
   const showLenders = () => {
     return (
@@ -347,6 +361,7 @@ function ReceiverProfile({ userId, hiddenData }) {
                   viewButtons={true}
                   paymentPopup={handleOpenPaymentPopupShow}
                   setLenderData={setLenderData}
+                  reportPopuop = {handleOpenReportPopup}
                 />
               ))}
             </div>
@@ -479,10 +494,36 @@ function ReceiverProfile({ userId, hiddenData }) {
       );
     }
   };
+
+
+  const handleOpenReportPopup = () => {
+    setshowReportPopUp(true);
+  }
+
+  const handleCloseReportPopup = () => {
+    setshowReportPopUp(false);
+  }
+
+
+
+  const showReportIssuePopup = () => {
+      if(showReportPopUp) {
+        return (
+          <ReportPopup 
+          lenderDetails={lenderDataForpayment}
+          onCancel={handleCloseReportPopup}
+          onSubmit={handleCloseReportPopup}
+          />
+        );
+      }
+  }
+
+
+
   return (
     <div>
       <main
-        class={(postRequestPopUpFormVisible || showPopUp) && "background-blur"}
+        class={(postRequestPopUpFormVisible || showPopUp || showReportPopUp) && "background-blur"}
         id="main"
       >
         <BasicInfo
@@ -504,6 +545,7 @@ function ReceiverProfile({ userId, hiddenData }) {
       </main>
       {showPostRequestForm()}
       {showPaymentPopup()}
+      {showReportIssuePopup()}
     </div>
   );
 }

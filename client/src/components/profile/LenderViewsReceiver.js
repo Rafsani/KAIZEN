@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-
+import BASE_URL from "../Base_url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
@@ -39,6 +39,9 @@ function LenderViewsReceiver(props) {
   const [reviewPopUpFormVisible, setReviewPopUpFormVisible] = useState(false);
   const [collateralVisible, setCollateralVisible] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
+  const [showReportPopUp, setshowReportPopUp] = useState(false);
+  const [reviewComment, setReviewComment] = useState("");
+
   let pageHistory = useHistory();
 
   const fetchData = async () => {
@@ -467,7 +470,7 @@ function LenderViewsReceiver(props) {
             </a>
           </div>
           <div class="buttons">
-            <a href="#!" class="btn-profile btn-light">
+            <a href="#!" class="btn-profile btn-light" onClick= {handleOpenReportPopup}>
               Report Issue
             </a>
           </div>
@@ -516,6 +519,89 @@ function LenderViewsReceiver(props) {
     );
   };
 
+  const sendReport = async () => {
+    await Axios({
+        method: "POST",
+        data: {
+            contractId: activeContract.contractId,
+            description: reviewComment,
+        },
+        withCredentials: true,
+        url: `${BASE_URL}/api/user/report/${lenderId}`,
+      })
+        .then((res) => {
+          
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+        handleCloseReportPopup();
+};
+
+
+  const handleOpenReportPopup = () => {
+    setshowReportPopUp(true);
+  }
+
+  const handleCloseReportPopup = () => {
+    setshowReportPopUp(false);
+  }
+
+
+  const showReportPopUpWindow = () => {
+      if(showReportPopUp) 
+{
+      return(
+        <div class="post-review-popup " id="post-review-popup">
+        <div class="post-review-card content-box " id="popup-review">
+          <div class="title-card">
+            <h1> Report An Issue </h1>
+          </div>
+          <div class="form">
+            {/* <!-- Amount --> */}
+            
+  
+            {/* <!-- Details of the loan --> */}
+            <div class="text-area-input-field inputs-div">
+              <aside>
+                <h3>Write in brief:</h3>
+                <p>Max 140 Characters</p>
+              </aside>
+              <div class="input-field">
+                {/* <!-- <input type="text" class="small-input" max="10000" min="1000" required> --> */}
+                <textarea
+                  class="text-area-input"
+                  cols="20"
+                  rows="10"
+                  maxlength="140"
+                  minlength="1"
+                  value={reviewComment}
+                  onChange={(e) => setReviewComment(e.target.value)}
+                ></textarea>
+              </div>
+            </div>
+  
+            {/* <!-- Buttons --> */}
+            <div class="buttons inputs-div">
+              <a href="#!" class="btn-form btn-light" onClick={handleCloseReportPopup}>
+                Cancel
+              </a>
+              <a
+                href="#!"
+                class="btn-form btn-dark"
+                onClick={  sendReport  }
+              >
+                Post
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      );
+    }
+  };
+
   if (collateralVisible) {
     return <div>{showCollateralPage()}</div>;
   }
@@ -531,7 +617,7 @@ function LenderViewsReceiver(props) {
 
         <main
           class={
-            (contractOfferPopUpFormVisible || reviewPopUpFormVisible) &&
+            (contractOfferPopUpFormVisible || reviewPopUpFormVisible || showReportPopUp) &&
             "background-blur"
           }
           id="main"
@@ -557,6 +643,7 @@ function LenderViewsReceiver(props) {
         </main>
         {showContractOfferForm()}
         {showReviewForm()}
+        {showReportPopUpWindow()}
       </div>
     )
   );

@@ -15,6 +15,7 @@ function LenderCard({
   viewButtons,
   paymentPopup,
   setLenderData,
+  reportPopuop,
 }) {
   console.log("Lender Card: ", lenderDetails);
   if (lenderDetails.collectedAmount >= lenderDetails.totalAmount) {
@@ -95,7 +96,7 @@ function LenderCard({
       </div>
       {viewButtons && (
         <div class="small-buttons-list" id="report-issue-1">
-          <Button
+          <div
             class="buttons"
             disabled={!lenderDetails.loanSanctioned}
             onClick={() => {
@@ -107,8 +108,16 @@ function LenderCard({
             <a href="#" class="small-btn-profile btn-dark">
               Repay Loan
             </a>
-          </Button>
-          <div class="buttons">
+          </div>
+
+
+          <div class="buttons" 
+            onClick={() => {
+              reportPopuop();
+              setLenderData(lenderDetails);
+            }} 
+            >
+            
             <a href="#" class="small-btn-profile btn-light">
               Report Issue
             </a>
