@@ -15,6 +15,11 @@ function LenderCard({
   paymentPopup,
   setLenderData,
 }) {
+  if(lenderDetails.collectedAmount >= lenderDetails.totalAmount) 
+  {
+    return (<div></div>);
+  }
+
   return (
     <div class="card-profile">
       <Link
@@ -84,12 +89,13 @@ function LenderCard({
         <div class="small-buttons-list" id="report-issue-1">
           <Button
             class="buttons"
+            disabled = {!lenderDetails.loanSanctioned}
             onClick={() => {
               paymentPopup();
               setLenderData(lenderDetails);
             }}
           >
-            <a href="#" class="small-btn-profile btn-dark">
+            <a href="#" class="small-btn-profile btn-dark" >
               Repay Loan
             </a>
           </Button>

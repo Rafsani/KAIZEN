@@ -296,11 +296,14 @@ const handleGETLoanOffers = async (req,res,next) => {
                 let totalAmount = contractRequest.amount;
                 let collectedAmount = contractRequest.collectedAmount;
                 let nextInstallmentDate = checkInstallmentDate.returnNextInstallmentDate( contractRequest.installmentDates );
-                let installmentAmount = totalAmount / contractRequest.installments
+                //let installmentAmount = totalAmount / contractRequest.installments
+                let installmentAmount = Math.floor(( totalAmount * ( 1 + contractRequest.interestRate / 100 ) ) / contractRequest.installments)
                 let installments = contractRequest.installments;
                 let installmentsCompleted = contractRequest.installmentsCompleted;
                 let interestRate = contractRequest.interestRate;
                 let myDefaults = contractRequest.defaults;
+                let loanSanctioned = contractRequest.loanSanctioned
+                
     
                 outputOffers.push({
                     contractId: contractRequest._id,
@@ -314,7 +317,9 @@ const handleGETLoanOffers = async (req,res,next) => {
                     installments,
                     installmentsCompleted,
                     interestRate,
-                    myDefaults
+                    myDefaults,
+                    loanSanctioned
+                
                 });
             })
     

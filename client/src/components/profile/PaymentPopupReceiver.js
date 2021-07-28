@@ -9,10 +9,10 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
   const [minAmount, setMinAmount] = useState(1000);
   const [maxAmount, setMaxAmount] = useState(10000);
   const [installments, setInstallments] = useState(null);
-  const [repayAmount, setrepayAmount] = useState(1200);
+  const [repayAmount, setrepayAmount] = useState(null);
   const [NextPayDate, setNextPayDate] = useState("01/2/2012");
-  const [LeftAmount, setLeftAmount] = useState(1200);
-  const [NextInstallmentAmount, setNextInstallmentAmount] = useState(1200);
+  const [LeftAmount, setLeftAmount] = useState(null);
+  const [NextInstallmentAmount, setNextInstallmentAmount] = useState(null);
   const [redirecturl, setredirecturl] = useState(null);
 
   console.log("Data well received by Pay Pop up: ", lenderDetails);
@@ -24,6 +24,38 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
     "paymentType": "receiverToLender",
     "installments": "2"
 } */
+
+/**lender details
+ * {contractId: "60a2288f788f921b543cd814", lenderId: "6076cfa408541e2ba057e337", lenderName: "Akid", lenderImage: {…}, totalAmount: 3000, …}
+collectedAmount: 0
+contractId: "60a2288f788f921b543cd814"
+installmentAmount: 1000
+installments: 3
+installmentsCompleted: 0
+interestRate: 8
+lenderId: "6076cfa408541e2ba057e337"
+lenderImage: {path: "../client/public/uploads/user.png", contentType: "image/jpeg"}
+lenderName: "Akid"
+myDefaults: 0
+nextInstallmentDate: "2021-08-26T22:08:42.035Z"
+totalAmount: 3000
+ * 
+ */
+
+
+
+
+
+
+useEffect(() => {
+    setrepayAmount(lenderDetails.installmentAmount);
+    setNextPayDate(formatDate(lenderDetails.nextInstallmentDate));
+    setInstallments(1);
+    setNextInstallmentAmount(lenderDetails.installmentAmount);
+    setLeftAmount(lenderDetails.totalAmount - lenderDetails.collectedAmount);
+  }, []);
+
+
   const fetchdata = async () => {
     let tempLenderHistory;
 
@@ -31,9 +63,9 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
     await Axios({
       method: "POST",
       data: {
-        total_amount: "1500",
+        total_amount: repayAmount,
         bkash: "01747783158",
-        contractId: "8485105",
+        contractId: lenderDetails.contractId,
         paymentType: "receiverToLender",
         installments: installments,
       },
@@ -56,9 +88,15 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
   };
 
   const handleInstallmentsChange = (event) => {
-    console.log(event.target.name, event.target.value);
+    console.log(event.target.value);
     setInstallments(event.target.value);
-  };
+    setInstallments(event.target.value);
+    console.log("installments=" + installments);
+    setrepayAmount(lenderDetails.installmentAmount * event.target.value);
+    setLeftAmount(lenderDetails.totalAmount + lenderDetails.totalAmount*lenderDetails.interestRate/100 - lenderDetails.installmentAmount * event.target.value - lenderDetails.collectedAmount);
+};
+
+
 
   const handleSubmit = () => {
     if (
@@ -87,14 +125,14 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
           <aside>
             <h3>Installments</h3>
           </aside>
-          <div class="radio-field">
+          <div class="radio-field" onChange={handleInstallmentsChange}>
             <input
               type="radio"
               id="one"
               name="option"
               value="1"
               checked={installments === "1"}
-              onChange={handleInstallmentsChange}
+              
             />
             <label for="one">1</label>
             <input
@@ -103,7 +141,8 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
               name="option"
               value="2"
               checked={installments === "2"}
-              onChange={handleInstallmentsChange}
+              //nChange={handleInstallmentsChange}
+              disabled={lenderDetails.installmentsCompleted >= 2 || lenderDetails.installments < 2}
             />
             <label for="two">2</label>
             <input
@@ -112,7 +151,8 @@ function PaymentPopupReceiver({ lenderDetails, onCancel, onSubmit }) {
               name="option"
               value="3"
               checked={installments === "3"}
-              onChange={handleInstallmentsChange}
+              //onChange={handleInstallmentsChange}
+              disabled={lenderDetails.installmentsCompleted >= 1 || lenderDetails.installments < 3}
             />
             <label for="three">3</label>
           </div>
