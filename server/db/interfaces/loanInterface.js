@@ -374,7 +374,41 @@ const LoanRequest = require('../models/LoanRequestModel');
     }
 }
 
+/**
+ * @description list of all loans for a user
+ * @returns all loans
+ */
+ const getAllLoansForUser = async( filter , populate, select )=> {
+    try {
+        const loans = await LoanRequest.find(filter)
+                                        .populate({
+                                            path: 'contracts',
+                                            populate: 'lenderId'
+                                        })
+                                        .populate('Receiver')
+                                        .sort({issueDate: -1});
+        
+        if( loans.length !== 0 ){
+            return {
+                data: loans, 
+                status: 'OK',
+                message: 'All loans for this user found from the database'
+            }
+        }
 
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'No loans found'
+        }
+    }catch( e ){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
 
 module.exports = {
     getAllLoans,
@@ -385,5 +419,6 @@ module.exports = {
     acceptContractOffer,
     denyContractOffer,
     lastIssuedLoan,
-    repayLoan
+    repayLoan,
+    getAllLoansForUser
 }

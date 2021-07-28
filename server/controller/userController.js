@@ -4,6 +4,7 @@ const authInterface = require('../db/interfaces/authInterface');
 const loanInterface = require('../db/interfaces/loanInterface');
 const paymentInterface = require('../db/interfaces/paymentInterface');
 const reportInterface = require('../db/interfaces/reportInterface');
+const date = require('../util/date')
 
 
 /**
@@ -462,6 +463,76 @@ const handleGETLenderInfo = async (req,res,next)=>{
 }
 
 
+/**
+ * @description this method returns the user's loan history
+ * @route - GET /api/user/:userId/loan
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ const handleGETUserLoanHistory = async( req,res,next)=>{
+    try {
+        // make sure the user making the request has the same id as the one's data we are fetching
+        /** not yet implemented */
+        const loanQueryResult = await loanInterface.getAllLoansForUser({
+            Receiver : req.params.userId
+        });
+
+        let output = [];
+
+        if( loanQueryResult.status == 'OK' ){
+
+            loanQueryResult.data.forEach( loan => {
+
+                let contracts = [];
+
+                loan.contracts.forEach( contract => {
+                    contracts.push({
+                        contractId: contract._id,
+                        contractStatus: contract.status,
+                        lenderName: contract.lenderId.username,
+                        contractSigningDate: date.contractSigningDate( contract.installmentDates ),
+                        bkash: contract.lenderId.bkash,
+                        installmentsCompleted: contract.installmentsCompleted,
+                        loanAmount: contract.amount,
+                        repaidAmount: contract.collectedAmount
+                    });
+                });
+
+                output.push({
+                    loanId: loan._id,
+                    loanStatus: loan.Status,
+                    receiverName: loan.Receiver.username,
+                    type: loan.typeOfLoan,
+                    details: loan.Details,
+                    issuedDate: loan.issueDate,
+                    requiredAmount: loan.Amount,
+                    collectedAmount: loan.collectedAmount,
+                    interestRate: ( loan.Receiver.verfiedStatus ) ? 5 : 8,
+                    defaultedInstallments: loan.Receiver.loanDefaults,
+
+                    contracts
+                });
+            });
+
+            return res.status(200).send({
+                data: output,
+                status: 'OK',
+                message: "All loans for this user have been found"
+            });
+        }
+
+        return res.status(400).send(loanQueryResult);
+        
+    }catch(e){
+        return res.status(500).send({
+            status: 'EXCEPTION',
+            message: e.message
+        });
+    }
+}
+
+
 module.exports = {
     handleGETUserById,
     handleGETUserHistory,
@@ -470,5 +541,6 @@ module.exports = {
     handleGETUserTransactionHistoryById,
     handleGETUserSearchBase,
     handlePOSTReport,
-    handleGETUserReportsById
+    handleGETUserReportsById,
+    handleGETUserLoanHistory
 }
