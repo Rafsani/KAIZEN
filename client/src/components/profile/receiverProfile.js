@@ -13,6 +13,9 @@ import LenderCard from "./lenderCard";
 import ContractRequestCard from "./contractRequestCard";
 import PostRequestForm from "./PostRequestForm";
 import ReviewCard from "./reviewCard";
+import ViewCollateral from "../registration/viewCollateral";
+import PaymentPopupReceiver from "./PaymentPopupReceiver";
+import ReportPopup from "./ReportPopup";
 
 function ReceiverProfile({ userId, hiddenData }) {
   const [activeRequest, setActiveRequest] = useState(null);
@@ -26,6 +29,10 @@ function ReceiverProfile({ userId, hiddenData }) {
     postRequestPopUpFormVisible,
     setPostRequestPopUpFormVisible,
   ] = useState(false);
+  const [collateralVisible, setCollateralVisible] = useState(false);
+  const [showPopUp, setshowPopUp] = useState(false);
+  const [lenderDataForpayment, setlenderDataForpayment] = useState(null);
+  const [showReportPopUp, setshowReportPopUp] = useState(false);
 
   const fetchData = async () => {
     let tempActiveRequest;
@@ -309,6 +316,24 @@ function ReceiverProfile({ userId, hiddenData }) {
     }
   };
 
+
+
+
+
+
+
+  const setLenderData = (data) => {
+    console.log("Data for Payment: ", data);
+    setlenderDataForpayment(data);
+  };
+  console.log("Lender Data for Payment Set to = ", lenderDataForpayment);
+
+
+
+
+
+
+
   const showLenders = () => {
     return (
       lenders && (
@@ -334,6 +359,9 @@ function ReceiverProfile({ userId, hiddenData }) {
                   targetId={lenderDetails.lenderId}
                   viewAsReceiver={true}
                   viewButtons={true}
+                  paymentPopup={handleOpenPaymentPopupShow}
+                  setLenderData={setLenderData}
+                  reportPopuop = {handleOpenReportPopup}
                 />
               ))}
             </div>
@@ -381,6 +409,15 @@ function ReceiverProfile({ userId, hiddenData }) {
       });
   };
 
+  const handleOpenPaymentPopupShow = () => {
+    setshowPopUp(true);
+    console.log("Payment to lender: " + lenderDataForpayment);
+  };
+
+  const handleClosePaymentPopupShow = () => {
+    setshowPopUp(false);
+  };
+
   const showContractRequests = () => {
     return (
       contractRequests &&
@@ -416,12 +453,12 @@ function ReceiverProfile({ userId, hiddenData }) {
               <i class="fas fa-star" data-tooltip="Current-Rating">
                 <FontAwesomeIcon icon={faStar}></FontAwesomeIcon>
               </i>
-              4.5/5
+              {hiddenData.rating}/5
             </p>
           </div>
           <div class="reviews scroller">
             {reviews.map((review) => (
-              <ReviewCard review={review} />
+              <ReviewCard review={review} showButtons={true} />
             ))}
           </div>
         </div>
@@ -429,10 +466,71 @@ function ReceiverProfile({ userId, hiddenData }) {
     );
   };
 
+  const showCollateralPage = () => {
+    return (
+      collateralVisible && (
+        <ViewCollateral
+          collateral={hiddenData.collateral}
+          onBack={() => {
+            setCollateralVisible(false);
+          }}
+        />
+      )
+    );
+  };
+
+  if (collateralVisible) {
+    return <div>{showCollateralPage()}</div>;
+  }
+
+  const showPaymentPopup = () => {
+    if (showPopUp) {
+      return (
+        <PaymentPopupReceiver
+          lenderDetails={lenderDataForpayment}
+          onCancel={handleClosePaymentPopupShow}
+          onSubmit={handleClosePaymentPopupShow}
+        />
+      );
+    }
+  };
+
+
+  const handleOpenReportPopup = () => {
+    setshowReportPopUp(true);
+  }
+
+  const handleCloseReportPopup = () => {
+    setshowReportPopUp(false);
+  }
+
+
+
+  const showReportIssuePopup = () => {
+      if(showReportPopUp) {
+        return (
+          <ReportPopup 
+          lenderDetails={lenderDataForpayment}
+          onCancel={handleCloseReportPopup}
+          onSubmit={handleCloseReportPopup}
+          />
+        );
+      }
+  }
+
+
+
   return (
     <div>
-      <main class={postRequestPopUpFormVisible && "background-blur"} id="main">
-        <BasicInfo hiddenData={hiddenData} />
+      <main
+        class={(postRequestPopUpFormVisible || showPopUp || showReportPopUp) && "background-blur"}
+        id="main"
+      >
+        <BasicInfo
+          hiddenData={hiddenData}
+          showCollateralButton={true}
+          setCollateralVisible={setCollateralVisible}
+        />
         <div class="loan-contract-info content-box" id="loan-contract-info">
           {showNoLoanRequest()}
           {showLoanInfo()}
@@ -446,6 +544,8 @@ function ReceiverProfile({ userId, hiddenData }) {
         {showReviews()}
       </main>
       {showPostRequestForm()}
+      {showPaymentPopup()}
+      {showReportIssuePopup()}
     </div>
   );
 }

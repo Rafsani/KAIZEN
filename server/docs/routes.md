@@ -4,11 +4,95 @@
 
 ---
 
-- will not be shown for receiver
+- **[Find users search base](..\controller\userController.js)** - returns the search base for receiver ( from the contracts where lenders have requested or pending ) <br><br>
+
+* **GET** : &nbsp; `GET /api/user/search/:userId`
+
+  - ```x
+         {
+            "data": [
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e331",
+                    "username": "Anik"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e332",
+                    "username": "Rafsani"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e333",
+                    "username": "Shwarup"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e334",
+                    "username": "Syed"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e335",
+                    "username": "Shoummo"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e339",
+                    "username": "Shoummo"
+                }
+            ],
+            "status": "OK",
+            "message": "All Users found in the database"
+        }
+    ```
 
 ## For Lender
 
 ---
+
+- **[Find users search base](..\controller\userController.js)** - returns the search base for lender ( only receivers ) <br><br>
+
+* **GET** : &nbsp; `GET /api/user/search/:userId`
+
+  - ```x
+         {
+            "data": [
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e331",
+                    "username": "Anik"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e332",
+                    "username": "Rafsani"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e333",
+                    "username": "Shwarup"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e334",
+                    "username": "Syed"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e335",
+                    "username": "Shoummo"
+                },
+                {
+                    "usertype": "Receiver",
+                    "_id": "6076cfa408541e2ba057e339",
+                    "username": "Shoummo"
+                }
+            ],
+            "status": "OK",
+            "message": "All Users found in the database"
+        }
+    ```
 
 - **[Check if user is verified](..\controller\authController.js)** - Basically returns if user has both NID and Collateral Present. Check if both values are true, otherwise show the button and redirect accordingly <br><br>
 
@@ -79,7 +163,7 @@
               "image": {
                 "path": "uploads/user.png",
                 "contentType": "image/jpeg"
-              },                 
+              },
               usertype: 'Receiver',
               _id: 6076cfa408541e2ba057e334,
               username: 'Syed',
@@ -165,7 +249,8 @@
                         "image": {
                             "path": "uploads/user.png",
                             "contentType": "image/jpeg"
-                        }
+                        },
+                        "loanSanctioned": true
                     },
                     {
                         "contractId": "60a2288f788f921b543cd814",
@@ -181,7 +266,8 @@
                         "image": {
                             "path": "uploads/user.png",
                             "contentType": "image/jpeg"
-                        }
+                        },
+                        "loanSanctioned": true
                     }
                 ]
             },
@@ -733,39 +819,6 @@
 
 ---
 
-<!-- - **[End Contract](..\controller\contractController.js)** - Ends Contract<br><br>
-  - **PUT** : &nbsp; `{{URL}} /api/contract`
-    - ```x
-        {
-            "contractId": "60a2288f788f921b543cd811",
-            "issuerId": "6076cfa408541e2ba057e337"
-        }
-    - ```x
-        {
-            "status": "OK",
-            "data": {
-                "n": 1,
-                "nModified": 1,
-                "opTime": {
-                    "ts": "6981945595686551553",
-                    "t": 11
-                },
-                "electionId": "7fffffff000000000000000b",
-                "ok": 1,
-                "$clusterTime": {
-                    "clusterTime": "6981945595686551553",
-                    "signature": {
-                        "hash": "UJ9p+//rIe4wt3Uih0z4R1Vtd1g=",
-                        "keyId": "6927623369017786372"
-                    }
-                },
-                "operationTime": "6981945595686551553"
-            },
-            "message": "The contract has been ended."
-        }
-      ```
---- -->
-
 - **[Post Review](..\controller\reviewController.js)** - Ends Contract and posts a review<br><br>
   - **POST** : &nbsp; `{{URL}} /api/review`
     - ```x
@@ -1001,6 +1054,263 @@
                 "__v": 0
             },
             "message": "The contract offer has been accepted."
+        }
+      ```
+
+---
+
+## **Extra**
+
+---
+
+- **[Get user transaction history](..\user\userController.js)** - Fetches transaction history if there are any<br><br>
+  - **GET** : &nbsp; `{{URL}}/api/user/transaction/:userId`
+    - ```x
+        {
+            "data": [
+                [
+                    {
+                        "_id": "60ff1b09b72d73354cb590e1",
+                        "contractId": "60a2288f788f921b543cd811",
+                        "amount": 500,
+                        "type": "lenderToReceiver",
+                        "bankTransactionId": "21072722859DiBz89BiQXpQJaF",
+                        "issueDate": "2021-07-26T20:28:56.000Z",
+                        "bkash": "01961229150",
+                        "__v": 0
+                    }
+                ],
+                [
+                    {
+                        "_id": "60ff2e9c75e3fd15f8975423",
+                        "contractId": "60a2288f788f921b543cd814",
+                        "amount": 1500,
+                        "type": "receiverToLender",
+                        "bankTransactionId": "210727352290SX9V6V7UriHGS4",
+                        "issueDate": "2021-07-26T21:52:25.000Z",
+                        "bkash": "01961229150",
+                        "__v": 0
+                    },
+                    {
+                        "_id": "60ff2eea75e3fd15f8975429",
+                        "contractId": "60a2288f788f921b543cd814",
+                        "amount": 3000,
+                        "type": "lenderToReceiver",
+                        "bankTransactionId": "210727353481xqFfROcOlaCI9N",
+                        "issueDate": "2021-07-26T21:53:44.000Z",
+                        "bkash": "01961229150",
+                        "__v": 0
+                    }
+                ]
+            ],
+            "message": "All transactions for this user have been found",
+            "status": "OK"
+        }
+      ```
+
+---
+
+---
+
+- **[Report an Issue](..\user\userController.js)** - Reports an issue<br><br>
+  - **POST** : &nbsp; `{{URL}}/api/user/report/6076cfa408541e2ba057e333`
+    - ```x
+        {
+            "contractId": "60a2288f788f921b543cd813",
+            "description": "I have paid the lent amount back to the lender but he won't end my contract."
+        }
+      ```
+    ```x
+        {
+            "data": {
+                "status": "pending",
+                "_id": "610063343aff66283cb90f57",
+                "contractId": "60a2288f788f921b543cd813",
+                "issuerId": "6076cfa408541e2ba057e333",
+                "description": "I have paid the lent amount back to the lender but he won't end my contract.",
+                "issuedDate": "2021-07-27T19:49:08.229Z",
+                "__v": 0
+            },
+            "status": "OK",
+            "message": "The reprot has been issued."
+        }
+    ```
+
+---
+
+- **[End Contract](..\controller\adminController.js)** - Ends Contract<br><br>
+  - **PUT** : &nbsp; `{{URL}} /api/admin/contract`
+    - ```x
+        {
+            "contractId": "60a2288f788f921b543cd811"
+        }
+      ```
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "collectedAmount": 540,
+                "defaults": 0,
+                "status": "Pending",
+                "installments": 1,
+                "installmentsCompleted": 1,
+                "installmentDates": [
+                    "2021-08-26T19:26:28.747Z"
+                ],
+                "loanSanctioned": true,
+                "_id": "60a2288f788f921b543cd813",
+                "loanId": "60a2288f788f921b543cd8cc",
+                "lenderId": "6076cfa408541e2ba057e336",
+                "receiverId": "6076cfa408541e2ba057e333",
+                "amount": 500,
+                "interestRate": 8,
+                "__v": 0
+            },
+            "message": "The contract has been ended."
+        }
+      ```
+
+---
+
+- **[Remove Collateral](..\controller\adminController.js)** - Removes Collateral for a receiver<br><br>
+
+  - **PUT** : &nbsp; `{{URL}}/api/admin/6076cfa408541e2ba057e331?update=collateral`
+
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "image": {
+                    "path": "../client/public/uploads/user.png",
+                    "contentType": "image/jpeg"
+                },
+                "usertype": "Receiver",
+                "loanDefaults": 0,
+                "rating": 4,
+                "adminPrivilege": false,
+                "_id": "6076cfa408541e2ba057e331",
+                "username": "Anik",
+                "password": "$2a$10$gPHeJA334mPQwohLoFwmwuZjuyL/YINsIrwQqWgTOb5DOrFSemeCK",
+                "email": "anik65@gmail.com",
+                "nid": "$2a$10$aDnnR8aqrTfn.owsiRwHR.GqAi.Dgsd4fMr9MCmzzKUILL3lqP1lC",
+                "bkash": "01961145451",
+                "dob": "1992-02-10T00:00:00.000Z",
+                "collateral": null,
+                "verfiedStatus": false,
+                "joinedDate": "2021-07-27T19:26:25.470Z",
+                "__v": 0
+            },
+            "message": "User found in the database"
+        }
+      ```
+
+---
+
+- **[Ignore Issue](..\controller\adminController.js)** - Ignores a report<br><br>
+
+  - **PUT** : &nbsp; `{{URL}}/api/admin/report?type=ignore`
+
+    - ```x
+        {
+            "contractId": "60a2288f788f921b543cd811"
+        }
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "n": 1,
+                "nModified": 1,
+                "opTime": {
+                    "ts": "6989741042933170177",
+                    "t": 12
+                },
+                "electionId": "7fffffff000000000000000c",
+                "ok": 1,
+                "$clusterTime": {
+                    "clusterTime": "6989741042933170177",
+                    "signature": {
+                        "hash": "r+xiAsXyRQaqdEc8aPlYQW5ZRPo=",
+                        "keyId": "6927623369017786372"
+                    }
+                },
+                "operationTime": "6989741042933170177"
+            },
+            "message": "All reprots have been updated."
+        }
+      ```
+
+---
+- **[Verify User](..\controller\adminController.js)** - Verifies A User<br><br>
+
+  - **PUT** : &nbsp; `{{URL}}/api/admin/6076cfa408541e2ba057e331?update=verify`
+
+    - ```x
+        {
+            "status": "OK",
+            "data": {
+                "image": {
+                    "path": "../client/public/uploads/user.png",
+                    "contentType": "image/jpeg"
+                },
+                "usertype": "Receiver",
+                "loanDefaults": 0,
+                "rating": 4,
+                "adminPrivilege": false,
+                "_id": "6076cfa408541e2ba057e331",
+                "username": "Anik",
+                "password": "$2a$10$2fguxsKzzJYxeWaZB2.JOuSFltxi8G3dJL.1C/NHLkJRMXQR7VHji",
+                "email": "anik65@gmail.com",
+                "nid": "$2a$10$v..eKyTFbJ6/ZloFoa4vI.Uv83lpGq7YpSmuvyEf8a8Ypl9kn.5nm",
+                "bkash": "01961145451",
+                "dob": "1992-02-10T00:00:00.000Z",
+                "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ",
+                "verfiedStatus": true,
+                "joinedDate": "2021-07-27T22:08:38.242Z",
+                "__v": 0
+            },
+            "message": "User found in the database"
+        }
+      ```
+
+---
+- **[Get All Unverified User](..\controller\adminController.js)** - Returns all unverified Users<br><br>
+
+  - **GET** : &nbsp; `{{URL}}/api/admin/verify`
+
+    - ```x
+        {
+            "data": [
+                {
+                    "userId": "6076cfa408541e2ba057e332",
+                    "userType": "Receiver",
+                    "fullName": "Rafsani",
+                    "bkash": "01961145452",
+                    "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ"
+                },
+                {
+                    "userId": "6076cfa408541e2ba057e333",
+                    "userType": "Receiver",
+                    "fullName": "Shwarup",
+                    "bkash": "01961145453",
+                    "collateral": "https://www.youtube.com/embed/fKNdoxRld34"
+                },
+                {
+                    "userId": "6076cfa408541e2ba057e335",
+                    "userType": "Receiver",
+                    "fullName": "Shoummo",
+                    "bkash": "01961145455",
+                    "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ"
+                },
+                {
+                    "userId": "6076cfa408541e2ba057e339",
+                    "userType": "Receiver",
+                    "fullName": "Shoummo",
+                    "bkash": "01961145459",
+                    "collateral": "https://www.youtube.com/embed/CggXSu_P2GQ"
+                }
+            ],
+            "status": "OK",
+            "message": "All Users found in the database"
         }
       ```
 

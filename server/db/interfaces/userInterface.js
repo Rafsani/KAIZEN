@@ -55,11 +55,48 @@ const findUserbyId = async( userId ) => {
 }
 
 
+const findUserbyIdAndUpdate = async( userId , update) => {
+    try {
+        console.log(update)
+        const user = await Users.findByIdAndUpdate(userId, update , {
+            new: true
+        });
 
-const findAllUsers = async()=>{
+        if( user ){
+            return {
+                data: user, 
+                status: 'OK',
+                message: 'User found in the database'
+            }
+        }
+
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'No user found with this name'
+        }
+        
+    }
+    catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+
+const findAllUsers = async( filter , populate , select )=>{
     try{
-        const users = await Users.find();
-        if( users ){
+        const users = await Users
+                            .find( filter )
+                            .populate( populate )
+                            .select( select );
+
+                            
+        if( users.length !== 0 ){
             return {
                 data: users, 
                 status: 'OK',
@@ -73,6 +110,7 @@ const findAllUsers = async()=>{
             message: 'No user found'
         }
     }catch(e){
+        console.log("In here: "+ e);
         return {
             data: null,
             status: 'EXCEPTION',
@@ -112,5 +150,6 @@ module.exports = {
     findUserByName,
     findAllUsers,
     findUserbyId,
+    findUserbyIdAndUpdate,
     fetchBkashNumber
 }

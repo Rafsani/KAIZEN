@@ -10,11 +10,26 @@ router.route('/loanverify')
 router.route('/:userId')
     .get(userController.handleGETUserById);
 
+router.route('/transaction/:userId')
+    .get( userController.handleGETUserTransactionHistoryById );
+
 router.route('/view/:lenderId')
     .get(userController.handleGETLenderInfo );
 
 router.route('/:userId/history')
     .get( userController.handleGETUserHistory );
+
+router.route('/:userId/report')
+    .get( userController.handleGETUserReportsById );
+
+router.route('/:userId/loan')
+    .get( userController.handleGETUserLoanHistory );
+
+router.route('/search/:userId' )
+    .get( userController.handleGETUserSearchBase );
+
+router.route('/report/:userId')
+    .post(userController.handlePOSTReport );
     
 
 module.exports = router;

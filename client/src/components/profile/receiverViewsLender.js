@@ -312,7 +312,7 @@ function ReceiverViewsLender(props) {
       <AppNavBar />
 
       <main class="" id="main">
-        {lenderData && <BasicInfo hiddenData={lenderData} />}
+        {lenderData && <BasicInfo hiddenData={lenderData} showBkash={false} />}
         {showNoActiveContract()}
         {showActiveContract()}
       </main>

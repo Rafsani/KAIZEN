@@ -4,6 +4,7 @@ import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
 import { Link } from "react-router-dom";
+import fetchImage from "../../utils/fetchImage";
 
 function ContractRequestCard({ offerDetails, onAccept, onDecline, userId }) {
   console.log("Offer details: ", offerDetails);
@@ -17,7 +18,14 @@ function ContractRequestCard({ offerDetails, onAccept, onDecline, userId }) {
           lenderId: offerDetails.lenderId,
         }}
       >
-        <div class="photo-space"></div>
+        <div
+          class="photo-space"
+          style={{
+            backgroundImage: `url(${fetchImage(
+              offerDetails.lenderImage.path
+            )})`,
+          }}
+        ></div>
       </Link>
       <div class="user-info">
         <div class="name">{offerDetails.lenderName}</div>

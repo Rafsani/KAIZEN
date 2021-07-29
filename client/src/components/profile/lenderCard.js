@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
+import fetchImage from "../../utils/fetchImage";
+import { Button } from "@material-ui/core";
 
 function LenderCard({
   lenderDetails,
@@ -11,7 +13,15 @@ function LenderCard({
   targetId,
   viewAsReceiver,
   viewButtons,
+  paymentPopup,
+  setLenderData,
+  reportPopuop,
 }) {
+  console.log("Lender Card: ", lenderDetails);
+  if (lenderDetails.collectedAmount >= lenderDetails.totalAmount) {
+    return <div></div>;
+  }
+
   return (
     <div class="card-profile">
       <Link
@@ -25,7 +35,14 @@ function LenderCard({
           lender2Id: !viewAsReceiver ? targetId : null,
         }}
       >
-        <div class="photo-space"></div>
+        <div
+          class="photo-space"
+          style={{
+            backgroundImage: `url(${fetchImage(
+              lenderDetails.lenderImage.path
+            )})`,
+          }}
+        ></div>
       </Link>
       <div class="user-info">
         <div class="name">{lenderDetails.lenderName}</div>
@@ -79,12 +96,28 @@ function LenderCard({
       </div>
       {viewButtons && (
         <div class="small-buttons-list" id="report-issue-1">
-          <div class="buttons">
+          <div
+            class="buttons"
+            disabled={!lenderDetails.loanSanctioned}
+            onClick={() => {
+              paymentPopup();
+              setLenderData(lenderDetails);
+            }}
+            
+          >
             <a href="#" class="small-btn-profile btn-dark">
               Repay Loan
             </a>
           </div>
-          <div class="buttons">
+
+
+          <div class="buttons" 
+            onClick={() => {
+              reportPopuop();
+              setLenderData(lenderDetails);
+            }} 
+            >
+            
             <a href="#" class="small-btn-profile btn-light">
               Report Issue
             </a>

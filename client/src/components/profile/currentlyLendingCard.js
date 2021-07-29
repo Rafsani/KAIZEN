@@ -5,6 +5,7 @@ import Axios from "axios";
 import "./profile.css";
 
 import formatDate from "../../utils/formatDate";
+import fetchImage from "../../utils/fetchImage";
 
 function CurrentlyLendingCard({
   contractDetails,
@@ -12,7 +13,12 @@ function CurrentlyLendingCard({
   targetId,
   viewAsLender,
   viewButtons,
+  loanSanctioned,
 }) {
+  console.log("Currently Lending Card: ", contractDetails);
+
+  if (loanSanctioned === false) return <> </>;
+
   return (
     <div>
       <div class="card-profile">
@@ -24,7 +30,12 @@ function CurrentlyLendingCard({
             receiverId: targetId,
           }}
         >
-          <div class="photo-space"></div>
+          <div
+            class="photo-space"
+            style={{
+              backgroundImage: `url(${fetchImage(contractDetails.image.path)})`,
+            }}
+          ></div>
         </Link>
         <div class="user-info">
           <div class="name">{contractDetails.receiverName}</div>
@@ -85,13 +96,18 @@ function CurrentlyLendingCard({
         {viewButtons && (
           <div class="small-buttons-list">
             <div class="buttons ">
-              <a href="#" class="small-btn-profile btn-dark">
-                End Contract
-              </a>
-            </div>
-            <div class="buttons">
-              <a href="#" class="small-btn-profile btn-light">
-                Report Issue
+              <a class="small-btn-profile btn-dark">
+                <Link
+                  style={{ color: "inherit", textDecoration: "inherit" }}
+                  to={{
+                    pathname: "/lenderViewsReceiver",
+                    lenderViewsReceiver: viewAsLender,
+                    lenderId: userId,
+                    receiverId: targetId,
+                  }}
+                >
+                  View Profile
+                </Link>
               </a>
             </div>
           </div>

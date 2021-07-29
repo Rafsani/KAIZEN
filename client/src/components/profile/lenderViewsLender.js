@@ -123,7 +123,9 @@ function LenderViewsLender(props) {
   return (
     <div className="Profile">
       <AppNavBar />
-      {lender2HiddenData && <BasicInfo hiddenData={lender2HiddenData} />}
+      {lender2HiddenData && (
+        <BasicInfo hiddenData={lender2HiddenData} showBkash={false} />
+      )}
       {showCurrentlyLending()}
 
       <div class="footer">

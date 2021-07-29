@@ -15,6 +15,11 @@ import LenderViewsReceiver from "./components/profile/LenderViewsReceiver";
 import ReceiverViewsLender from "./components/profile/receiverViewsLender";
 import LenderViewsLender from "./components/profile/lenderViewsLender";
 import CoolLoginPage from "./components/coolSignUp/coolLoginPage";
+import Transaction from "./components/transaction/transaction";
+import Search from "./components/search/search";
+import AdminReports from "./components/admin/adminReports";
+import AdminVerifications from "./components/admin/adminVerifications";
+import Reports from "./components/transaction/reports";
 
 function App() {
   return (
@@ -29,6 +34,26 @@ function App() {
           name="landing"
           path="/request/:id"
           component={Loanrequest}
+          exact
+        />
+
+        <PrivateRoute
+          name="search"
+          path="/search/:id"
+          component={Search}
+          exact
+        />
+
+        <PrivateRoute
+          name="admin-reports"
+          path="/admin/reports"
+          component={AdminReports}
+          exact
+        />
+        <PrivateRoute
+          name="admin-verifications"
+          path="/admin/verifications"
+          component={AdminVerifications}
           exact
         />
 
@@ -61,6 +86,18 @@ function App() {
           name="reg"
           path="/registration"
           component={Registration}
+          exact
+        />
+        <PrivateRoute
+          name="transaction"
+          path="/transactions"
+          component={Transaction}
+          exact
+        />
+         <PrivateRoute
+          name="transaction"
+          path="/user_reports"
+          component={Reports}
           exact
         />
       </Router>

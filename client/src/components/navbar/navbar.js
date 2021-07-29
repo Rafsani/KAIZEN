@@ -8,6 +8,7 @@ import InputBase from "@material-ui/core/InputBase";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
+import PaymentIcon from "@material-ui/icons/Payment";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -57,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: "flex",
+    paddingTop: "10px",
+    padding: "10px",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -255,7 +258,7 @@ export default function AppNavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/*<MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="secondary">
             <MailIcon />
@@ -270,7 +273,7 @@ export default function AppNavBar() {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem>*/}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -284,6 +287,14 @@ export default function AppNavBar() {
       </MenuItem>
     </Menu>
   );
+
+  const handleSubmitSearch = (e) => {
+    console.log("Key Pressed: ", e.keyCode);
+    console.log("Value: ", e.target.value);
+    if (e.keyCode === 13) {
+      history.push(`/search/${e.target.value}`);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -300,10 +311,15 @@ export default function AppNavBar() {
               <MenuIcon />
             </IconButton>
             <Typography className={classes.title} variant="h6" noWrap>
-              <FontAwesomeIcon
-                icon={faKickstarterK}
-                size="2x"
-              ></FontAwesomeIcon>
+              <Link
+                style={{ textDecoration: "inherit", color: "inherit" }}
+                to="/"
+              >
+                <FontAwesomeIcon
+                  icon={faKickstarterK}
+                  size="2x"
+                ></FontAwesomeIcon>
+              </Link>
             </Typography>
             <div className={classes.search}>
               <div className={classes.searchIcon}>
@@ -316,23 +332,32 @@ export default function AppNavBar() {
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
+                style={{ color: "red" }}
+                onKeyDown={handleSubmitSearch}
               />
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
+              
+              <Typography className={classes.title} variant="h7" noWrap>
+              <Link
+                style={{ textDecoration: "inherit", color: "inherit"  }}
+                to="/user_reports"
               >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+                Report History
+              </Link>
+            </Typography>
+
+            <Typography className={classes.title} variant="h7" noWrap>
+              <Link
+                style={{ textDecoration: "inherit", color: "inherit"  }}
+                to="/"
+              >
+                Loan History
+              </Link>
+            </Typography>
+
+
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -376,27 +401,20 @@ export default function AppNavBar() {
               )}
             </IconButton>
           </div>
+
           <Divider />
           <List>
-            {["My Loan requests", "Messages"].map((text, index) => (
-              <ListItem button key={text}>
+            <Link
+              style={{ textDecoration: "none", color: "black" }}
+              to="/transactions"
+            >
+              <ListItem button key="transactions">
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <PaymentIcon />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary="All transactions" />
               </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All Contracts", "Transaction History"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            </Link>
             <Link
               style={{ textDecoration: "none", color: "black" }}
               to="/profile"

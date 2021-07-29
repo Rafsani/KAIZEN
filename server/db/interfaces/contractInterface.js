@@ -45,10 +45,16 @@ const activeContract = async (body)=>{
  */
 const endContract = async (body)=>{
     try {
-        const finishedContract = await Contracts.findOneAndUpdate( {
-            _id: body.contractId,
-            lenderId: body.issuerId
-        } , {
+        let query = {};
+        let { contractId , lenderId } = body;
+        
+        query._id = contractId;
+
+        if( lenderId) {
+            query.lenderId = lenderId
+        }
+        
+        const finishedContract = await Contracts.findOneAndUpdate( query , {
             status: 'Resolved'
         });
                 
@@ -292,7 +298,132 @@ const findContract = async(contractId) =>{
     }
 }
 
+
+/**
+ * 
+ * @param userId 
+ * @returns - completed contracts , maximum amount lent, next installment date & amount
+ */
+ const findContractForUser = async (userId)=>{
+    try {
+        const contractQueryResult = await Contracts.find({
+            $or: [{
+                lenderId : userId
+            },{
+                receiverId: userId
+            }]
+        });
+
+                
+        if( contractQueryResult ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'User history of contracts has been found.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'history not found.'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+/**
+ * 
+ * @param - contractId ,  collectedAmount , installmentsCompleted
+ * @returns - completed contracts , maximum amount lent, next installment date & amount
+ */
+ const repayContract = async (body)=>{
+    try {
+        const contractQueryResult = await Contracts.findByIdAndUpdate( body.contractId , {
+            $inc : { 
+                collectedAmount : body.collectedAmount ,
+                installmentsCompleted : body.installmentsCompleted 
+            }
+        } , {
+            new: true
+        });
+                
+        if( contractQueryResult ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'Amount has been collected for the cotnract'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Amount could not be collected'
+        }
+    }catch(e){
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
+
+
+
+/**
+ * 
+ * @param userId 
+ * @returns - return all searchable contracts for this lender
+ */
+ const findSearchableContracts = async (userId , usertype , filter )=>{
+    try {
+        const contractQueryResult = await Contracts.find(filter)
+        .populate({
+            path: (usertype == 'Receiver')?'lenderId' : 'receiverId',
+            select: 'usertype username image'
+        })
+        .select((usertype == 'Receiver')?'lenderId' : 'receiverId');
+
+
+                
+        if( contractQueryResult.length !== 0 ){
+
+            return {
+                data: contractQueryResult, 
+                status: 'OK',
+                message: 'All contracts for this user have been found.'
+            }
+        }
+        
+        return {
+            data: null,
+            status: 'ERROR',
+            message: 'Contracts not found.'
+        }
+    }catch(e){
+        console.log("In here: "+ e);
+
+        return {
+            data: null,
+            status: 'EXCEPTION',
+            message: e.message
+        };
+    }
+}
+
 module.exports = {
+    findContractForUser,
     findContract,
     endContract,
     findContractHistory,
@@ -300,5 +431,7 @@ module.exports = {
     acceptContract,
     denyContract,
     activeContract,
-    viewLenderContracts
+    viewLenderContracts,
+    repayContract,
+    findSearchableContracts
 }

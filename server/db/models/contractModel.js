@@ -64,7 +64,13 @@ const contractSchema = new mongoose.Schema({
 
     installmentDates: [{
         type: Date
-    }]
+    }],
+
+    // shows whether lender has made payments
+    loanSanctioned : {
+        type: Boolean,
+        default: false
+    }
 })
 
 
