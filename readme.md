@@ -38,6 +38,9 @@ Some screenshots of the project from different types of users are available in t
 #### Loan Receiver Profile (view from a Lender's account):
 ![](./screenshots/receiver_profile.png)
 
+#### Loan Request (view from Receiver's account):
+![](./screenshots/loan_request.png)
+
 #### User Verification (view from Admin account):
 ![](./screenshots/user_verification.png)
 
